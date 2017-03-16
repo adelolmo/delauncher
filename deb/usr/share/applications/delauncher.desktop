@@ -1,0 +1,12 @@
+[Desktop Entry]
+Name=Delauncher
+GenericName=Delauncher
+Comment=Send magnet links to a remote deluge server with a click
+Exec=delauncher %U
+Icon=delauncher
+Terminal=false
+TryExec=delauncher
+Type=Application
+StartupNotify=true
+MimeType=application/x-bittorrent;x-scheme-handler/magnet;
+Categories=Network;FileTransfer;P2P;GTK;

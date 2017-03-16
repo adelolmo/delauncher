@@ -1,0 +1,8 @@
+Package: delauncher
+Version: {{version}}
+Section: extras
+Priority: standard
+Architecture: {{architecture}}
+Maintainer: Andoni del Olmo <andoni.delolmo@gmail.com>
+Installed-Size: {{size}}
+Description: Send magnet links to a remote deluge server with a click
