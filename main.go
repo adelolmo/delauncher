@@ -5,13 +5,14 @@ import (
 	"bytes"
 	"fmt"
 	"os"
-	"github.com/adelolmo/delugeclient"
 	"github.com/andlabs/ui"
 	"encoding/json"
 	"bufio"
 	"os/user"
 	"path/filepath"
 	"log"
+	"strings"
+	"github.com/adelolmo/delugeclient"
 )
 
 const (
@@ -49,7 +50,8 @@ func addMagnet(magnet string) {
 		notify("Error! Can't add magnet link")
 		os.Exit(2)
 	}
-	notify("Magnet link added")
+
+	notify(fmt.Sprintf("Magnet added:\n%s", getLinkName(magnet)))
 }
 
 func getHome() string {
@@ -136,4 +138,10 @@ func notify(message string) {
 		os.Stderr.WriteString(fmt.Sprintf("==> Error: %s\n", err.Error()))
 		os.Exit(3)
 	}
+}
+
+func getLinkName(magnet string) string {
+	params := magnet[61:]
+	p := strings.Split(params, "&")
+	return p[0][3:]
 }
