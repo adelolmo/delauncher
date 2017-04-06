@@ -1,0 +1,20 @@
+{
+  "ImportPath": "github.com/adelolmo/delauncher",
+  "GoVersion": "go1.8",
+  "GodepVersion": "v79",
+  "Deps": [
+    {
+      "ImportPath": "github.com/adelolmo/delugeclient",
+      "Rev": "5038b293002b85cb184e2acdd3b0dc29fac3297f"
+    },
+    {
+      "ImportPath": "github.com/andlabs/ui",
+      "Comment": "pre-libui-97-g2dde2a7",
+      "Rev": "2dde2a79e7020f065d94d9bc17e0191bf18a5bff"
+    },
+    {
+      "ImportPath": "golang.org/x/net/publicsuffix",
+      "Rev": "10c134ea0df15f7e34d789338c7a2d76cc7a3ab9"
+    }
+  ]
+}

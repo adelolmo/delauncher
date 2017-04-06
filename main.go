@@ -5,13 +5,13 @@ import (
 	"bytes"
 	"fmt"
 	"os"
-	"github.com/andlabs/ui"
 	"encoding/json"
 	"bufio"
 	"os/user"
 	"path/filepath"
 	"log"
 	"strings"
+	"github.com/andlabs/ui"
 	"github.com/adelolmo/delugeclient"
 )
 
