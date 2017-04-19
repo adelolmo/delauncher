@@ -166,7 +166,6 @@ type Path struct {
 // 
 // TODO disclaimer
 type FillMode uint
-
 const (
 	Winding FillMode = iota
 	Alternate
@@ -278,7 +277,6 @@ type DrawContext struct {
 // 
 // TODO disclaimer
 type BrushType int
-
 const (
 	Solid BrushType = iota
 	LinearGradient
@@ -291,7 +289,6 @@ const (
 // TODO disclaimer
 // TODO rename these to put LineCap at the beginning? or just Cap?
 type LineCap int
-
 const (
 	FlatCap LineCap = iota
 	RoundCap
@@ -302,7 +299,6 @@ const (
 // 
 // TODO disclaimer
 type LineJoin int
-
 const (
 	MiterJoin LineJoin = iota
 	RoundJoin
@@ -613,7 +609,6 @@ func (f *FontFamilies) Family(n int) string {
 // 
 // TODO disclaimer
 type TextWeight int
-
 const (
 	TextWeightThin TextWeight = iota
 	TextWeightUltraLight
@@ -632,7 +627,6 @@ const (
 // 
 // TODO disclaimer
 type TextItalic int
-
 const (
 	TextItalicNormal TextItalic = iota
 	TextItalicOblique                        // merely slanted text
@@ -650,7 +644,6 @@ const (
 // 
 // TODO disclaimer
 type TextStretch int
-
 const (
 	TextStretchUltraCondensed TextStretch = iota
 	TextStretchExtraCondensed
