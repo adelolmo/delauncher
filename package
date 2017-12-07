@@ -1,24 +1,21 @@
-#!/bin/sh
-
-set -e
+#!/bin/sh -e
 
 BUILD=build
 version=$(cat VERSION)
 arch=amd64
 
-rm -Rf $BUILD
-mkdir -p $BUILD/release $BUILD/tmp
-cp -R deb/* $BUILD/tmp
+rm -Rf ${BUILD}
+mkdir -p ${BUILD}/release ${BUILD}/tmp
+cp -R deb/* ${BUILD}/tmp
 
 echo "Building version $version..."
 
-GOOS=linux GOARCH=$arch godep go build -o $BUILD/tmp/usr/bin/delauncher main.go
+GOOS=linux GOARCH=${arch} go build -o ${BUILD}/tmp/usr/bin/delauncher main.go
 
-architecture=$( echo $arch | sed 's/arm/armhf/g' )
-size=$(du -csh $BUILD/tmp | sed '1!d' | grep -oe "^[0-9]*")
-sed -i 's/{{version}}/'${version}'/g;s/{{size}}/'${size}'/g;s/{{architecture}}/'${architecture}'/g' $BUILD/tmp/DEBIAN/control
+architecture=$( echo ${arch} | sed 's/arm/armhf/g' )
+size=$(du -csh ${BUILD}/tmp | sed '1!d' | grep -oe "^[0-9]*")
+sed -i 's/{{version}}/'${version}'/g;s/{{size}}/'${size}'/g;s/{{architecture}}/'${architecture}'/g' ${BUILD}/tmp/DEBIAN/control
 
-fakeroot dpkg-deb -b -z9 $BUILD/tmp $BUILD/release
+fakeroot dpkg-deb -b -z9 ${BUILD}/tmp ${BUILD}/release
 
 echo done
-

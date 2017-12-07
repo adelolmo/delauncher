@@ -11,7 +11,7 @@ import (
 	"path/filepath"
 	"log"
 	"strings"
-	"github.com/andlabs/ui"
+	"github.com/ProtonMail/ui"
 	"github.com/adelolmo/delugeclient"
 )
 
@@ -41,12 +41,12 @@ func addMagnet(magnet string) {
 	serverUrl, password := getConfig(filepath.Join(getHome(), CONFIG_DIR, CONFIG_FILE))
 	client := delugeclient.NewDeluge(serverUrl, password)
 	if err := client.Connect(); err != nil {
-		fmt.Errorf("Unable to stablish connection to server %s", serverUrl)
+		fmt.Errorf("unable to stablish connection to server %s", serverUrl)
 		notify(fmt.Sprintf("Unable to stablish connection to server %s", serverUrl))
 		os.Exit(2)
 	}
 	if err := client.AddMagnet(magnet); err != nil {
-		fmt.Errorf("Unable to add magnet link %s", magnet)
+		fmt.Errorf("unable to add magnet link %s", magnet)
 		notify("Error! Can't add magnet link")
 		os.Exit(2)
 	}
@@ -87,16 +87,14 @@ func config() {
 	err := ui.Main(func() {
 		configFilename := filepath.Join(getHome(), CONFIG_DIR, CONFIG_FILE)
 		serverUrl, password := getConfig(configFilename)
-		fmt.Println("url:", serverUrl)
-		fmt.Println("password:", password)
 
 		serverUrlField := ui.NewEntry()
-		passwordField := ui.NewEntry()
+		passwordField := ui.NewPasswordEntry()
 
 		serverUrlField.SetText(serverUrl)
 		passwordField.SetText(password)
 
-		button := ui.NewButton("Save")
+		button := ui.NewButton("Save & Quit")
 		box := ui.NewVerticalBox()
 		box.Append(ui.NewLabel("Deluge server URL:"), false)
 		box.Append(serverUrlField, false)
@@ -117,7 +115,7 @@ func config() {
 			json.NewEncoder(w).Encode(&config)
 			w.Flush()
 
-			fmt.Println("saving...")
+			ui.Quit()
 		})
 		window.OnClosing(func(*ui.Window) bool {
 			ui.Quit()
@@ -131,7 +129,7 @@ func config() {
 }
 
 func notify(message string) {
-	cmd := exec.Command("notify-send", "Deluge", message, "-i", "delauncher")
+	cmd := exec.Command("notify-send", "Deluge", message, "--icon=", "delauncher")
 	cmdOutput := &bytes.Buffer{}
 	cmd.Stdout = cmdOutput
 	if err := cmd.Run(); err != nil {

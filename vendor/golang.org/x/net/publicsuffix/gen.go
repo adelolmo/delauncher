@@ -37,24 +37,24 @@ import (
 
 const (
 	// These sum of these four values must be no greater than 32.
-	nodesBitsChildren = 9
-	nodesBitsICANN = 1
+	nodesBitsChildren   = 10
+	nodesBitsICANN      = 1
 	nodesBitsTextOffset = 15
 	nodesBitsTextLength = 6
 
 	// These sum of these four values must be no greater than 32.
 	childrenBitsWildcard = 1
 	childrenBitsNodeType = 2
-	childrenBitsHi = 14
-	childrenBitsLo = 14
+	childrenBitsHi       = 14
+	childrenBitsLo       = 14
 )
 
 var (
-	maxChildren int
+	maxChildren   int
 	maxTextOffset int
 	maxTextLength int
-	maxHi uint32
-	maxLo uint32
+	maxHi         uint32
+	maxLo         uint32
 )
 
 func max(a, b int) int {
@@ -72,10 +72,10 @@ func u32max(a, b uint32) uint32 {
 }
 
 const (
-	nodeTypeNormal = 0
-	nodeTypeException = 1
+	nodeTypeNormal     = 0
+	nodeTypeException  = 1
 	nodeTypeParentOnly = 2
-	numNodeType = 3
+	numNodeType        = 3
 )
 
 func nodeTypeStr(n int) string {
@@ -91,29 +91,29 @@ func nodeTypeStr(n int) string {
 }
 
 const (
-	defaultURL = "https://publicsuffix.org/list/effective_tld_names.dat"
+	defaultURL   = "https://publicsuffix.org/list/effective_tld_names.dat"
 	gitCommitURL = "https://api.github.com/repos/publicsuffix/list/commits?path=public_suffix_list.dat"
 )
 
 var (
 	labelEncoding = map[string]uint32{}
-	labelsList = []string{}
-	labelsMap = map[string]bool{}
-	rules = []string{}
+	labelsList    = []string{}
+	labelsMap     = map[string]bool{}
+	rules         = []string{}
 
 	// validSuffixRE is used to check that the entries in the public suffix
 	// list are in canonical form (after Punycode encoding). Specifically,
 	// capital letters are not allowed.
 	validSuffixRE = regexp.MustCompile(`^[a-z0-9_\!\*\-\.]+$`)
 
-	shaRE = regexp.MustCompile(`"sha":"([^"]+)"`)
+	shaRE  = regexp.MustCompile(`"sha":"([^"]+)"`)
 	dateRE = regexp.MustCompile(`"committer":{[^{]+"date":"([^"]+)"`)
 
 	comments = flag.Bool("comments", false, "generate table.go comments, for debugging")
-	subset = flag.Bool("subset", false, "generate only a subset of the full table, for debugging")
-	url = flag.String("url", defaultURL, "URL of the publicsuffix.org list. If empty, stdin is read instead")
-	v = flag.Bool("v", false, "verbose output (to stderr)")
-	version = flag.String("version", "", "the effective_tld_names.dat version")
+	subset   = flag.Bool("subset", false, "generate only a subset of the full table, for debugging")
+	url      = flag.String("url", defaultURL, "URL of the publicsuffix.org list. If empty, stdin is read instead")
+	v        = flag.Bool("v", false, "verbose output (to stderr)")
+	version  = flag.String("version", "", "the effective_tld_names.dat version")
 )
 
 func main() {
@@ -125,10 +125,10 @@ func main() {
 
 func main1() error {
 	flag.Parse()
-	if nodesBitsTextLength + nodesBitsTextOffset + nodesBitsICANN + nodesBitsChildren > 32 {
+	if nodesBitsTextLength+nodesBitsTextOffset+nodesBitsICANN+nodesBitsChildren > 32 {
 		return fmt.Errorf("not enough bits to encode the nodes table")
 	}
-	if childrenBitsLo + childrenBitsHi + childrenBitsNodeType + childrenBitsWildcard > 32 {
+	if childrenBitsLo+childrenBitsHi+childrenBitsNodeType+childrenBitsWildcard > 32 {
 		return fmt.Errorf("not enough bits to encode the children table")
 	}
 	if *version == "" {
@@ -203,7 +203,7 @@ func main1() error {
 			case s == "tw" || strings.HasSuffix(s, ".tw"):
 			case s == "zw" || strings.HasSuffix(s, ".zw"):
 			case s == "xn--p1ai" || strings.HasSuffix(s, ".xn--p1ai"):
-			// xn--p1ai is Russian-Cyrillic "рф".
+				// xn--p1ai is Russian-Cyrillic "рф".
 			default:
 				continue
 			}
@@ -220,7 +220,7 @@ func main1() error {
 			s, nt = s[1:], nodeTypeException
 		}
 		labels := strings.Split(s, ".")
-		for n, i := &root, len(labels) - 1; i >= 0; i-- {
+		for n, i := &root, len(labels)-1; i >= 0; i-- {
 			label := labels[i]
 			n = n.child(label)
 			if i == 0 {
@@ -343,13 +343,13 @@ const numTLD = %d
 			return fmt.Errorf("internal error: could not find %q in text %q", label, text)
 		}
 		maxTextOffset, maxTextLength = max(maxTextOffset, offset), max(maxTextLength, length)
-		if offset >= 1 << nodesBitsTextOffset {
+		if offset >= 1<<nodesBitsTextOffset {
 			return fmt.Errorf("text offset %d is too large, or nodeBitsTextOffset is too small", offset)
 		}
-		if length >= 1 << nodesBitsTextLength {
+		if length >= 1<<nodesBitsTextLength {
 			return fmt.Errorf("text length %d is too large, or nodeBitsTextLength is too small", length)
 		}
-		labelEncoding[label] = uint32(offset) << nodesBitsTextLength | uint32(length)
+		labelEncoding[label] = uint32(offset)<<nodesBitsTextLength | uint32(length)
 	}
 	fmt.Fprintf(w, "// Text is the combined text of all labels.\nconst text = ")
 	for len(text) > 0 {
@@ -386,7 +386,7 @@ const numTLD = %d
 //	[%2d bits] text length
 var nodes = [...]uint32{
 `,
-		32 - nodesBitsChildren - nodesBitsICANN - nodesBitsTextOffset - nodesBitsTextLength,
+		32-nodesBitsChildren-nodesBitsICANN-nodesBitsTextOffset-nodesBitsTextLength,
 		nodesBitsChildren, nodesBitsICANN, nodesBitsTextOffset, nodesBitsTextLength)
 	if err := n.walk(w, printNode); err != nil {
 		return err
@@ -405,17 +405,17 @@ var nodes = [...]uint32{
 //	[%2d bits] low nodes index (inclusive) of children
 var children=[...]uint32{
 `,
-		32 - childrenBitsWildcard - childrenBitsNodeType - childrenBitsHi - childrenBitsLo,
+		32-childrenBitsWildcard-childrenBitsNodeType-childrenBitsHi-childrenBitsLo,
 		childrenBitsWildcard, childrenBitsNodeType, childrenBitsHi, childrenBitsLo)
 	for i, c := range childrenEncoding {
 		s := "---------------"
-		lo := c & (1 << childrenBitsLo - 1)
-		hi := (c >> childrenBitsLo) & (1 << childrenBitsHi - 1)
+		lo := c & (1<<childrenBitsLo - 1)
+		hi := (c >> childrenBitsLo) & (1<<childrenBitsHi - 1)
 		if lo != hi {
 			s = fmt.Sprintf("n0x%04x-n0x%04x", lo, hi)
 		}
-		nodeType := int(c >> (childrenBitsLo + childrenBitsHi)) & (1 << childrenBitsNodeType - 1)
-		wildcard := c >> (childrenBitsLo + childrenBitsHi + childrenBitsNodeType) != 0
+		nodeType := int(c>>(childrenBitsLo+childrenBitsHi)) & (1<<childrenBitsNodeType - 1)
+		wildcard := c>>(childrenBitsLo+childrenBitsHi+childrenBitsNodeType) != 0
 		if *comments {
 			fmt.Fprintf(w, "0x%08x, // c0x%04x (%s)%s %s\n",
 				c, i, s, wildcardStr(wildcard), nodeTypeStr(nodeType))
@@ -424,27 +424,27 @@ var children=[...]uint32{
 		}
 	}
 	fmt.Fprintf(w, "}\n\n")
-	fmt.Fprintf(w, "// max children %d (capacity %d)\n", maxChildren, 1 << nodesBitsChildren - 1)
-	fmt.Fprintf(w, "// max text offset %d (capacity %d)\n", maxTextOffset, 1 << nodesBitsTextOffset - 1)
-	fmt.Fprintf(w, "// max text length %d (capacity %d)\n", maxTextLength, 1 << nodesBitsTextLength - 1)
-	fmt.Fprintf(w, "// max hi %d (capacity %d)\n", maxHi, 1 << childrenBitsHi - 1)
-	fmt.Fprintf(w, "// max lo %d (capacity %d)\n", maxLo, 1 << childrenBitsLo - 1)
+	fmt.Fprintf(w, "// max children %d (capacity %d)\n", maxChildren, 1<<nodesBitsChildren-1)
+	fmt.Fprintf(w, "// max text offset %d (capacity %d)\n", maxTextOffset, 1<<nodesBitsTextOffset-1)
+	fmt.Fprintf(w, "// max text length %d (capacity %d)\n", maxTextLength, 1<<nodesBitsTextLength-1)
+	fmt.Fprintf(w, "// max hi %d (capacity %d)\n", maxHi, 1<<childrenBitsHi-1)
+	fmt.Fprintf(w, "// max lo %d (capacity %d)\n", maxLo, 1<<childrenBitsLo-1)
 	return nil
 }
 
 type node struct {
-	label                     string
-	nodeType                  int
-	icann                     bool
-	wildcard                  bool
+	label    string
+	nodeType int
+	icann    bool
+	wildcard bool
 	// nodesIndex and childrenIndex are the index of this node in the nodes
 	// and the index of its children offset/length in the children arrays.
 	nodesIndex, childrenIndex int
 	// firstChild is the index of this node's first child, or zero if this
 	// node has no children.
-	firstChild                int
+	firstChild int
 	// children are the node's children, in strictly increasing node label order.
-	children                  []*node
+	children []*node
 }
 
 func (n *node) walk(w io.Writer, f func(w1 io.Writer, n1 *node) error) error {
@@ -479,15 +479,9 @@ func (n *node) child(label string) *node {
 
 type byLabel []*node
 
-func (b byLabel) Len() int {
-	return len(b)
-}
-func (b byLabel) Swap(i, j int) {
-	b[i], b[j] = b[j], b[i]
-}
-func (b byLabel) Less(i, j int) bool {
-	return b[i].label < b[j].label
-}
+func (b byLabel) Len() int           { return len(b) }
+func (b byLabel) Swap(i, j int)      { b[i], b[j] = b[j], b[i] }
+func (b byLabel) Less(i, j int) bool { return b[i].label < b[j].label }
 
 var nextNodesIndex int
 
@@ -521,20 +515,20 @@ func assignIndexes(w io.Writer, n *node) error {
 
 		// Assign childrenIndex.
 		maxChildren = max(maxChildren, len(childrenEncoding))
-		if len(childrenEncoding) >= 1 << nodesBitsChildren {
+		if len(childrenEncoding) >= 1<<nodesBitsChildren {
 			return fmt.Errorf("children table size %d is too large, or nodeBitsChildren is too small", len(childrenEncoding))
 		}
 		n.childrenIndex = len(childrenEncoding)
 		lo := uint32(n.firstChild)
 		hi := lo + uint32(len(n.children))
 		maxLo, maxHi = u32max(maxLo, lo), u32max(maxHi, hi)
-		if lo >= 1 << childrenBitsLo {
+		if lo >= 1<<childrenBitsLo {
 			return fmt.Errorf("children lo %d is too large, or childrenBitsLo is too small", lo)
 		}
-		if hi >= 1 << childrenBitsHi {
+		if hi >= 1<<childrenBitsHi {
 			return fmt.Errorf("children hi %d is too large, or childrenBitsHi is too small", hi)
 		}
-		enc := hi << childrenBitsLo | lo
+		enc := hi<<childrenBitsLo | lo
 		enc |= uint32(n.nodeType) << (childrenBitsLo + childrenBitsHi)
 		if n.wildcard {
 			enc |= 1 << (childrenBitsLo + childrenBitsHi + childrenBitsNodeType)
@@ -553,7 +547,7 @@ func printNode(w io.Writer, n *node) error {
 	for _, c := range n.children {
 		s := "---------------"
 		if len(c.children) != 0 {
-			s = fmt.Sprintf("n0x%04x-n0x%04x", c.firstChild, c.firstChild + len(c.children))
+			s = fmt.Sprintf("n0x%04x-n0x%04x", c.firstChild, c.firstChild+len(c.children))
 		}
 		encoding := labelEncoding[c.label]
 		if c.icann {
@@ -611,15 +605,9 @@ func combineText(labelsList []string) string {
 
 type byLength []string
 
-func (s byLength) Len() int {
-	return len(s)
-}
-func (s byLength) Swap(i, j int) {
-	s[i], s[j] = s[j], s[i]
-}
-func (s byLength) Less(i, j int) bool {
-	return len(s[i]) < len(s[j])
-}
+func (s byLength) Len() int           { return len(s) }
+func (s byLength) Swap(i, j int)      { s[i], s[j] = s[j], s[i] }
+func (s byLength) Less(i, j int) bool { return len(s[i]) < len(s[j]) }
 
 // removeSubstrings returns a copy of its input with any strings removed
 // that are substrings of other provided strings.
@@ -631,7 +619,7 @@ func removeSubstrings(input []string) []string {
 	for i, shortString := range ss {
 		// For each string, only consider strings higher than it in sort order, i.e.
 		// of equal length or greater.
-		for _, longString := range ss[i + 1:] {
+		for _, longString := range ss[i+1:] {
 			if strings.Contains(longString, shortString) {
 				ss[i] = ""
 				break
@@ -677,7 +665,7 @@ func crush(ss []string) string {
 // All matching labels merged into ss[i] are replaced by "".
 func mergeLabel(ss []string, i, prefixLen int, prefixes prefixMap) {
 	s := ss[i]
-	suffix := s[len(s) - prefixLen:]
+	suffix := s[len(s)-prefixLen:]
 	for _, j := range prefixes[suffix] {
 		// Empty strings mean "already used." Also avoid merging with self.
 		if ss[j] == "" || i == j {

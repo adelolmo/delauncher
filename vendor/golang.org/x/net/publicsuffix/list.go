@@ -7,7 +7,7 @@
 // Package publicsuffix provides a public suffix list based on data from
 // http://publicsuffix.org/. A public suffix is one under which Internet users
 // can directly register names.
-package publicsuffix
+package publicsuffix // import "golang.org/x/net/publicsuffix"
 
 // TODO: specify case sensitivity and leading/trailing dot behavior for
 // func PublicSuffix and func EffectiveTLDPlusOne.
@@ -47,7 +47,7 @@ func (list) String() string {
 func PublicSuffix(domain string) (publicSuffix string, icann bool) {
 	lo, hi := uint32(0), uint32(numTLD)
 	s, suffix, wildcard := domain, len(domain), false
-	loop:
+loop:
 	for {
 		dot := strings.LastIndex(s, ".")
 		if wildcard {
@@ -56,20 +56,20 @@ func PublicSuffix(domain string) (publicSuffix string, icann bool) {
 		if lo == hi {
 			break
 		}
-		f := find(s[1 + dot:], lo, hi)
+		f := find(s[1+dot:], lo, hi)
 		if f == notFound {
 			break
 		}
 
 		u := nodes[f] >> (nodesBitsTextOffset + nodesBitsTextLength)
-		icann = u & (1 << nodesBitsICANN - 1) != 0
+		icann = u&(1<<nodesBitsICANN-1) != 0
 		u >>= nodesBitsICANN
-		u = children[u & (1 << nodesBitsChildren - 1)]
-		lo = u & (1 << childrenBitsLo - 1)
+		u = children[u&(1<<nodesBitsChildren-1)]
+		lo = u & (1<<childrenBitsLo - 1)
 		u >>= childrenBitsLo
-		hi = u & (1 << childrenBitsHi - 1)
+		hi = u & (1<<childrenBitsHi - 1)
 		u >>= childrenBitsHi
-		switch u & (1 << childrenBitsNodeType - 1) {
+		switch u & (1<<childrenBitsNodeType - 1) {
 		case nodeTypeNormal:
 			suffix = 1 + dot
 		case nodeTypeException:
@@ -77,7 +77,7 @@ func PublicSuffix(domain string) (publicSuffix string, icann bool) {
 			break loop
 		}
 		u >>= childrenBitsNodeType
-		wildcard = u & (1 << childrenBitsWildcard - 1) != 0
+		wildcard = u&(1<<childrenBitsWildcard-1) != 0
 
 		if dot == -1 {
 			break
@@ -86,19 +86,19 @@ func PublicSuffix(domain string) (publicSuffix string, icann bool) {
 	}
 	if suffix == len(domain) {
 		// If no rules match, the prevailing rule is "*".
-		return domain[1 + strings.LastIndex(domain, "."):], icann
+		return domain[1+strings.LastIndex(domain, "."):], icann
 	}
 	return domain[suffix:], icann
 }
 
-const notFound uint32 = 1 << 32 - 1
+const notFound uint32 = 1<<32 - 1
 
 // find returns the index of the node in the range [lo, hi) whose label equals
 // label, or notFound if there is no such node. The range is assumed to be in
 // strictly increasing node label order.
 func find(label string, lo, hi uint32) uint32 {
 	for lo < hi {
-		mid := lo + (hi - lo) / 2
+		mid := lo + (hi-lo)/2
 		s := nodeLabel(mid)
 		if s < label {
 			lo = mid + 1
@@ -114,10 +114,10 @@ func find(label string, lo, hi uint32) uint32 {
 // nodeLabel returns the label for the i'th node.
 func nodeLabel(i uint32) string {
 	x := nodes[i]
-	length := x & (1 << nodesBitsTextLength - 1)
+	length := x & (1<<nodesBitsTextLength - 1)
 	x >>= nodesBitsTextLength
-	offset := x & (1 << nodesBitsTextOffset - 1)
-	return text[offset : offset + length]
+	offset := x & (1<<nodesBitsTextOffset - 1)
+	return text[offset: offset+length]
 }
 
 // EffectiveTLDPlusOne returns the effective top level domain plus one more
@@ -131,5 +131,5 @@ func EffectiveTLDPlusOne(domain string) (string, error) {
 	if domain[i] != '.' {
 		return "", fmt.Errorf("publicsuffix: invalid public suffix %q for domain %q", suffix, domain)
 	}
-	return domain[1 + strings.LastIndex(domain[:i], "."):], nil
+	return domain[1+strings.LastIndex(domain[:i], "."):], nil
 }
