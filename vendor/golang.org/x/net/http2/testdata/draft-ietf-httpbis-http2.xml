@@ -14,8 +14,8 @@
 <?rfc-ext include-index="no" ?>
 
 <rfc category="std"
-     docName="draft-ietf-httpbis-http2-latest"
      ipr="trust200902"
+     docName="draft-ietf-httpbis-http2-latest"
      xmlns:x="http://purl.org/net/xml2rfc/ext"
      x:maturity-level="proposed">
     <x:feedback template="mailto:ietf-http-wg@w3.org?subject={docname},%20%22{section}%22&amp;body=&lt;{ref}&gt;:"/>

@@ -41,7 +41,6 @@ func NewCombobox() *Combobox {
 
 	return c
 }
-
 /*TODO
 // NewEditableCombobox creates a new editable Combobox.
 func NewEditableCombobox() *Combobox {

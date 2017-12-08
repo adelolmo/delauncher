@@ -10,7 +10,6 @@ import (
 import "C"
 
 type Align int
-
 const (
 	AlignFill   Align = iota
 	AlignStart
@@ -19,7 +18,6 @@ const (
 )
 
 type At int
-
 const (
 	AtLeading  At = iota
 	AtTop

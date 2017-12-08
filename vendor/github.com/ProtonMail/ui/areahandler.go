@@ -267,7 +267,6 @@ func doAreaHandlerKeyEvent(uah *C.uiAreaHandler, ua *C.uiArea, uke *C.uiAreaKeyE
 // 
 // Note: these must be numerically identical to their libui equivalents.
 type Modifiers uint
-
 const (
 	Ctrl  Modifiers = 1 << iota
 	Alt
@@ -279,7 +278,6 @@ const (
 // 
 // Note: these must be numerically identical to their libui equivalents.
 type ExtKey int
-
 const (
 	Escape    ExtKey = iota + 1
 	Insert     // equivalent to "Help" on Apple keyboards

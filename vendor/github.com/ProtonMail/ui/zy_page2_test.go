@@ -22,7 +22,6 @@ func moveLabel(*Button) {
 }
 
 var moveBack bool
-
 const (
 	moveOutText  = "Move Page 1 Out"
 	moveBackText = "Move Page 1 Back"

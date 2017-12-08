@@ -129,7 +129,7 @@ func config() {
 }
 
 func notify(message string) {
-	cmd := exec.Command("notify-send", "Deluge", message, "--icon=", "delauncher")
+	cmd := exec.Command("notify-send", "Deluge", message, "--icon=delauncher")
 	cmdOutput := &bytes.Buffer{}
 	cmd.Stdout = cmdOutput
 	if err := cmd.Run(); err != nil {
