@@ -79,7 +79,7 @@ func TestBuild(t *testing.T) {
 		field
 	)
 	const (
-		month         = iota
+		month = iota
 		era
 		filler
 		cyclicNameSet

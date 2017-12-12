@@ -11,7 +11,7 @@ import "C"
 
 type Align int
 const (
-	AlignFill   Align = iota
+	AlignFill Align = iota
 	AlignStart
 	AlignCenter
 	AlignEnd
@@ -19,7 +19,7 @@ const (
 
 type At int
 const (
-	AtLeading  At = iota
+	AtLeading At = iota
 	AtTop
 	AtTrailing
 	AtBottom
@@ -30,10 +30,10 @@ const (
 // rows and columns, and cells whose content is aligned in either direction
 // rather than just filling.
 type Grid struct {
-	c *C.uiControl
-	g *C.uiGrid
+	c	*C.uiControl
+	g	*C.uiGrid
 
-	children []Control
+	children	[]Control
 }
 
 // NewGrid creates a new Grid.
@@ -101,7 +101,7 @@ func (g *Grid) Append(child Control, left, top, xspan, yspan int, hexpand bool, 
 
 // Delete deletes the nth control of the Grid.
 func (g *Grid) Delete(n int) {
-	g.children = append(g.children[:n], g.children[n+1:]...)
+	g.children = append(g.children[:n], g.children[n + 1:]...)
 	//C.uiGridDelete(g.g, C.int(n))
 }
 

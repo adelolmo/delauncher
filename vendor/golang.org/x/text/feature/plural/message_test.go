@@ -43,7 +43,7 @@ func TestSelect(t *testing.T) {
 			"=0", "zero",
 			"=1", "one",
 			"one", "cannot match", // never matches
-			"<5", "<5",            // never matches
+			"<5", "<5", // never matches
 			"=5", "=5",
 			Other, "other"),
 		tests: []test{

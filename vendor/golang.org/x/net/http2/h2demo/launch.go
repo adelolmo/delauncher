@@ -258,7 +258,7 @@ func writeCloudStorageObject(httpClient *http.Client) {
 	}
 	contentType := http.DetectContentType(buf.Bytes())
 
-	req, err := http.NewRequest("PUT", "https://storage.googleapis.com/" + *writeObject, io.MultiReader(&buf, content))
+	req, err := http.NewRequest("PUT", "https://storage.googleapis.com/"+*writeObject, io.MultiReader(&buf, content))
 	if err != nil {
 		log.Fatal(err)
 	}

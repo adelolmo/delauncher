@@ -171,7 +171,7 @@ type Message struct {
 type section uint8
 
 const (
-	sectionNotStarted  section = iota
+	sectionNotStarted section = iota
 	sectionHeader
 	sectionQuestions
 	sectionAnswers
@@ -1256,7 +1256,7 @@ func (h *ResourceHeader) pack(oldMsg []byte, compression map[string]int) (msg []
 	msg = packUint32(msg, h.TTL)
 	lenBegin := len(msg)
 	msg = packUint16(msg, h.Length)
-	return msg, msg[lenBegin: lenBegin+uint16Len], nil
+	return msg, msg[lenBegin : lenBegin+uint16Len], nil
 }
 
 func (h *ResourceHeader) unpack(msg []byte, off int) (int, error) {

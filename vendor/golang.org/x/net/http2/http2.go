@@ -91,7 +91,7 @@ type streamState int
 // "reserved (remote)" is omitted since the client code does not
 // support server push.
 const (
-	stateIdle             streamState = iota
+	stateIdle streamState = iota
 	stateOpen
 	stateHalfClosedLocal
 	stateHalfClosedRemote

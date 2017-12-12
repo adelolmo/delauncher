@@ -18,7 +18,7 @@ import (
 type Level int
 
 const (
-	Primary    Level = iota
+	Primary Level = iota
 	Secondary
 	Tertiary
 	Quaternary

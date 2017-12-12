@@ -188,7 +188,7 @@ func (e *Encoder) addVar(key string, m Message) error {
 }
 
 const (
-	substituteVar   = iota
+	substituteVar = iota
 	substituteMacro
 	substituteError
 )

@@ -1500,11 +1500,11 @@ func TestServer_Rejects_HeadersNoEnd_Then_Headers(t *testing.T) {
 			EndStream:     true,
 			EndHeaders:    false,
 		})
-		st.writeHeaders(HeadersFrameParam{// Not a continuation.
-			StreamID: 3, // different stream.
+		st.writeHeaders(HeadersFrameParam{ // Not a continuation.
+			StreamID:      3, // different stream.
 			BlockFragment: st.encodeHeader(),
-			EndStream: true,
-			EndHeaders: true,
+			EndStream:     true,
+			EndHeaders:    true,
 		})
 	})
 }

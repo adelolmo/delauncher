@@ -20,10 +20,10 @@ import (
 )
 
 type registry struct {
-	XMLName xml.Name `xml:"registry"`
-	Updated string   `xml:"updated"`
+	XMLName  xml.Name `xml:"registry"`
+	Updated  string   `xml:"updated"`
 	Registry []struct {
-		ID string `xml:"id,attr"`
+		ID     string `xml:"id,attr"`
 		Record []struct {
 			Name string `xml:"name"`
 			Xref []struct {

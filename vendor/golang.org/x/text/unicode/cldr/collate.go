@@ -257,7 +257,7 @@ type rulesElem struct {
 type rule struct {
 	Value  string `xml:",chardata"`
 	Before string `xml:"before,attr"`
-	Any []*struct {
+	Any    []*struct {
 		XMLName xml.Name
 		rule
 	} `xml:",any"`

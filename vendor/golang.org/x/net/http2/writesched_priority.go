@@ -84,7 +84,7 @@ func NewPriorityWriteScheduler(cfg *PriorityWriteSchedulerConfig) WriteScheduler
 type priorityNodeState int
 
 const (
-	priorityNodeOpen   priorityNodeState = iota
+	priorityNodeOpen priorityNodeState = iota
 	priorityNodeClosed
 	priorityNodeIdle
 )

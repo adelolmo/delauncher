@@ -74,7 +74,7 @@ type runeInfo struct {
 type breakCategory int
 
 const (
-	breakBreak  breakCategory = iota
+	breakBreak breakCategory = iota
 	breakLetter
 	breakMid
 )

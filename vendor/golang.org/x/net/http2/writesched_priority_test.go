@@ -382,7 +382,7 @@ func TestPriorityPopFrom533Tree(t *testing.T) {
 	ws.Push(makeWriteHeadersRequest(1 /*A*/))
 	t.Log("tree:", fmtTree(ws, fmtNodeParentSkipRoot))
 
-	if err := checkPopAll(ws, []uint32{0 /*NonStream*/ , 1, 3, 5}); err != nil {
+	if err := checkPopAll(ws, []uint32{0 /*NonStream*/, 1, 3, 5}); err != nil {
 		t.Error(err)
 	}
 }
@@ -402,7 +402,7 @@ func TestPriorityPopFromLinearTree(t *testing.T) {
 	ws.Push(makeWriteNonStreamRequest())
 	t.Log("tree:", fmtTree(ws, fmtNodeParentSkipRoot))
 
-	if err := checkPopAll(ws, []uint32{0, 0 /*NonStreams*/ , 1, 2, 3, 4}); err != nil {
+	if err := checkPopAll(ws, []uint32{0, 0 /*NonStreams*/, 1, 2, 3, 4}); err != nil {
 		t.Error(err)
 	}
 }

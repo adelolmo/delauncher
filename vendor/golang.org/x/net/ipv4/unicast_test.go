@@ -104,7 +104,7 @@ func TestPacketConnReadWriteUnicastICMP(t *testing.T) {
 		wb, err := (&icmp.Message{
 			Type: ipv4.ICMPTypeEcho, Code: 0,
 			Body: &icmp.Echo{
-				ID:   os.Getpid() & 0xffff, Seq: i + 1,
+				ID: os.Getpid() & 0xffff, Seq: i + 1,
 				Data: []byte("HELLO-R-U-THERE"),
 			},
 		}).Marshal(nil)
@@ -189,7 +189,7 @@ func TestRawConnReadWriteUnicastICMP(t *testing.T) {
 		wb, err := (&icmp.Message{
 			Type: ipv4.ICMPTypeEcho, Code: 0,
 			Body: &icmp.Echo{
-				ID:   os.Getpid() & 0xffff, Seq: i + 1,
+				ID: os.Getpid() & 0xffff, Seq: i + 1,
 				Data: []byte("HELLO-R-U-THERE"),
 			},
 		}).Marshal(nil)

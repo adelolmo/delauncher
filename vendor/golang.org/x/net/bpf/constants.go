@@ -21,7 +21,7 @@ type ALUOp uint16
 
 // ALU binary operation types.
 const (
-	ALUOpAdd        ALUOp = iota << 4
+	ALUOpAdd ALUOp = iota << 4
 	ALUOpSub
 	ALUOpMul
 	ALUOpDiv
@@ -29,7 +29,7 @@ const (
 	ALUOpAnd
 	ALUOpShiftLeft
 	ALUOpShiftRight
-	aluOpNeg         // Not exported because it's the only unary ALU operation, and gets its own instruction type.
+	aluOpNeg // Not exported because it's the only unary ALU operation, and gets its own instruction type.
 	ALUOpMod
 	ALUOpXor
 )
@@ -182,7 +182,7 @@ const (
 	opAddrModeAbsolute
 	opAddrModeIndirect
 	opAddrModeScratch
-	opAddrModePacketLen  // actually an extension, not an addressing mode.
+	opAddrModePacketLen // actually an extension, not an addressing mode.
 	opAddrModeMemShift
 )
 

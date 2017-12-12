@@ -260,7 +260,7 @@ func (b *builder) genSymbols(w *gen.CodeWriter, data *cldr.CLDR) {
 	}
 
 	const (
-		normal   = iota
+		normal = iota
 		narrow
 		numTypes
 	)

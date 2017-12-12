@@ -20,7 +20,7 @@ func (rmx *RouteMetrics) SysType() SysType { return SysMetrics }
 func (m *RouteMessage) Sys() []Sys {
 	return []Sys{
 		&RouteMetrics{
-			PathMTU: int(nativeEndian.Uint64(m.raw[m.extOff+8: m.extOff+16])),
+			PathMTU: int(nativeEndian.Uint64(m.raw[m.extOff+8 : m.extOff+16])),
 		},
 	}
 }
@@ -39,7 +39,7 @@ func (m *InterfaceMessage) Sys() []Sys {
 	return []Sys{
 		&InterfaceMetrics{
 			Type: int(m.raw[m.extOff]),
-			MTU:  int(nativeEndian.Uint32(m.raw[m.extOff+8: m.extOff+12])),
+			MTU:  int(nativeEndian.Uint32(m.raw[m.extOff+8 : m.extOff+12])),
 		},
 	}
 }

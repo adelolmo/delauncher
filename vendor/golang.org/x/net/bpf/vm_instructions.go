@@ -143,9 +143,9 @@ func loadCommon(in []byte, offset int, size int) (uint32, bool) {
 	case 1:
 		return uint32(in[offset]), true
 	case 2:
-		return uint32(binary.BigEndian.Uint16(in[offset: offset+size])), true
+		return uint32(binary.BigEndian.Uint16(in[offset : offset+size])), true
 	case 4:
-		return uint32(binary.BigEndian.Uint32(in[offset: offset+size])), true
+		return uint32(binary.BigEndian.Uint32(in[offset : offset+size])), true
 	default:
 		panic(fmt.Sprintf("invalid load size: %d", size))
 	}

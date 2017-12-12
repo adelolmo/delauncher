@@ -212,8 +212,8 @@ var exceptions = map[rune]exception{
 func isLetterDigits(r rune) bool {
 	return unicode.In(r,
 		unicode.Ll, unicode.Lu, unicode.Lm, unicode.Lo, // Letters
-		unicode.Mn, unicode.Mc,                         // Modifiers
-		unicode.Nd,                                     // Digits
+		unicode.Mn, unicode.Mc, // Modifiers
+		unicode.Nd, // Digits
 	)
 }
 
@@ -222,7 +222,7 @@ func isIdDisAndFreePVal(r rune) bool {
 		// OtherLetterDigits: https://tools.ietf.org/html/rfc7564#section-9.18
 		// r in in {Lt, Nl, No, Me}
 		unicode.Lt, unicode.Nl, unicode.No, // Other letters / numbers
-		unicode.Me,                         // Modifiers
+		unicode.Me, // Modifiers
 
 		// Spaces: https://tools.ietf.org/html/rfc7564#section-9.14
 		// r in in {Zs}

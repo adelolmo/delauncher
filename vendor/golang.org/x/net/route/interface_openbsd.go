@@ -83,7 +83,7 @@ func (*wireFormat) parseInterfaceAnnounceMessage(_ RIBType, b []byte) (Message, 
 		if b[10+i] != 0 {
 			continue
 		}
-		m.Name = string(b[10: 10+i])
+		m.Name = string(b[10 : 10+i])
 		break
 	}
 	return m, nil

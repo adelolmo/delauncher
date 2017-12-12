@@ -48,7 +48,7 @@ var ErrInvalid = errors.New("bidirule: failed Bidi Rule")
 type ruleState uint8
 
 const (
-	ruleInitial  ruleState = iota
+	ruleInitial ruleState = iota
 	ruleLTR
 	ruleLTRFinal
 	ruleRTL

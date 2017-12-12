@@ -1,28 +1,37 @@
 package main
 
 import (
-	"os/exec"
-	"bytes"
-	"fmt"
-	"os"
-	"encoding/json"
 	"bufio"
-	"os/user"
+	"bytes"
+	"crypto/aes"
+	"crypto/cipher"
+	"crypto/rand"
+	"errors"
+	"encoding/base64"
+	"encoding/json"
 	"path/filepath"
+	"fmt"
+	"io"
 	"log"
+	"os"
+	"os/exec"
+	"os/user"
 	"strings"
+
 	"github.com/ProtonMail/ui"
 	"github.com/adelolmo/delugeclient"
 )
 
 const (
-	CONFIG_DIR string = ".config/delauncher"
+	CONFIG_DIR  string = ".config/delauncher"
 	CONFIG_FILE string = "config.json"
 )
 
+var SECRET_KEY = []byte{11, 22, 33, 44, 55, 66, 77, 88, 99, 00, 11, 22, 33, 44, 55, 66}
+
 type DelugeConfig struct {
 	ServerUrl string
-	Password  string
+	Password  []byte
 }
 
 func main() {
@@ -80,7 +89,14 @@ func getConfig(configFilename string) (string, string) {
 	if err := json.NewDecoder(r).Decode(&config); err != nil {
 		panic(err)
 	}
-	return config.ServerUrl, config.Password
+
+	result, err := decrypt(SECRET_KEY, config.Password)
+	if err != nil {
+		log.Fatal(err)
+	}
+	password := string(result[:])
+
+	return config.ServerUrl, password
 }
 
 func config() {
@@ -111,7 +127,11 @@ func config() {
 			defer f.Close()
 			w := bufio.NewWriter(f)
 
-			config := &DelugeConfig{ServerUrl:serverUrlField.Text(), Password:passwordField.Text()}
+			encryptedPassword, err := encrypt(SECRET_KEY, []byte(passwordField.Text()))
+			if err != nil {
+				log.Fatal(err)
+			}
+			config := &DelugeConfig{ServerUrl: serverUrlField.Text(), Password: encryptedPassword}
 			json.NewEncoder(w).Encode(&config)
 			w.Flush()
 
@@ -142,4 +162,41 @@ func getLinkName(magnet string) string {
 	params := magnet[61:]
 	p := strings.Split(params, "&")
 	return p[0][3:]
+}
+
+// https://stackoverflow.com/questions/18817336/golang-encrypting-a-string-with-aes-and-base64#18819040
+
+func encrypt(key, text []byte) ([]byte, error) {
+	block, err := aes.NewCipher(key)
+	if err != nil {
+		return nil, err
+	}
+	b := base64.StdEncoding.EncodeToString(text)
+	cipherText := make([]byte, aes.BlockSize+len(b))
+	iv := cipherText[:aes.BlockSize]
+	if _, err := io.ReadFull(rand.Reader, iv); err != nil {
+		return nil, err
+	}
+	cfb := cipher.NewCFBEncrypter(block, iv)
+	cfb.XORKeyStream(cipherText[aes.BlockSize:], []byte(b))
+	return cipherText, nil
+}
+
+func decrypt(key, text []byte) ([]byte, error) {
+	block, err := aes.NewCipher(key)
+	if err != nil {
+		return nil, err
+	}
+	if len(text) < aes.BlockSize {
+		return nil, errors.New("cipherText too short")
+	}
+	iv := text[:aes.BlockSize]
+	text = text[aes.BlockSize:]
+	cfb := cipher.NewCFBDecrypter(block, iv)
+	cfb.XORKeyStream(text, text)
+	data, err := base64.StdEncoding.DecodeString(string(text))
+	if err != nil {
+		return nil, err
+	}
+	return data, nil
 }

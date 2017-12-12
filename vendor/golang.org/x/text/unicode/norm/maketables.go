@@ -82,14 +82,14 @@ func (r QCResult) String() string {
 }
 
 const (
-	FCanonical         = iota // NFC or NFD
-	FCompatibility            // NFKC or NFKD
+	FCanonical     = iota // NFC or NFD
+	FCompatibility        // NFKC or NFKD
 	FNumberOfFormTypes
 )
 
 const (
-	MComposed      = iota // NFC or NFKC
-	MDecomposed           // NFD or NFKD
+	MComposed   = iota // NFC or NFKC
+	MDecomposed        // NFD or NFKD
 	MNumberOfModes
 )
 
@@ -136,7 +136,7 @@ func (c Char) String() string {
 type State int
 
 const (
-	SNormal  State = iota // known to be zero for the type
+	SNormal State = iota // known to be zero for the type
 	SFirst
 	SLast
 	SMissing
@@ -547,7 +547,7 @@ func makeEntry(f *FormInfo, c *Char) uint16 {
 type decompSet [7]map[string]bool
 
 const (
-	normalDecomp          = iota
+	normalDecomp = iota
 	firstMulti
 	firstCCC
 	endMulti

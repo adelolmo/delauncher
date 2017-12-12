@@ -56,7 +56,7 @@ func ExampleNew() {
 	// Set up a profile maps for lookup, but allows wild cards.
 	p = idna.New(
 		idna.MapForLookup(),
-		idna.Transitional(true), // Map ß -> ss
+		idna.Transitional(true),      // Map ß -> ss
 		idna.StrictDomainName(false)) // Set more permissive ASCII rules.
 	fmt.Println(p.ToASCII("*.faß.com"))
 

@@ -136,11 +136,11 @@ func parseICMPv4Parameters(w io.Writer, r io.Reader) error {
 }
 
 type icmpv4Parameters struct {
-	XMLName xml.Name `xml:"registry"`
-	Title   string   `xml:"title"`
-	Updated string   `xml:"updated"`
+	XMLName    xml.Name `xml:"registry"`
+	Title      string   `xml:"title"`
+	Updated    string   `xml:"updated"`
 	Registries []struct {
-		Title string `xml:"title"`
+		Title   string `xml:"title"`
 		Records []struct {
 			Value string `xml:"value"`
 			Descr string `xml:"description"`

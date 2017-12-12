@@ -206,7 +206,7 @@ func (rb *reorderBuffer) insertOrdered(info Properties) {
 type insertErr int
 
 const (
-	iSuccess  insertErr = -iota
+	iSuccess insertErr = -iota
 	iShortDst
 	iShortSrc
 )
@@ -293,7 +293,7 @@ func (rb *reorderBuffer) assignRune(pos int, r rune) {
 // runeAt returns the rune at position n. It is used for Hangul and recomposition.
 func (rb *reorderBuffer) runeAt(n int) rune {
 	inf := rb.rune[n]
-	r, _ := utf8.DecodeRune(rb.byte[inf.pos: inf.pos+inf.size])
+	r, _ := utf8.DecodeRune(rb.byte[inf.pos : inf.pos+inf.size])
 	return r
 }
 
@@ -301,7 +301,7 @@ func (rb *reorderBuffer) runeAt(n int) rune {
 // It is used for Hangul and recomposition.
 func (rb *reorderBuffer) bytesAt(n int) []byte {
 	inf := rb.rune[n]
-	return rb.byte[inf.pos: int(inf.pos)+int(inf.size)]
+	return rb.byte[inf.pos : int(inf.pos)+int(inf.size)]
 }
 
 // For Hangul we combine algorithmically, instead of using tables.
@@ -442,7 +442,7 @@ func (rb *reorderBuffer) combineHangul(s, i, k int) {
 				jamoVBase <= v && v < jamoVEnd:
 				// 11xx plus 116x to LV
 				rb.assignRune(s, hangulBase+
-					(l-jamoLBase)*jamoVTCount+ (v-jamoVBase)*jamoTCount)
+					(l-jamoLBase)*jamoVTCount+(v-jamoVBase)*jamoTCount)
 			case hangulBase <= l && l < hangulEnd &&
 				jamoTBase < v && v < jamoTEnd &&
 				((l-hangulBase)%jamoTCount) == 0:

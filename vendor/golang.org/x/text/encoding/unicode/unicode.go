@@ -96,7 +96,7 @@ func (utf8Decoder) Transform(dst, src []byte, atEOF bool) (nDst, nSrc int, err e
 		continue
 
 	handleInvalid:
-	// Copy the scanned input so far.
+		// Copy the scanned input so far.
 		nDst += copy(dst[nDst:], src[pSrc:nSrc])
 
 		// Append RuneError to the destination.

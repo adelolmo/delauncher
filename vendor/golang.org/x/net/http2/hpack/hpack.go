@@ -281,7 +281,7 @@ var errNeedMore = errors.New("need more data")
 type indexType int
 
 const (
-	indexedTrue  indexType = iota
+	indexedTrue indexType = iota
 	indexedFalse
 	indexedNever
 )

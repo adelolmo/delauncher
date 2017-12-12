@@ -80,7 +80,7 @@ outer:
 				}
 				data := t.Buckets[index[k+1]]
 				n := uint16(data[offset])
-				return data[offset+1: offset+n+1]
+				return data[offset+1 : offset+n+1]
 			}
 		}
 		if tag == 0 {

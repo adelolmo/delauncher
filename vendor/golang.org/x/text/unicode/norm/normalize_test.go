@@ -40,7 +40,7 @@ func pc(s string) []byte {
 				n++
 			}
 		}
-		b.WriteString(s[i: i+sz])
+		b.WriteString(s[i : i+sz])
 		if n > 1 {
 			fmt.Fprintf(b, "{%d}", n)
 		}
@@ -651,24 +651,24 @@ var appendTestsNFC = []AppendTest{
 	{grave(30), "\uff9e", grave(30) + cgj + "\uff9e"},
 
 	// Tests designed for Iter.
-	{// ordering of non-composing combining characters
+	{ // ordering of non-composing combining characters
 		"",
 		"\u0305\u0316",
 		"\u0316\u0305",
 	},
-	{// segment overflow
+	{ // segment overflow
 		"",
 		"a" + rep(0x0305, maxNonStarters+4) + "\u0316",
 		"a" + rep(0x0305, maxNonStarters) + cgj + "\u0316" + rep(0x305, 4),
 	},
 
-	{// Combine across non-blocking non-starters.
+	{ // Combine across non-blocking non-starters.
 		// U+0327 COMBINING CEDILLA;Mn;202;NSM;;;;;N;NON-SPACING CEDILLA;;;;
 		// U+0325 COMBINING RING BELOW;Mn;220;NSM;;;;;N;NON-SPACING RING BELOW;;;;
 		"", "a\u0327\u0325", "\u1e01\u0327",
 	},
 
-	{// Jamo V+T does not combine.
+	{ // Jamo V+T does not combine.
 		"",
 		"\u1161\u11a8",
 		"\u1161\u11a8",
@@ -681,38 +681,38 @@ var appendTestsNFC = []AppendTest{
 	{"", "\u1100\u1161", "\uac00"},
 
 	// U+04DA MALAYALAM VOWEL SIGN O;Mc;0;L;0D46 0D3E;;;;N;;;;;
-	{// 0d4a starts a new segment.
+	{ // 0d4a starts a new segment.
 		"",
 		"\u0d4a" + strings.Repeat("\u0d3e", 15) + "\u0d4a" + strings.Repeat("\u0d3e", 15),
 		"\u0d4a" + strings.Repeat("\u0d3e", 15) + "\u0d4a" + strings.Repeat("\u0d3e", 15),
 	},
 
-	{// Split combining characters.
+	{ // Split combining characters.
 		// TODO: don't insert CGJ before starters.
 		"",
 		"\u0d46" + strings.Repeat("\u0d3e", 31),
 		"\u0d4a" + strings.Repeat("\u0d3e", 29) + cgj + "\u0d3e",
 	},
 
-	{// Split combining characters.
+	{ // Split combining characters.
 		"",
 		"\u0d4a" + strings.Repeat("\u0d3e", 30),
 		"\u0d4a" + strings.Repeat("\u0d3e", 29) + cgj + "\u0d3e",
 	},
 
-	{//  https://golang.org/issues/20079
+	{ //  https://golang.org/issues/20079
 		"",
 		"\xeb\u0344",
 		"\xeb\u0308\u0301",
 	},
 
-	{//  https://golang.org/issues/20079
+	{ //  https://golang.org/issues/20079
 		"",
 		"\uac00" + strings.Repeat("\u0300", 30),
 		"\uac00" + strings.Repeat("\u0300", 29) + "\u034f\u0300",
 	},
 
-	{//  https://golang.org/issues/20079
+	{ //  https://golang.org/issues/20079
 		"",
 		"\xeb" + strings.Repeat("\u0300", 31),
 		"\xeb" + strings.Repeat("\u0300", 30) + "\u034f\u0300",
@@ -824,62 +824,62 @@ var appendTestsNFKC = []AppendTest{
 var appendTestsNFKD = []AppendTest{
 	{"", "a" + grave(64), "a" + grave(30) + cgj + grave(30) + cgj + grave(4)},
 
-	{// segment overflow on unchanged character
+	{ // segment overflow on unchanged character
 		"",
 		"a" + grave(64) + "\u0316",
 		"a" + grave(30) + cgj + grave(30) + cgj + "\u0316" + grave(4),
 	},
-	{// segment overflow on unchanged character + start value
+	{ // segment overflow on unchanged character + start value
 		"",
 		"a" + grave(98) + "\u0316",
 		"a" + grave(30) + cgj + grave(30) + cgj + grave(30) + cgj + "\u0316" + grave(8),
 	},
-	{// segment overflow on decomposition. (U+0340 decomposes to U+0300.)
+	{ // segment overflow on decomposition. (U+0340 decomposes to U+0300.)
 		"",
 		"a" + grave(59) + "\u0340",
 		"a" + grave(30) + cgj + grave(30),
 	},
-	{// segment overflow on non-starter decomposition
+	{ // segment overflow on non-starter decomposition
 		"",
 		"a" + grave(33) + "\u0340" + grave(30) + "\u0320",
 		"a" + grave(30) + cgj + grave(30) + cgj + "\u0320" + grave(4),
 	},
-	{// start value after ASCII overflow
+	{ // start value after ASCII overflow
 		"",
 		rep('a', segSize) + grave(32) + "\u0320",
 		rep('a', segSize) + grave(30) + cgj + "\u0320" + grave(2),
 	},
-	{// Jamo overflow
+	{ // Jamo overflow
 		"",
 		"\u1100\u1161" + grave(30) + "\u0320" + grave(2),
 		"\u1100\u1161" + grave(29) + cgj + "\u0320" + grave(3),
 	},
-	{// Hangul
+	{ // Hangul
 		"",
 		"\uac00",
 		"\u1100\u1161",
 	},
-	{// Hangul overflow
+	{ // Hangul overflow
 		"",
 		"\uac00" + grave(32) + "\u0320",
 		"\u1100\u1161" + grave(29) + cgj + "\u0320" + grave(3),
 	},
-	{// Hangul overflow in Hangul mode.
+	{ // Hangul overflow in Hangul mode.
 		"",
 		"\uac00\uac00" + grave(32) + "\u0320",
 		"\u1100\u1161\u1100\u1161" + grave(29) + cgj + "\u0320" + grave(3),
 	},
-	{// Hangul overflow in Hangul mode.
+	{ // Hangul overflow in Hangul mode.
 		"",
 		strings.Repeat("\uac00", 3) + grave(32) + "\u0320",
 		strings.Repeat("\u1100\u1161", 3) + grave(29) + cgj + "\u0320" + grave(3),
 	},
-	{// start value after cc=0
+	{ // start value after cc=0
 		"",
 		"您您" + grave(34) + "\u0320",
 		"您您" + grave(30) + cgj + "\u0320" + grave(4),
 	},
-	{// start value after normalization
+	{ // start value after normalization
 		"",
 		"\u0300\u0320a" + grave(34) + "\u0320",
 		"\u0320\u0300a" + grave(30) + cgj + "\u0320" + grave(4),

@@ -579,7 +579,7 @@ func String(t Transformer, s string) (result string, n int, err error) {
 	// Transform.
 	buf := [2 * initialBufSize]byte{}
 	dst := buf[:initialBufSize:initialBufSize]
-	src := buf[initialBufSize: 2*initialBufSize]
+	src := buf[initialBufSize : 2*initialBufSize]
 
 	// The input string s is transformed in multiple chunks (starting with a
 	// chunk size of initialBufSize). nDst and nSrc are per-chunk (or

@@ -34,7 +34,7 @@ import (
 type Form int
 
 const (
-	NFC  Form = iota
+	NFC Form = iota
 	NFD
 	NFKC
 	NFKD

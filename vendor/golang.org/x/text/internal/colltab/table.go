@@ -155,7 +155,7 @@ func (t *Table) appendExpansion(w []Elem, ce Elem) []Elem {
 	i := splitExpandIndex(ce)
 	n := int(t.ExpandElem[i])
 	i++
-	for _, ce := range t.ExpandElem[i: i+n] {
+	for _, ce := range t.ExpandElem[i : i+n] {
 		w = append(w, Elem(ce))
 	}
 	return w

@@ -93,11 +93,11 @@ func parseDSCPRegistry(w io.Writer, r io.Reader) error {
 }
 
 type dscpRegistry struct {
-	XMLName  xml.Name `xml:"registry"`
-	Title    string   `xml:"title"`
-	Updated  string   `xml:"updated"`
-	Note     string   `xml:"note"`
-	RegTitle string   `xml:"registry>title"`
+	XMLName     xml.Name `xml:"registry"`
+	Title       string   `xml:"title"`
+	Updated     string   `xml:"updated"`
+	Note        string   `xml:"note"`
+	RegTitle    string   `xml:"registry>title"`
 	PoolRecords []struct {
 		Name  string `xml:"name"`
 		Space string `xml:"space"`
@@ -159,7 +159,7 @@ type tosTCByte struct {
 	Updated  string   `xml:"updated"`
 	Note     string   `xml:"note"`
 	RegTitle string   `xml:"registry>title"`
-	Records []struct {
+	Records  []struct {
 		Binary  string `xml:"binary"`
 		Keyword string `xml:"keyword"`
 	} `xml:"registry>record"`
@@ -237,7 +237,7 @@ type protocolNumbers struct {
 	Updated  string   `xml:"updated"`
 	RegTitle string   `xml:"registry>title"`
 	Note     string   `xml:"registry>note"`
-	Records []struct {
+	Records  []struct {
 		Value string `xml:"value"`
 		Name  string `xml:"name"`
 		Descr string `xml:"description"`

@@ -110,10 +110,10 @@ func parseInetAddr(b []byte, network string) (net.Addr, error) {
 // Multiple names sharing the index are managed by first-come
 // first-served basis for consistency.
 type ipv6ZoneCache struct {
-	sync.RWMutex               // guard the following
-	lastFetched time.Time      // last time routing information was fetched
-	toIndex     map[string]int // interface name to its index
-	toName      map[int]string // interface index to its name
+	sync.RWMutex                // guard the following
+	lastFetched  time.Time      // last time routing information was fetched
+	toIndex      map[string]int // interface name to its index
+	toName       map[int]string // interface index to its name
 }
 
 var zoneCache = ipv6ZoneCache{

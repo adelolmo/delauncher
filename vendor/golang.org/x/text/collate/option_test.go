@@ -132,7 +132,7 @@ func TestOptions(t *testing.T) {
 				numeric:   true,
 			},
 		},
-		16: {// Normal options take precedence over tag options.
+		16: { // Normal options take precedence over tag options.
 			in: []Option{
 				Numeric, IgnoreCase,
 				OptionsFromTag(language.MustParse("und-u-kn-false-kc-true")),

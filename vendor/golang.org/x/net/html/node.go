@@ -12,7 +12,7 @@ import (
 type NodeType uint32
 
 const (
-	ErrorNode       NodeType = iota
+	ErrorNode NodeType = iota
 	TextNode
 	DocumentNode
 	ElementNode

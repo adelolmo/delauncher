@@ -116,7 +116,7 @@ func (m ControlMessage) Data(dataLen int) []byte {
 	if len(m) < l || len(m) < l+dataLen {
 		return nil
 	}
-	return m[l: l+dataLen]
+	return m[l : l+dataLen]
 }
 
 // Next returns the control message at the next on w.

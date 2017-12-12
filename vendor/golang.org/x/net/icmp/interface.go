@@ -20,7 +20,7 @@ const (
 )
 
 const (
-	attrMTU     = 1 << iota
+	attrMTU = 1 << iota
 	attrName
 	attrIPAddr
 	attrIfIndex

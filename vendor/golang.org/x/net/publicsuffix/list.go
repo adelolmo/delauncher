@@ -117,7 +117,7 @@ func nodeLabel(i uint32) string {
 	length := x & (1<<nodesBitsTextLength - 1)
 	x >>= nodesBitsTextLength
 	offset := x & (1<<nodesBitsTextOffset - 1)
-	return text[offset: offset+length]
+	return text[offset : offset+length]
 }
 
 // EffectiveTLDPlusOne returns the effective top level domain plus one more

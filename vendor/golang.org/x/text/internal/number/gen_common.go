@@ -21,7 +21,7 @@ type systemData struct {
 type SymbolType int
 
 const (
-	SymDecimal                SymbolType = iota
+	SymDecimal SymbolType = iota
 	SymGroup
 	SymList
 	SymPercentSign

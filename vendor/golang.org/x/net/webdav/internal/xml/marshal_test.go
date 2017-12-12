@@ -20,7 +20,7 @@ import (
 type DriveType int
 
 const (
-	HyperDrive         DriveType = iota
+	HyperDrive DriveType = iota
 	ImprobabilityDrive
 )
 
@@ -95,7 +95,7 @@ type SecretAgent struct {
 	XMLName   struct{} `xml:"agent"`
 	Handle    string   `xml:"handle,attr"`
 	Identity  string
-	Obfuscate string   `xml:",innerxml"`
+	Obfuscate string `xml:",innerxml"`
 }
 
 type NestedItems struct {
@@ -126,9 +126,9 @@ type NilTest struct {
 }
 
 type Service struct {
-	XMLName struct{}    `xml:"service"`
-	Domain  *Domain     `xml:"host>domain"`
-	Port    *Port       `xml:"host>port"`
+	XMLName struct{} `xml:"service"`
+	Domain  *Domain  `xml:"host>domain"`
+	Port    *Port    `xml:"host>port"`
 	Extra1  interface{}
 	Extra2  interface{} `xml:"host>extra2"`
 }
@@ -157,8 +157,8 @@ type NameCasing struct {
 	XMLName struct{} `xml:"casing"`
 	Xy      string
 	XY      string
-	XyA     string   `xml:"Xy,attr"`
-	XYA     string   `xml:"XY,attr"`
+	XyA     string `xml:"Xy,attr"`
+	XYA     string `xml:"XY,attr"`
 }
 
 type NamePrecedence struct {
@@ -349,7 +349,7 @@ type OuterNamedStruct struct {
 type OuterNamedOrderedStruct struct {
 	XMLName Name `xml:"outerns test"`
 	InnerStruct
-	IntAttr int  `xml:"int,attr"`
+	IntAttr int `xml:"int,attr"`
 }
 
 type OuterOuterStruct struct {

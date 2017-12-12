@@ -52,7 +52,7 @@ func TestTransportExternal(t *testing.T) {
 	if !*extNet {
 		t.Skip("skipping external network test")
 	}
-	req, _ := http.NewRequest("GET", "https://" + *transportHost+"/", nil)
+	req, _ := http.NewRequest("GET", "https://"+*transportHost+"/", nil)
 	rt := &Transport{TLSClientConfig: tlsConfigInsecure}
 	res, err := rt.RoundTrip(req)
 	if err != nil {
@@ -1010,9 +1010,9 @@ func TestTransportConnectRequest(t *testing.T) {
 type headerType int
 
 const (
-	noHeader    headerType = iota // omitted
+	noHeader headerType = iota // omitted
 	oneHeader
-	splitHeader  // broken into continuation on purpose
+	splitHeader // broken into continuation on purpose
 )
 
 const (
@@ -2599,14 +2599,14 @@ func testTransportReturnsUnusedFlowControl(t *testing.T, oneDataFrame bool) {
 		// close before seconding the second DATA frame. This tests the case
 		// where the client receives a DATA frame after it has reset the stream.
 		if oneDataFrame {
-			ct.fr.WriteData(hf.StreamID, false /* don't end stream */ , make([]byte, 5000))
+			ct.fr.WriteData(hf.StreamID, false /* don't end stream */, make([]byte, 5000))
 			close(serverWroteFirstByte)
 			<-clientClosed
 		} else {
-			ct.fr.WriteData(hf.StreamID, false /* don't end stream */ , make([]byte, 1))
+			ct.fr.WriteData(hf.StreamID, false /* don't end stream */, make([]byte, 1))
 			close(serverWroteFirstByte)
 			<-clientClosed
-			ct.fr.WriteData(hf.StreamID, false /* don't end stream */ , make([]byte, 4999))
+			ct.fr.WriteData(hf.StreamID, false /* don't end stream */, make([]byte, 4999))
 		}
 
 		waitingFor := "RSTStreamFrame"
@@ -3215,7 +3215,7 @@ func TestTransportRetryAfterGOAWAY(t *testing.T) {
 			return
 		}
 		t.Logf("server1 got %v", hf)
-		if err := ct.fr.WriteGoAway(0 /*max id*/ , ErrCodeNo, nil); err != nil {
+		if err := ct.fr.WriteGoAway(0 /*max id*/, ErrCodeNo, nil); err != nil {
 			errs <- fmt.Errorf("server1 failed writing GOAWAY: %v", err)
 			return
 		}

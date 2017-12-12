@@ -12,7 +12,7 @@ package main
 type elem uint16
 
 const (
-	tagNeutral   elem = iota << typeShift
+	tagNeutral elem = iota << typeShift
 	tagAmbiguous
 	tagWide
 	tagNarrow

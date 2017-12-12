@@ -19,23 +19,23 @@ import (
 )
 
 type (
-	renamedBool bool
-	renamedInt int
-	renamedInt8 int8
-	renamedInt16 int16
-	renamedInt32 int32
-	renamedInt64 int64
-	renamedUint uint
-	renamedUint8 uint8
-	renamedUint16 uint16
-	renamedUint32 uint32
-	renamedUint64 uint64
-	renamedUintptr uintptr
-	renamedString string
-	renamedBytes []byte
-	renamedFloat32 float32
-	renamedFloat64 float64
-	renamedComplex64 complex64
+	renamedBool       bool
+	renamedInt        int
+	renamedInt8       int8
+	renamedInt16      int16
+	renamedInt32      int32
+	renamedInt64      int64
+	renamedUint       uint
+	renamedUint8      uint8
+	renamedUint16     uint16
+	renamedUint32     uint32
+	renamedUint64     uint64
+	renamedUintptr    uintptr
+	renamedString     string
+	renamedBytes      []byte
+	renamedFloat32    float32
+	renamedFloat64    float64
+	renamedComplex64  complex64
 	renamedComplex128 complex128
 )
 

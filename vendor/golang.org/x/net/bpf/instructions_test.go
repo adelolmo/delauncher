@@ -101,7 +101,7 @@ func TestInterop(t *testing.T) {
 		t.Fatalf("test program lengths don't match: %s has %d, Go implementation has %d", allInstructionsExpected, len(stmts)-2, len(allInstructions))
 	}
 
-	for i, stmt := range stmts[1: len(stmts)-2] {
+	for i, stmt := range stmts[1 : len(stmts)-2] {
 		nums := strings.Split(stmt, " ")
 		if len(nums) != 4 {
 			t.Fatalf("malformed instruction %d in %s: %s", i+1, allInstructionsExpected, stmt)

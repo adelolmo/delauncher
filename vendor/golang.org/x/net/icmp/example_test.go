@@ -33,7 +33,7 @@ func ExamplePacketConn_nonPrivilegedPing() {
 	wm := icmp.Message{
 		Type: ipv6.ICMPTypeEchoRequest, Code: 0,
 		Body: &icmp.Echo{
-			ID:   os.Getpid() & 0xffff, Seq: 1,
+			ID: os.Getpid() & 0xffff, Seq: 1,
 			Data: []byte("HELLO-R-U-THERE"),
 		},
 	}

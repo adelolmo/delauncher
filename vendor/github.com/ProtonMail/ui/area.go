@@ -45,12 +45,12 @@ var areas = make(map[*C.uiArea]*Area)
 // SetSize are ints. All other instances of points in parameters and
 // structures (including sizes of drawn objects) are float64s.
 type Area struct {
-	c *C.uiControl
-	a *C.uiArea
+	c	*C.uiControl
+	a	*C.uiArea
 
-	ah *C.uiAreaHandler
+	ah	*C.uiAreaHandler
 
-	scrolling bool
+	scrolling	bool
 }
 
 // NewArea creates a new non-scrolling Area.

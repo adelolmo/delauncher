@@ -151,7 +151,7 @@ func main() {
 // If the index is less than n nibbles, the result is prefixed with 0s.
 func getIndex(x interface{}, n int) string {
 	s := fmt.Sprintf("%#v", x) // s is of form Type{typeID: 0x00}
-	s = s[strings.Index(s, "0x")+2: len(s)-1]
+	s = s[strings.Index(s, "0x")+2 : len(s)-1]
 	return strings.Repeat("0", n-len(s)) + s
 }
 

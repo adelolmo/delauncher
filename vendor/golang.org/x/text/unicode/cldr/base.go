@@ -21,7 +21,7 @@ type Elem interface {
 
 type hidden struct {
 	CharData string `xml:",chardata"`
-	Alias *struct {
+	Alias    *struct {
 		Common
 		Source string `xml:"source,attr"`
 		Path   string `xml:"path,attr"`

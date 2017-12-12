@@ -67,7 +67,7 @@ func skipShort(t *testing.T) {
 
 // Column types.
 const (
-	cRaw        = iota
+	cRaw = iota
 	cNFC
 	cNFD
 	cNFKC

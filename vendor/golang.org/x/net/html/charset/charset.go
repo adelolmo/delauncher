@@ -152,7 +152,7 @@ func prescan(content []byte) (e encoding.Encoding, name string) {
 			gotPragma := false
 
 			const (
-				dontKnow        = iota
+				dontKnow = iota
 				doNeedPragma
 				doNotNeedPragma
 			)

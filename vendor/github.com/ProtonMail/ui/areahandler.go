@@ -135,7 +135,7 @@ func unregisterAreaHandler(uah *C.uiAreaHandler) {
 type AreaDrawParams struct {
 	// Context is the drawing context to draw on. See DrawContext
 	// for how to draw.
-	Context *DrawContext
+	Context		*DrawContext
 
 	// AreaWidth and AreaHeight provide the size of the Area for
 	// non-scrolling Areas. For scrolling Areas both values are zero.
@@ -143,17 +143,17 @@ type AreaDrawParams struct {
 	// To reiterate the AreaHandler documentation, do NOT save
 	// these values for later; they can change without generating
 	// an event.
-	AreaWidth  float64
-	AreaHeight float64
+	AreaWidth	float64
+	AreaHeight	float64
 
 	// These four fields define the rectangle that needs to be
 	// redrawn. The system will not draw anything outside this
 	// rectangle, but you can make your drawing faster if you
 	// also stay within the lines.
-	ClipX      float64
-	ClipY      float64
-	ClipWidth  float64
-	ClipHeight float64
+	ClipX		float64
+	ClipY		float64
+	ClipWidth		float64
+	ClipHeight	float64
 }
 
 //export doAreaHandlerDraw
@@ -161,13 +161,13 @@ func doAreaHandlerDraw(uah *C.uiAreaHandler, ua *C.uiArea, udp *C.uiAreaDrawPara
 	ah := areahandlers[uah]
 	a := areas[ua]
 	dp := &AreaDrawParams{
-		Context:    &DrawContext{udp.Context},
-		AreaWidth:  float64(udp.AreaWidth),
-		AreaHeight: float64(udp.AreaHeight),
-		ClipX:      float64(udp.ClipX),
-		ClipY:      float64(udp.ClipY),
-		ClipWidth:  float64(udp.ClipWidth),
-		ClipHeight: float64(udp.ClipHeight),
+		Context:		&DrawContext{udp.Context},
+		AreaWidth:	float64(udp.AreaWidth),
+		AreaHeight:	float64(udp.AreaHeight),
+		ClipX:		float64(udp.ClipX),
+		ClipY:		float64(udp.ClipY),
+		ClipWidth:		float64(udp.ClipWidth),
+		ClipHeight:	float64(udp.ClipHeight),
 	}
 	ah.Draw(a, dp)
 }
@@ -176,8 +176,8 @@ func doAreaHandlerDraw(uah *C.uiAreaHandler, ua *C.uiArea, udp *C.uiAreaDrawPara
 // 
 // TODO note that in the case of a drag, X and Y can be out of bounds, or in the event of a scrolling area, in places that are not visible
 type AreaMouseEvent struct {
-	X float64
-	Y float64
+	X			float64
+	Y			float64
 
 	// AreaWidth and AreaHeight provide the size of the Area for
 	// non-scrolling Areas. For scrolling Areas both values are zero.
@@ -185,20 +185,20 @@ type AreaMouseEvent struct {
 	// To reiterate the AreaHandler documentation, do NOT save
 	// these values for later; they can change without generating
 	// an event.
-	AreaWidth  float64
-	AreaHeight float64
+	AreaWidth	float64
+	AreaHeight	float64
 
-	Down      uint
-	Up        uint
-	Count     uint
-	Modifiers Modifiers
-	Held      []uint
+	Down		uint
+	Up			uint
+	Count		uint
+	Modifiers		Modifiers
+	Held			[]uint
 }
 
 func appendBits(out []uint, held C.uint64_t) []uint {
 	n := uint(1)
 	for i := 0; i < 64; i++ {
-		if held&1 != 0 {
+		if held & 1 != 0 {
 			out = append(out, n)
 		}
 		held >>= 1
@@ -212,15 +212,15 @@ func doAreaHandlerMouseEvent(uah *C.uiAreaHandler, ua *C.uiArea, ume *C.uiAreaMo
 	ah := areahandlers[uah]
 	a := areas[ua]
 	me := &AreaMouseEvent{
-		X:          float64(ume.X),
-		Y:          float64(ume.Y),
-		AreaWidth:  float64(ume.AreaWidth),
-		AreaHeight: float64(ume.AreaHeight),
-		Down:       uint(ume.Down),
-		Up:         uint(ume.Up),
-		Count:      uint(ume.Count),
-		Modifiers:  Modifiers(ume.Modifiers),
-		Held:       make([]uint, 0, 64),
+		X:			float64(ume.X),
+		Y:			float64(ume.Y),
+		AreaWidth:	float64(ume.AreaWidth),
+		AreaHeight:	float64(ume.AreaHeight),
+		Down:		uint(ume.Down),
+		Up:			uint(ume.Up),
+		Count:		uint(ume.Count),
+		Modifiers:		Modifiers(ume.Modifiers),
+		Held:		make([]uint, 0, 64),
 	}
 	me.Held = appendBits(me.Held, ume.Held1To64)
 	ah.MouseEvent(a, me)
@@ -242,11 +242,11 @@ func doAreaHandlerDragBroken(uah *C.uiAreaHandler, ua *C.uiArea) {
 
 // TODO document all these
 type AreaKeyEvent struct {
-	Key       rune
-	ExtKey    ExtKey
-	Modifier  Modifiers
-	Modifiers Modifiers
-	Up        bool
+	Key		rune
+	ExtKey	ExtKey
+	Modifier	Modifiers
+	Modifiers	Modifiers
+	Up		bool
 }
 
 //export doAreaHandlerKeyEvent
@@ -254,11 +254,11 @@ func doAreaHandlerKeyEvent(uah *C.uiAreaHandler, ua *C.uiArea, uke *C.uiAreaKeyE
 	ah := areahandlers[uah]
 	a := areas[ua]
 	ke := &AreaKeyEvent{
-		Key:       rune(uke.Key),
-		ExtKey:    ExtKey(uke.ExtKey),
-		Modifier:  Modifiers(uke.Modifier),
-		Modifiers: Modifiers(uke.Modifiers),
-		Up:        tobool(uke.Up),
+		Key:			rune(uke.Key),
+		ExtKey:		ExtKey(uke.ExtKey),
+		Modifier:		Modifiers(uke.Modifier),
+		Modifiers:		Modifiers(uke.Modifiers),
+		Up:			tobool(uke.Up),
 	}
 	return frombool(ah.KeyEvent(a, ke))
 }
@@ -268,7 +268,7 @@ func doAreaHandlerKeyEvent(uah *C.uiAreaHandler, ua *C.uiArea, uke *C.uiAreaKeyE
 // Note: these must be numerically identical to their libui equivalents.
 type Modifiers uint
 const (
-	Ctrl  Modifiers = 1 << iota
+	Ctrl Modifiers = 1 << iota
 	Alt
 	Shift
 	Super
@@ -279,8 +279,8 @@ const (
 // Note: these must be numerically identical to their libui equivalents.
 type ExtKey int
 const (
-	Escape    ExtKey = iota + 1
-	Insert     // equivalent to "Help" on Apple keyboards
+	Escape ExtKey = iota + 1
+	Insert			// equivalent to "Help" on Apple keyboards
 	Delete
 	Home
 	End
@@ -290,7 +290,7 @@ const (
 	Down
 	Left
 	Right
-	F1         // F1..F12 are guaranteed to be consecutive
+	F1			// F1..F12 are guaranteed to be consecutive
 	F2
 	F3
 	F4
@@ -302,8 +302,8 @@ const (
 	F10
 	F11
 	F12
-	N0         // numpad keys; independent of Num Lock state
-	N1         // N0..N9 are guaranteed to be consecutive
+	N0			// numpad keys; independent of Num Lock state
+	N1			// N0..N9 are guaranteed to be consecutive
 	N2
 	N3
 	N4

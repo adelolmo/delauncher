@@ -38,7 +38,7 @@ type options struct {
 type optionFlag uint16
 
 const (
-	hasScale     optionFlag = 1 << iota
+	hasScale optionFlag = 1 << iota
 	hasPrecision
 	noSeparator
 	exact

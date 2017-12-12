@@ -116,7 +116,7 @@ func (p Properties) Folded() rune {
 	if p.elem&tagNeedsFold != 0 {
 		buf := inverseData[byte(p.elem)]
 		buf[buf[0]] ^= p.last
-		r, _ := utf8.DecodeRune(buf[1: 1+buf[0]])
+		r, _ := utf8.DecodeRune(buf[1 : 1+buf[0]])
 		return r
 	}
 	return 0
@@ -128,7 +128,7 @@ func (p Properties) Narrow() rune {
 	if k := p.elem.kind(); byte(p.elem) != 0 && (k == EastAsianFullwidth || k == EastAsianWide || k == EastAsianAmbiguous) {
 		buf := inverseData[byte(p.elem)]
 		buf[buf[0]] ^= p.last
-		r, _ := utf8.DecodeRune(buf[1: 1+buf[0]])
+		r, _ := utf8.DecodeRune(buf[1 : 1+buf[0]])
 		return r
 	}
 	return 0
@@ -140,7 +140,7 @@ func (p Properties) Wide() rune {
 	if k := p.elem.kind(); byte(p.elem) != 0 && (k == EastAsianHalfwidth || k == EastAsianNarrow) {
 		buf := inverseData[byte(p.elem)]
 		buf[buf[0]] ^= p.last
-		r, _ := utf8.DecodeRune(buf[1: 1+buf[0]])
+		r, _ := utf8.DecodeRune(buf[1 : 1+buf[0]])
 		return r
 	}
 	return 0

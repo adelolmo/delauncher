@@ -10,10 +10,10 @@ import (
 import "C"
 
 type Form struct {
-	c *C.uiControl
-	f *C.uiForm
+	c	*C.uiControl
+	f	*C.uiForm
 
-	children []Control
+	children	[]Control
 }
 
 // NewForm creates a new Form.
@@ -86,7 +86,7 @@ func (f *Form) Append(label string, child Control, stretchy bool) {
 
 // Delete deletes the nth control of the Form.
 func (f *Form) Delete(n int) {
-	f.children = append(f.children[:n], f.children[n+1:]...)
+	f.children = append(f.children[:n], f.children[n + 1:]...)
 	C.uiFormDelete(f.f, C.int(n))
 }
 

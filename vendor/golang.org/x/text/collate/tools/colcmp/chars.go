@@ -8,7 +8,7 @@ package main
 type exemplarType int
 
 const (
-	exCharacters   exemplarType = iota
+	exCharacters exemplarType = iota
 	exContractions
 	exPunctuation
 	exAuxiliary

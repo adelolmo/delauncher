@@ -159,7 +159,7 @@ import "C"
 // parameter, but some implementations prevent it.)
 // TODO talk about fill modes
 type Path struct {
-	p *C.uiDrawPath
+	p	*C.uiDrawPath
 }
 
 // TODO
@@ -167,7 +167,7 @@ type Path struct {
 // TODO disclaimer
 type FillMode uint
 const (
-	Winding   FillMode = iota
+	Winding FillMode = iota
 	Alternate
 )
 
@@ -184,7 +184,7 @@ func NewPath(fillMode FillMode) *Path {
 		panic("invalid fill mode passed to ui.NewPath()")
 	}
 	return &Path{
-		p: C.uiDrawNewPath(fm),
+		p:	C.uiDrawNewPath(fm),
 	}
 }
 
@@ -270,7 +270,7 @@ func (p *Path) End() {
 // At present the only DrawContexts are surfaces associated with
 // Areas and are provided by package ui; see AreaDrawParams.
 type DrawContext struct {
-	c *C.uiDrawContext
+	c	*C.uiDrawContext
 }
 
 // BrushType defines the various types of brushes.
@@ -278,10 +278,10 @@ type DrawContext struct {
 // TODO disclaimer
 type BrushType int
 const (
-	Solid          BrushType = iota
+	Solid BrushType = iota
 	LinearGradient
 	RadialGradient
-	Image           // presently unimplemented
+	Image		// presently unimplemented
 )
 
 // TODO
@@ -290,7 +290,7 @@ const (
 // TODO rename these to put LineCap at the beginning? or just Cap?
 type LineCap int
 const (
-	FlatCap   LineCap = iota
+	FlatCap LineCap = iota
 	RoundCap
 	SquareCap
 )
@@ -310,32 +310,32 @@ const DefaultMiterLimit = 10.0
 
 // TODO
 type Brush struct {
-	Type BrushType
+	Type		BrushType
 
 	// If Type is Solid.
 	// TODO
-	R float64
-	G float64
-	B float64
-	A float64
+	R		float64
+	G		float64
+	B		float64
+	A		float64
 
 	// If Type is LinearGradient or RadialGradient.
 	// TODO
-	X0          float64 // start point for both
-	Y0          float64
-	X1          float64 // linear: end point; radial: circle center
-	Y1          float64
-	OuterRadius float64 // for radial gradients only
-	Stops       []GradientStop
+	X0			float64	// start point for both
+	Y0			float64
+	X1			float64	// linear: end point; radial: circle center
+	Y1			float64
+	OuterRadius	float64	// for radial gradients only
+	Stops		[]GradientStop
 }
 
 // TODO
 type GradientStop struct {
-	Pos float64 // between 0 and 1 inclusive
-	R   float64
-	G   float64
-	B   float64
-	A   float64
+	Pos	float64		// between 0 and 1 inclusive
+	R	float64
+	G	float64
+	B	float64
+	A	float64
 }
 
 func (b *Brush) toC() *C.uiDrawBrush {
@@ -373,12 +373,12 @@ func (b *Brush) toC() *C.uiDrawBrush {
 
 // TODO
 type StrokeParams struct {
-	Cap        LineCap
-	Join       LineJoin
-	Thickness  float64
-	MiterLimit float64
-	Dashes     []float64
-	DashPhase  float64
+	Cap			LineCap
+	Join			LineJoin
+	Thickness		float64
+	MiterLimit		float64
+	Dashes		[]float64
+	DashPhase	float64
 }
 
 func (sp *StrokeParams) toC() *C.uiDrawStrokeParams {
@@ -418,12 +418,12 @@ func (c *DrawContext) Fill(p *Path, b *Brush) {
 // TODO
 // TODO should the methods of these return self for chaining?
 type Matrix struct {
-	M11 float64
-	M12 float64
-	M21 float64
-	M22 float64
-	M31 float64
-	M32 float64
+	M11		float64
+	M12		float64
+	M21		float64
+	M22		float64
+	M31		float64
+	M32		float64
 }
 
 // TODO identity matrix
@@ -576,7 +576,7 @@ type FontFamilies struct {
 // ListFontFamilies creates a new FontFamilies object ready for use.
 func ListFontFamilies() *FontFamilies {
 	return &FontFamilies{
-		ff: C.uiDrawListFontFamilies(),
+		ff:	C.uiDrawListFontFamilies(),
 	}
 }
 
@@ -610,7 +610,7 @@ func (f *FontFamilies) Family(n int) string {
 // TODO disclaimer
 type TextWeight int
 const (
-	TextWeightThin       TextWeight = iota
+	TextWeightThin TextWeight = iota
 	TextWeightUltraLight
 	TextWeightLight
 	TextWeightBook
@@ -628,9 +628,9 @@ const (
 // TODO disclaimer
 type TextItalic int
 const (
-	TextItalicNormal  TextItalic = iota
-	TextItalicOblique  // merely slanted text
-	TextItalicItalic   // true italics
+	TextItalicNormal TextItalic = iota
+	TextItalicOblique			// merely slanted text
+	TextItalicItalic				// true italics
 )
 
 // TextStretch defines the various text stretches, in order of
@@ -658,16 +658,16 @@ const (
 
 // FontDescriptor describes a Font.
 type FontDescriptor struct {
-	Family  string
-	Size    float64 // as a text size, for instance 12 for a 12-point font
-	Weight  TextWeight
-	Italic  TextItalic
-	Stretch TextStretch
+	Family		string
+	Size			float64		// as a text size, for instance 12 for a 12-point font
+	Weight		TextWeight
+	Italic			TextItalic
+	Stretch		TextStretch
 }
 
 // Font represents an actual font that can be drawn with.
 type Font struct {
-	f *C.uiDrawTextFont
+	f	*C.uiDrawTextFont
 }
 
 // LoadClosestFont loads a Font.
@@ -685,14 +685,14 @@ type Font struct {
 //
 // TODO guarantee that passing *that* back into LoadClosestFont() returns the same font
 func LoadClosestFont(desc *FontDescriptor) *Font {
-	d := C.newFontDescriptor() // both of these are freed by C.newFont()
+	d := C.newFontDescriptor()		// both of these are freed by C.newFont()
 	d.Family = C.CString(desc.Family)
 	d.Size = C.double(desc.Size)
 	d.Weight = C.uiDrawTextWeight(desc.Weight)
 	d.Italic = C.uiDrawTextItalic(desc.Italic)
 	d.Stretch = C.uiDrawTextStretch(desc.Stretch)
 	return &Font{
-		f: C.newFont(d),
+		f:	C.newFont(d),
 	}
 }
 
@@ -728,24 +728,24 @@ func (f *Font) Describe() *FontDescriptor {
 type FontMetrics struct {
 	// Ascent is the ascent of the font; that is, the distance from
 	// the top of the character cell to the baseline.
-	Ascent float64
+	Ascent			float64
 
 	// Descent is the descent of the font; that is, the distance from
 	// the baseline to the bottom of the character cell. The sum of
 	// Ascent and Descent is the height of the character cell (and
 	// thus, the maximum height of a line of text).
-	Descent float64
+	Descent			float64
 
 	// Leading is the amount of space the font designer suggests
 	// to have between lines (between the bottom of the first line's
 	// character cell and the top of the second line's character cell).
 	// This is a suggestion; it is chosen by the font designer to
 	// improve legibility.
-	Leading float64
+	Leading			float64
 
 	// TODO figure out what these are
-	UnderlinePos       float64
-	UnderlineThickness float64
+	UnderlinePos		float64
+	UnderlineThickness	float64
 }
 
 // Metrics returns metrics about the given Font.
@@ -776,14 +776,14 @@ func (f *Font) Metrics() *FontMetrics {
 // The block of text can either be a single line or multiple
 // word-wrapped lines, each with a given maximum width.
 type TextLayout struct {
-	l *C.uiDrawTextLayout
+	l	*C.uiDrawTextLayout
 }
 
 // NewTextLayout creates a new TextLayout.
 // For details on the width parameter, see SetWidth.
 func NewTextLayout(text string, defaultFont *Font, width float64) *TextLayout {
 	l := new(TextLayout)
-	ctext := C.CString(text) // freed by C.newTextLayout()
+	ctext := C.CString(text)		// freed by C.newTextLayout()
 	l.l = C.newTextLayout(ctext, defaultFont.f, C.double(width))
 	return l
 }

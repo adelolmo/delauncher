@@ -132,7 +132,7 @@ func doPing(tt pingTest, seq int) error {
 	wm := icmp.Message{
 		Type: tt.mtype, Code: 0,
 		Body: &icmp.Echo{
-			ID:   os.Getpid() & 0xffff, Seq: 1 << uint(seq),
+			ID: os.Getpid() & 0xffff, Seq: 1 << uint(seq),
 			Data: []byte("HELLO-R-U-THERE"),
 		},
 	}

@@ -201,8 +201,8 @@ func (e *hzGB2312Encoder) Transform(dst, src []byte, atEOF bool) (nDst, nSrc int
 		}
 
 	terminateInASCIIState:
-	// Switch back to ASCII state in case of error so that an ASCII
-	// replacement character can be written in the correct state.
+		// Switch back to ASCII state in case of error so that an ASCII
+		// replacement character can be written in the correct state.
 		if *e != asciiState {
 			if nDst+2 > len(dst) {
 				err = transform.ErrShortDst

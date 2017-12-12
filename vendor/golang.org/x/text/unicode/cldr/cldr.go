@@ -49,7 +49,7 @@ func (cldr *CLDR) BCP47() *LDMLBCP47 {
 type Draft int
 
 const (
-	Approved    Draft = iota
+	Approved Draft = iota
 	Contributed
 	Provisional
 	Unconfirmed

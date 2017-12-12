@@ -52,9 +52,9 @@ loop:
 		case c0 < utf8.RuneSelf:
 			r, size = rune(c0), 1
 
-			// Microsoft's Code Page 936 extends GBK 1.0 to encode the euro sign U+20AC
-			// as 0x80. The HTML5 specification at http://encoding.spec.whatwg.org/#gbk
-			// says to treat "gbk" as Code Page 936.
+		// Microsoft's Code Page 936 extends GBK 1.0 to encode the euro sign U+20AC
+		// as 0x80. The HTML5 specification at http://encoding.spec.whatwg.org/#gbk
+		// says to treat "gbk" as Code Page 936.
 		case c0 == 0x80:
 			r, size = '€', 1
 

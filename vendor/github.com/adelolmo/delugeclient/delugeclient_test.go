@@ -20,7 +20,7 @@ func TestNewDelugeNoServerUrl(t *testing.T) {
 }
 func TestConnection(t *testing.T) {
 	testflight.WithServer(Handler(""), func(r *testflight.Requester) {
-		client := delugeclient.NewDeluge("http://"+r.Url(""), "pass")
+		client := delugeclient.NewDeluge("http://" + r.Url(""), "pass")
 		fmt.Println(r.Url(""))
 		if err := client.Connect(); err != nil {
 			fmt.Println(err)
@@ -31,7 +31,7 @@ func TestConnection(t *testing.T) {
 
 func TestConnectionWrongPassword(t *testing.T) {
 	testflight.WithServer(WrongPasswordHandler(), func(r *testflight.Requester) {
-		client := delugeclient.NewDeluge("http://"+r.Url(""), "xxx")
+		client := delugeclient.NewDeluge("http://" + r.Url(""), "xxx")
 		if err := client.Connect(); err == nil {
 			t.Fail()
 		}
@@ -44,7 +44,7 @@ func TestAddingMagnet(t *testing.T) {
 		{"id": 2, "result": true, "error":{"code":0, "message":""}}
 		`),
 		func(r *testflight.Requester) {
-			client := delugeclient.NewDeluge("http://"+r.Url(""), "pass")
+			client := delugeclient.NewDeluge("http://" + r.Url(""), "pass")
 			if err := client.Connect(); err != nil {
 				t.Fail()
 			}
@@ -77,7 +77,7 @@ func TestGettingSingleFile(t *testing.T) {
 		  "error": null
 		}`),
 		func(r *testflight.Requester) {
-			client := delugeclient.NewDeluge("http://"+r.Url(""), "pass")
+			client := delugeclient.NewDeluge("http://" + r.Url(""), "pass")
 			if err := client.Connect(); err != nil {
 				t.Fail()
 			}
@@ -149,7 +149,7 @@ func TestGettingMultipleFiles(t *testing.T) {
 		  "error": null
 		}`),
 		func(r *testflight.Requester) {
-			client := delugeclient.NewDeluge("http://"+r.Url(""), "pass")
+			client := delugeclient.NewDeluge("http://" + r.Url(""), "pass")
 			if err := client.Connect(); err != nil {
 				t.Fail()
 			}
@@ -192,7 +192,7 @@ func TestGettingAll(t *testing.T) {
 		}
 		`),
 		func(r *testflight.Requester) {
-			client := delugeclient.NewDeluge("http://"+r.Url(""), "pass")
+			client := delugeclient.NewDeluge("http://" + r.Url(""), "pass")
 			if err := client.Connect(); err != nil {
 				t.Fail()
 			}
@@ -218,7 +218,7 @@ func TestRemovingTorrent(t *testing.T) {
 		{"id": 2, "result": true, "error":{"code":0, "message":""}}
 		`),
 		func(r *testflight.Requester) {
-			client := delugeclient.NewDeluge("http://"+r.Url(""), "pass")
+			client := delugeclient.NewDeluge("http://" + r.Url(""), "pass")
 			if err := client.Connect(); err != nil {
 				t.Fail()
 			}

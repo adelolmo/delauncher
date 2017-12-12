@@ -100,7 +100,7 @@ func Register(name string, handler Handler) Handle {
 
 // These handlers require fixed positions in the handlers slice.
 const (
-	msgVars   Handle = iota
+	msgVars Handle = iota
 	msgFirst
 	msgRaw
 	msgString
@@ -337,7 +337,7 @@ func (s String) Compile(e *Encoder) (err error) {
 			p = len(msg)
 			break
 		}
-		name := strings.TrimSpace(msg[p: p+i])
+		name := strings.TrimSpace(msg[p : p+i])
 		if q := strings.IndexByte(name, '('); q == -1 {
 			if !hasHeader {
 				hasHeader = true

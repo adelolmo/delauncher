@@ -24,13 +24,13 @@ func (m *RouteMessage) Sys() []Sys {
 	if kernelAlign == 8 {
 		return []Sys{
 			&RouteMetrics{
-				PathMTU: int(nativeEndian.Uint64(m.raw[m.extOff+8: m.extOff+16])),
+				PathMTU: int(nativeEndian.Uint64(m.raw[m.extOff+8 : m.extOff+16])),
 			},
 		}
 	}
 	return []Sys{
 		&RouteMetrics{
-			PathMTU: int(nativeEndian.Uint32(m.raw[m.extOff+4: m.extOff+8])),
+			PathMTU: int(nativeEndian.Uint32(m.raw[m.extOff+4 : m.extOff+8])),
 		},
 	}
 }
@@ -49,7 +49,7 @@ func (m *InterfaceMessage) Sys() []Sys {
 	return []Sys{
 		&InterfaceMetrics{
 			Type: int(m.raw[m.extOff]),
-			MTU:  int(nativeEndian.Uint32(m.raw[m.extOff+8: m.extOff+12])),
+			MTU:  int(nativeEndian.Uint32(m.raw[m.extOff+8 : m.extOff+12])),
 		},
 	}
 }

@@ -68,7 +68,7 @@ var (
 type scope int
 
 const (
-	defaultScope   scope = iota
+	defaultScope scope = iota
 	listItemScope
 	buttonScope
 	tableScope

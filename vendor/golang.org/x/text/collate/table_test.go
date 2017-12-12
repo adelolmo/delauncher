@@ -76,7 +76,7 @@ var modW = func() ColElems {
 }()
 
 var appendNextTests = []tableTest{
-	{// test getWeights
+	{ // test getWeights
 		[]input{
 			{"a", [][]int{{100}}},
 			{"b", [][]int{{105}}},
@@ -94,7 +94,7 @@ var appendNextTests = []tableTest{
 			{"ß", 2, ColElems{w(120)}},
 		},
 	},
-	{// test expansion
+	{ // test expansion
 		[]input{
 			{"u", [][]int{{100}}},
 			{"U", [][]int{{100}, {0, 25}}},
@@ -108,7 +108,7 @@ var appendNextTests = []tableTest{
 			{"W", 1, ColElems{w(100), w(0, 25), w(100), w(0, 25)}},
 		},
 	},
-	{// test decompose
+	{ // test decompose
 		[]input{
 			{"D", [][]int{pt(104, 8)}},
 			{"z", [][]int{pt(130, 8)}},
@@ -119,7 +119,7 @@ var appendNextTests = []tableTest{
 			{"\u01C5", 2, ColElems{w(pt(104, 9)...), w(pt(130, 4)...), w(0, 40, 0x1F)}},
 		},
 	},
-	{// test basic contraction
+	{ // test basic contraction
 		[]input{
 			{"a", [][]int{{100}}},
 			{"ab", [][]int{{101}}},
@@ -142,7 +142,7 @@ var appendNextTests = []tableTest{
 			{"abcd", 3, ColElems{w(102)}},
 		},
 	},
-	{// test discontinuous contraction
+	{ // test discontinuous contraction
 		append(mods, []input{
 			// modifiers; secondary weight equals ccc
 			{"\u0316", [][]int{{0, 220}}},
@@ -211,19 +211,19 @@ var appendNextTests = []tableTest{
 			{"a\u0316\u0301\u0315\u035F\u035Db", 9, ColElems{w(121), w(0, 220), w(0, 232)}},
 
 			// handling of segment overflow
-			{// just fits within segment
+			{ // just fits within segment
 				"a" + string(modSeq[:30]) + "\u0301",
 				3 + len(string(modSeq[:30])),
 				append(ColElems{w(102)}, modW[:30]...),
 			},
 			{"a" + string(modSeq[:31]) + "\u0301", 1, ColElems{w(100)}}, // overflow
 			{"a" + string(modSeq) + "\u0301", 1, ColElems{w(100)}},
-			{// just fits within segment with two interstitial runes
+			{ // just fits within segment with two interstitial runes
 				"a" + string(modSeq[:28]) + "\u0301\u0315\u035F",
 				7 + len(string(modSeq[:28])),
 				append(append(ColElems{w(121)}, modW[:28]...), w(0, 232)),
 			},
-			{// second half does not fit within segment
+			{ // second half does not fit within segment
 				"a" + string(modSeq[:29]) + "\u0301\u0315\u035F",
 				3 + len(string(modSeq[:29])),
 				append(ColElems{w(102)}, modW[:29]...),

@@ -150,7 +150,7 @@ func (p Properties) Decomposition() []byte {
 	i := p.index
 	n := decomps[i] & headerLenMask
 	i++
-	return decomps[i: i+uint16(n)]
+	return decomps[i : i+uint16(n)]
 }
 
 // Size returns the length of UTF-8 encoding of the rune.

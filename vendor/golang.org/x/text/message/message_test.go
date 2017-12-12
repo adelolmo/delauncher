@@ -28,7 +28,7 @@ func TestBinding(t *testing.T) {
 	}{
 		{"en", 1, "1"},
 		{"en", "2", "2"},
-		{// Language is passed.
+		{ // Language is passed.
 			"en",
 			formatFunc(func(fs fmt.State, v rune) {
 				s := fs.(format.State)

@@ -34,7 +34,7 @@ func visitDefaults(fn func(r rune, c Class)) {
 		0x0001E800, 0x0001EDFF,
 		0x0001EF00, 0x0001EFFF,
 	})
-	visitRunes(fn, ET, []rune{// European Terminator
+	visitRunes(fn, ET, []rune{ // European Terminator
 		0x20A0, 0x20Cf, // Currency symbols
 	})
 	rangetable.Visit(unicode.Noncharacter_Code_Point, func(r rune) {

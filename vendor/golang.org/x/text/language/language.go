@@ -672,7 +672,7 @@ func (t Tag) findTypeForKey(key string) (start, end int, hasExt bool) {
 				return start, p, true
 			}
 			// Set to the next key and continue scanning type tokens.
-			curKey = s[p+1: p3]
+			curKey = s[p+1 : p3]
 			if curKey > key {
 				return p, p, true
 			}

@@ -75,7 +75,7 @@ func (p *Parser) SetFormat(format string) {
 type Status int
 
 const (
-	StatusText                 Status = iota
+	StatusText Status = iota
 	StatusSubstitution
 	StatusBadWidthSubstitution
 	StatusBadPrecSubstitution

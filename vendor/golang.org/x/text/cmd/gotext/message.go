@@ -84,7 +84,7 @@ type argument struct {
 	// "%[1]d").
 	ArgNum int `json:"argNum,omitempty"`
 
-	used           bool // Used by Placeholder
+	used           bool   // Used by Placeholder
 	Type           string `json:"type"`
 	UnderlyingType string `json:"underlyingType"`
 	Expr           string `json:"expr"`
@@ -99,6 +99,7 @@ type Feature struct {
 	Type string `json:"type"` // Right now this is only gender and plural.
 
 	// TODO: possible values and examples for the language under consideration.
+
 }
 
 // Text defines a message to be displayed.

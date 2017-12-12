@@ -143,11 +143,11 @@ func (f *Pattern) needsSep(pos int) bool {
 type PatternFlag uint8
 
 const (
-	AlwaysSign             PatternFlag = 1 << iota
-	ElideSign               // Use space instead of plus sign. AlwaysSign must be true.
+	AlwaysSign PatternFlag = 1 << iota
+	ElideSign              // Use space instead of plus sign. AlwaysSign must be true.
 	AlwaysExpSign
 	AlwaysDecimalSeparator
-	ParenthesisForNegative  // Common pattern. Saves space.
+	ParenthesisForNegative // Common pattern. Saves space.
 
 	PadAfterNumber
 	PadAfterAffix

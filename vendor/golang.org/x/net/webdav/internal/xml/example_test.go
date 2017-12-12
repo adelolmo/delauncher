@@ -23,7 +23,7 @@ func ExampleMarshalIndent() {
 		Height    float32  `xml:"height,omitempty"`
 		Married   bool
 		Address
-		Comment   string   `xml:",comment"`
+		Comment string `xml:",comment"`
 	}
 
 	v := &Person{Id: 13, FirstName: "John", LastName: "Doe", Age: 42}
@@ -63,7 +63,7 @@ func ExampleEncoder() {
 		Height    float32  `xml:"height,omitempty"`
 		Married   bool
 		Address
-		Comment   string   `xml:",comment"`
+		Comment string `xml:",comment"`
 	}
 
 	v := &Person{Id: 13, FirstName: "John", LastName: "Doe", Age: 42}

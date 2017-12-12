@@ -304,7 +304,7 @@ func TestIndex(t *testing.T) {
 		for sz := 2; sz <= 4; sz++ {
 			a := tt[sz-2]
 			for j := 0; j < len(a); j += sz {
-				s := a[j: j+sz]
+				s := a[j : j+sz]
 				if idx := tt.index(s); idx != cnt {
 					t.Errorf("%d:%s: index was %d; want %d", i, s, idx, cnt)
 				}

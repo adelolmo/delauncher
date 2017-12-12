@@ -7,6 +7,7 @@
 package testtext // import "golang.org/x/text/internal/testtext"
 
 const (
+
 	// ASCII is an ASCII string containing all letters in the English alphabet.
 	ASCII = "The quick brown fox jumps over the lazy dog. " +
 		"The quick brown fox jumps over the lazy dog. " +

@@ -35,7 +35,7 @@ func Name(r rune) string {
 	if (e>>shiftDirect)&maskDirect != 0 {
 		o := int(e>>shiftDataOffset) & maskDataOffset
 		n := int(e>>shiftDataLength) & maskDataLength
-		return data[o: o+n]
+		return data[o : o+n]
 	}
 
 	base := uint32(e>>shiftDataBase) & maskDataBase

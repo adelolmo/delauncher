@@ -330,8 +330,8 @@ func nextDecomposed(i *Iter) (next []byte) {
 	}
 	return i.buf[:outp]
 doNorm:
-// Insert what we have decomposed so far in the reorderBuffer.
-// As we will only reorder, there will always be enough room.
+	// Insert what we have decomposed so far in the reorderBuffer.
+	// As we will only reorder, there will always be enough room.
 	i.rb.src.copySlice(i.buf[outCopyStart:], inCopyStart, i.p)
 	i.rb.insertDecomposed(i.buf[0:outp])
 	return doNormDecomposed(i)
@@ -406,7 +406,7 @@ func nextComposed(i *Iter) []byte {
 	}
 	return i.returnSlice(startp, i.p)
 doNorm:
-// reset to start position
+	// reset to start position
 	i.p = startp
 	i.info = i.rb.f.info(i.rb.src, i.p)
 	i.rb.ss.first(i.info)

@@ -334,8 +334,8 @@ var testCases = []struct {
 }, {
 	"#,##0.00 ¤;(#,##0.00 ¤)",
 	&Pattern{Affix: "\x00\x04\u00a0¤\x01(\x05\u00a0¤)",
-		NegOffset: 6,
-		FormatWidth: 10,
+		NegOffset:    6,
+		FormatWidth:  10,
 		GroupingSize: [2]uint8{3, 0},
 		RoundingContext: RoundingContext{
 			DigitShift:        0,
@@ -394,7 +394,7 @@ var testCases = []struct {
 	`* #0 o''clock`,
 	&Pattern{Affix: "\x00\x09 o\\'clock",
 		FormatWidth: 10,
-		PadRune: 32,
+		PadRune:     32,
 		RoundingContext: RoundingContext{
 			MinIntegerDigits: 0x1,
 		},
@@ -403,7 +403,7 @@ var testCases = []struct {
 	`'123'* #0'456'`,
 	&Pattern{Affix: "\x05'123'\x05'456'",
 		FormatWidth: 8,
-		PadRune: 32,
+		PadRune:     32,
 		RoundingContext: RoundingContext{
 			MinIntegerDigits: 0x1,
 		},

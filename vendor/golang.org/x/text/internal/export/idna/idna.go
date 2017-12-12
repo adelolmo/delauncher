@@ -615,7 +615,7 @@ const (
 type joinState int8
 
 const (
-	stateStart        joinState = iota
+	stateStart joinState = iota
 	stateVirama
 	stateBefore
 	stateBeforeVirama

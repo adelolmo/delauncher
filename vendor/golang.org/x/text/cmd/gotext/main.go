@@ -193,7 +193,7 @@ func (c *commentWriter) Write(p []byte) (int, error) {
 			}
 			c.wroteSlashes = true
 		}
-		n0, err := c.W.Write(p[i: i+1])
+		n0, err := c.W.Write(p[i : i+1])
 		n += n0
 		if err != nil {
 			return n, err

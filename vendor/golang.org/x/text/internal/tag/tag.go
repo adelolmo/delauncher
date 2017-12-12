@@ -15,7 +15,7 @@ type Index string
 
 // Elem returns the element data at the given index.
 func (s Index) Elem(x int) string {
-	return string(s[x*4: x*4+4])
+	return string(s[x*4 : x*4+4])
 }
 
 // Index reports the index of the given key or -1 if it could not be found.

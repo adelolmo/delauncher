@@ -38,7 +38,7 @@ var marshalAndParseMessageForIPv4Tests = []icmp.Message{
 	{
 		Type: ipv4.ICMPTypeEcho, Code: 0,
 		Body: &icmp.Echo{
-			ID:   1, Seq: 2,
+			ID: 1, Seq: 2,
 			Data: []byte("HELLO-R-U-THERE"),
 		},
 	},
@@ -99,7 +99,7 @@ var marshalAndParseMessageForIPv6Tests = []icmp.Message{
 	{
 		Type: ipv6.ICMPTypeEchoRequest, Code: 0,
 		Body: &icmp.Echo{
-			ID:   1, Seq: 2,
+			ID: 1, Seq: 2,
 			Data: []byte("HELLO-R-U-THERE"),
 		},
 	},

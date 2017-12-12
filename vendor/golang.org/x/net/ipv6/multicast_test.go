@@ -221,7 +221,7 @@ func TestPacketConnReadWriteMulticastICMP(t *testing.T) {
 			wb, err := (&icmp.Message{
 				Type: ipv6.ICMPTypeEchoRequest, Code: 0,
 				Body: &icmp.Echo{
-					ID:   os.Getpid() & 0xffff, Seq: i + 1,
+					ID: os.Getpid() & 0xffff, Seq: i + 1,
 					Data: []byte("HELLO-R-U-THERE"),
 				},
 			}).Marshal(psh)

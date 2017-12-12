@@ -490,7 +490,7 @@ func (h *Handler) handleUnlock(w http.ResponseWriter, r *http.Request) (status i
 	if len(t) < 2 || t[0] != '<' || t[len(t)-1] != '>' {
 		return http.StatusBadRequest, errInvalidLockToken
 	}
-	t = t[1: len(t)-1]
+	t = t[1 : len(t)-1]
 
 	switch err = h.LockSystem.Unlock(time.Now(), t); err {
 	case nil:

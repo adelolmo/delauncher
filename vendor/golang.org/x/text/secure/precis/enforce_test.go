@@ -242,6 +242,7 @@ var enforceTestCases = []struct {
 		// Full width should be mapped to the canonical decomposition.
 		{"ＡＢ", "ab", nil},
 		{"שc", "", bidirule.ErrInvalid}, // bidi rule
+
 	}},
 	{"UsernameCasePreserved", UsernameCasePreserved, []testCase{
 		{"ABC", "ABC", nil},
