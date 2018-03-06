@@ -19,7 +19,7 @@ sed -i 's/"${default_key}"/"${secret_key}"/g' main.go
 GOOS=linux GOARCH=${architecture} go build -o ${BUILD}/tmp/usr/bin/delauncher main.go
 mv main.go~ main.go
 
-size=$(du -csh ${BUILD}/tmp | sed '1!d' | grep -oe "^[0-9]*")
+size=$(du -cs ${BUILD}/tmp | sed '1!d' | grep -oe "^[0-9]*")
 sed -i 's/{{version}}/'${version}'/g;s/{{size}}/'${size}'/g;s/{{architecture}}/'${architecture}'/g' ${BUILD}/tmp/DEBIAN/control
 
 fakeroot dpkg-deb -b -z9 ${BUILD}/tmp ${BUILD}/release
