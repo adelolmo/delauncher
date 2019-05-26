@@ -3,31 +3,24 @@ package main
 import (
 	"bufio"
 	"bytes"
-	"crypto/aes"
-	"crypto/cipher"
-	"crypto/rand"
-	"errors"
-	"encoding/base64"
 	"encoding/json"
-	"path/filepath"
 	"fmt"
-	"io"
+	"github.com/adelolmo/delauncher/crypt"
+	"github.com/adelolmo/delauncher/magnet"
+	"github.com/andlabs/ui"
 	"log"
 	"os"
 	"os/exec"
 	"os/user"
-	"strings"
-
-	"github.com/ProtonMail/ui"
-	"github.com/adelolmo/delugeclient"
+	"path/filepath"
 )
 
 const (
-	CONFIG_DIR  string = ".config/delauncher"
-	CONFIG_FILE string = "config.json"
+	ConfigDir  string = ".config/delauncher"
+	ConfigFile string = "config.json"
 )
 
-var SECRET_KEY = []byte{11, 22, 33, 44, 55, 66, 77, 88, 99, 00, 11, 22, 33, 44, 55, 66}
+var SecretKey = []byte{11, 22, 33, 44, 55, 66, 77, 88, 99, 00, 11, 22, 33, 44, 55, 66}
 
 type DelugeConfig struct {
 	ServerUrl string
@@ -39,28 +32,23 @@ func main() {
 	case 1:
 		config()
 	case 2:
-		addMagnet(os.Args[1])
+		addMagnet(magnet.Link{
+			Address: os.Args[1],
+		})
 	default:
-		fmt.Fprint(os.Stderr, "Usage: delauncher (MAGNET_LINK)")
+		fmt.Print("usage: delauncher (MAGNET_LINK)")
 		os.Exit(1)
 	}
 }
 
-func addMagnet(magnet string) {
-	serverUrl, password := getConfig(filepath.Join(getHome(), CONFIG_DIR, CONFIG_FILE))
-	client := delugeclient.NewDeluge(serverUrl, password)
-	if err := client.Connect(); err != nil {
-		fmt.Errorf("unable to stablish connection to server %s", serverUrl)
-		notify(fmt.Sprintf("Unable to stablish connection to server %s", serverUrl))
+func addMagnet(magnetLink magnet.Link) {
+	serverUrl, password := getConfig(filepath.Join(getHome(), ConfigDir, ConfigFile))
+	if err := magnetLink.Add(serverUrl, password); err != nil {
+		fmt.Printf(err.Error())
+		notify(err.Error())
 		os.Exit(2)
 	}
-	if err := client.AddMagnet(magnet); err != nil {
-		fmt.Errorf("unable to add magnet link %s", magnet)
-		notify("Error! Can't add magnet link")
-		os.Exit(2)
-	}
-
-	notify(fmt.Sprintf("Magnet added:\n%s", getLinkName(magnet)))
+	notify(fmt.Sprintf("Magnet added:\n%s", magnetLink.Name()))
 }
 
 func getHome() string {
@@ -73,16 +61,17 @@ func getHome() string {
 
 func getConfig(configFilename string) (string, string) {
 
-	os.MkdirAll(filepath.Join(getHome(), CONFIG_DIR), 0755)
+	if err := os.MkdirAll(filepath.Join(getHome(), ConfigDir), 0755); err != nil {
+		fmt.Printf("Cannot create directory %s in home %s. Error: %s", configFilename, getHome(), err)
+	}
 	if _, err := os.Stat(configFilename); os.IsNotExist(err) {
 		return "", ""
 	}
 
 	configFile, err := os.OpenFile(configFilename, os.O_RDONLY, 0700)
 	if err != nil {
-		log.Fatalf("Cannot open cache file %s. Error: %s", configFilename, err)
+		fmt.Printf("Cannot open cache file %s. Error: %s", configFilename, err)
 	}
-	defer configFile.Close()
 
 	r := bufio.NewReader(configFile)
 	var config DelugeConfig
@@ -90,18 +79,23 @@ func getConfig(configFilename string) (string, string) {
 		panic(err)
 	}
 
-	result, err := decrypt(SECRET_KEY, config.Password)
+	result, err := crypt.Decrypt(SecretKey, config.Password)
 	if err != nil {
-		log.Fatal(err)
+		log.Fatal("Cannot decrypt secret")
 	}
 	password := string(result[:])
+
+	err = configFile.Close()
+	if err != nil {
+		log.Fatalf("Cannot close file %s. Error: %s", configFilename, err)
+	}
 
 	return config.ServerUrl, password
 }
 
 func config() {
 	err := ui.Main(func() {
-		configFilename := filepath.Join(getHome(), CONFIG_DIR, CONFIG_FILE)
+		configFilename := filepath.Join(getHome(), ConfigDir, ConfigFile)
 		serverUrl, password := getConfig(configFilename)
 
 		serverUrlField := ui.NewEntry()
@@ -124,16 +118,23 @@ func config() {
 			if err != nil {
 				panic(err)
 			}
-			defer f.Close()
 			w := bufio.NewWriter(f)
 
-			encryptedPassword, err := encrypt(SECRET_KEY, []byte(passwordField.Text()))
+			encryptedPassword, err := crypt.Encrypt(SecretKey, []byte(passwordField.Text()))
 			if err != nil {
 				log.Fatal(err)
 			}
 			config := &DelugeConfig{ServerUrl: serverUrlField.Text(), Password: encryptedPassword}
-			json.NewEncoder(w).Encode(&config)
-			w.Flush()
+			if err = json.NewEncoder(w).Encode(&config); err != nil {
+				log.Fatalf("Cannot encode json configuration. Error: %s", err)
+			}
+			if err = w.Flush(); err != nil {
+				log.Fatalf("Cannot flush into file %s. Error: %s", f.Name(), err)
+			}
+
+			if err = f.Close(); err != nil {
+				log.Fatalf("Cannot close file %s. Error: %s", configFilename, err)
+			}
 
 			ui.Quit()
 		})
@@ -153,50 +154,7 @@ func notify(message string) {
 	cmdOutput := &bytes.Buffer{}
 	cmd.Stdout = cmdOutput
 	if err := cmd.Run(); err != nil {
-		os.Stderr.WriteString(fmt.Sprintf("==> Error: %s\n", err.Error()))
+		fmt.Printf("==> Error: %s\n", err.Error())
 		os.Exit(3)
 	}
-}
-
-func getLinkName(magnet string) string {
-	params := magnet[61:]
-	p := strings.Split(params, "&")
-	return p[0][3:]
-}
-
-// https://stackoverflow.com/questions/18817336/golang-encrypting-a-string-with-aes-and-base64#18819040
-
-func encrypt(key, text []byte) ([]byte, error) {
-	block, err := aes.NewCipher(key)
-	if err != nil {
-		return nil, err
-	}
-	b := base64.StdEncoding.EncodeToString(text)
-	cipherText := make([]byte, aes.BlockSize+len(b))
-	iv := cipherText[:aes.BlockSize]
-	if _, err := io.ReadFull(rand.Reader, iv); err != nil {
-		return nil, err
-	}
-	cfb := cipher.NewCFBEncrypter(block, iv)
-	cfb.XORKeyStream(cipherText[aes.BlockSize:], []byte(b))
-	return cipherText, nil
-}
-
-func decrypt(key, text []byte) ([]byte, error) {
-	block, err := aes.NewCipher(key)
-	if err != nil {
-		return nil, err
-	}
-	if len(text) < aes.BlockSize {
-		return nil, errors.New("cipherText too short")
-	}
-	iv := text[:aes.BlockSize]
-	text = text[aes.BlockSize:]
-	cfb := cipher.NewCFBDecrypter(block, iv)
-	cfb.XORKeyStream(text, text)
-	data, err := base64.StdEncoding.DecodeString(string(text))
-	if err != nil {
-		return nil, err
-	}
-	return data, nil
 }

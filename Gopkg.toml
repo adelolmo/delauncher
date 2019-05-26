@@ -22,9 +22,9 @@
 
 
 [[constraint]]
-  branch = "patches"
-  name = "github.com/ProtonMail/ui"
+  name = "github.com/andlabs/ui"
+  revision = "867a9e5a498d85e2722730ed88c5f00560c7c354"
 
 [[constraint]]
-  branch = "master"
   name = "github.com/adelolmo/delugeclient"
+  version = "0.1.0"

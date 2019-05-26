@@ -2,32 +2,60 @@
 
 
 [[projects]]
-  branch = "patches"
-  name = "github.com/ProtonMail/ui"
-  packages = ["."]
-  revision = "e2f5304f29b1e0d151c388112a675fd8addc2fc2"
-
-[[projects]]
-  branch = "master"
+  digest = "1:fd9087cea54e77cab1bd97c63a001e1807f5e7e3a719a91e7312ad0d82e39fed"
   name = "github.com/adelolmo/delugeclient"
   packages = ["."]
-  revision = "4d4be241bc255a09fb8a6cd62075219d386b11bd"
+  pruneopts = ""
+  revision = "856f9a76dcffd02d2cdee9086102dd5463067228"
+  version = "0.1.0"
+
+[[projects]]
+  digest = "1:e3042848e0226c44a9f0b88eefc871eb8d5955ab7c5e075137848c0fd2dccbd6"
+  name = "github.com/andlabs/ui"
+  packages = ["."]
+  pruneopts = ""
+  revision = "867a9e5a498d85e2722730ed88c5f00560c7c354"
 
 [[projects]]
   branch = "master"
+  digest = "1:950b672f2ee80d0fc4c95a15a976ba9ee573a6fb8ede8a777770b2230776367e"
   name = "golang.org/x/net"
-  packages = ["idna","publicsuffix"]
+  packages = [
+    "idna",
+    "publicsuffix",
+  ]
+  pruneopts = ""
   revision = "faacc1b5e36e3ff02cbec9661c69ac63dd5a83ad"
 
 [[projects]]
   branch = "master"
+  digest = "1:1c70f7bb89783a026dc32920575a3feef48e065ef6e170ad227903e8194d7a36"
   name = "golang.org/x/text"
-  packages = ["collate","collate/build","internal/colltab","internal/gen","internal/tag","internal/triegen","internal/ucd","language","secure/bidirule","transform","unicode/bidi","unicode/cldr","unicode/norm","unicode/rangetable"]
+  packages = [
+    "collate",
+    "collate/build",
+    "internal/colltab",
+    "internal/gen",
+    "internal/tag",
+    "internal/triegen",
+    "internal/ucd",
+    "language",
+    "secure/bidirule",
+    "transform",
+    "unicode/bidi",
+    "unicode/cldr",
+    "unicode/norm",
+    "unicode/rangetable",
+  ]
+  pruneopts = ""
   revision = "be25de41fadfae372d6470bda81ca6beb55ef551"
 
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "7d51c127a8893d9c00fb86c26e07466b8d7294e90fbcd5ed6b398f43f873d307"
+  input-imports = [
+    "github.com/adelolmo/delugeclient",
+    "github.com/andlabs/ui",
+  ]
   solver-name = "gps-cdcl"
   solver-version = 1

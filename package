@@ -3,7 +3,7 @@
 BUILD=build
 version=$(cat VERSION)
 architecture=amd64
-default_key=$(grep "var SECRET_KEY" main.go | grep "[,0-9]")
+default_key=$(grep "var SecretKey" main.go | grep "[,0-9]")
 echo $default_key
 secret_key=$(cat secret)
 echo $secret_key
