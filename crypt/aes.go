@@ -10,8 +10,12 @@ import (
 	"io"
 )
 
-func Encrypt(key, text []byte) ([]byte, error) {
-	block, err := aes.NewCipher(key)
+type Key struct {
+	Value []byte
+}
+
+func (k Key) Encrypt(text []byte) ([]byte, error) {
+	block, err := aes.NewCipher(k.Value)
 	if err != nil {
 		return nil, err
 	}
@@ -26,8 +30,8 @@ func Encrypt(key, text []byte) ([]byte, error) {
 	return cipherText, nil
 }
 
-func Decrypt(key, text []byte) ([]byte, error) {
-	block, err := aes.NewCipher(key)
+func (k Key) Decrypt(text []byte) ([]byte, error) {
+	block, err := aes.NewCipher(k.Value)
 	if err != nil {
 		return nil, err
 	}

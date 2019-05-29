@@ -10,10 +10,14 @@ type Link struct {
 	Address string
 }
 
-func (link Link) Add(serverUrl, password string) error {
-	client := delugeclient.NewDeluge(serverUrl, password)
+type Server struct {
+	Url, Password string
+}
+
+func (server Server) Add(link Link) error {
+	client := delugeclient.NewDeluge(server.Url, server.Password)
 	if err := client.Connect(); err != nil {
-		return fmt.Errorf("unable to stablish connection to server %s", serverUrl)
+		return fmt.Errorf("unable to stablish connection to server %s", server.Url)
 	}
 	if err := client.AddMagnet(link.Address); err != nil {
 		return fmt.Errorf("unable to add magnet link %s", link.Address)
