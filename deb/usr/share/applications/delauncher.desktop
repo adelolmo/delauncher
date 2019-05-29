@@ -1,7 +1,7 @@
 [Desktop Entry]
 Name=Delauncher
 GenericName=Delauncher
-Comment=Send magnet links to a remote deluge server with a click
+Comment=Send magnet links from your browser to a deluge server with a single click
 Exec=delauncher %U
 Icon=delauncher
 Terminal=false

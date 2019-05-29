@@ -1,13 +1,32 @@
 # delauncher
-Send magnet links to a remote deluge server with a click
+Send magnet links from your browser to a deluge server with a single click
+
+![screenshot](screenshot.png)
+![notification](notification.png)
+
+# How does it work
+
+Access `delauncher` under Applications > Internet > Delauncher and configure the deluge server URL and the password for the `Web UI`.
+
+After that, clicking a magnet link on your browser will send it to the deluge server queue.
 
 # How to Install
 
-## Setup repository
+## Via package
+
+Download latest version from https://github.com/adelolmo/delauncher/releases/latest
+
+```
+# dpkg -i delauncher_1.1.0_amd64.deb
+```
+
+## Via debian/ubuntu repository
+
+### Setup repository
 
 Follow the instructions [here](https://adelolmo.github.io).
 
-## Install package
+### Install package
 ```
 # apt-get install delauncher
 ```

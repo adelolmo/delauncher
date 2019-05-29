@@ -26,7 +26,7 @@ func main() {
 			Address: os.Args[1],
 		})
 	default:
-		fmt.Print("usage: delauncher (MAGNET_LINK)")
+		fmt.Print("usage: delauncher [MAGNET_LINK]")
 		os.Exit(1)
 	}
 }
