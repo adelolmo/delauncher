@@ -17,7 +17,7 @@ After that, clicking a magnet link on your browser will send it to the deluge se
 Download latest version from https://github.com/adelolmo/delauncher/releases/latest
 
 ```
-# dpkg -i delauncher_1.1.0_amd64.deb
+# dpkg -i delauncher_1.3.1_amd64.deb
 ```
 
 ## Via debian/ubuntu repository
