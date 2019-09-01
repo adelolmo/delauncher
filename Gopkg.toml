@@ -28,3 +28,7 @@
 [[constraint]]
   name = "github.com/adelolmo/delugeclient"
   version = "0.1.0"
+
+[[constraint]]
+  name = "github.com/anacrolix/torrent"
+  version = "1.7.0"

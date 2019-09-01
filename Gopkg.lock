@@ -10,11 +10,50 @@
   version = "0.1.0"
 
 [[projects]]
+  digest = "1:04d0670663bd17f1a3f2572128194946be3c5287befd2c5929b9fc6bd6cc8a72"
+  name = "github.com/anacrolix/missinggo"
+  packages = [
+    ".",
+    "expect",
+    "slices",
+  ]
+  pruneopts = ""
+  revision = "f669462834b0bf17368dc66fa6963f28e04c0468"
+  version = "v2.2.0"
+
+[[projects]]
+  digest = "1:ede69011dc4fad7e1e775dd70719d2485c9656cad881dbf4ef0898d0d9e2d53e"
+  name = "github.com/anacrolix/torrent"
+  packages = [
+    "bencode",
+    "metainfo",
+  ]
+  pruneopts = ""
+  revision = "00efae11eeeab21552867be3092786a7885b9dfc"
+  version = "v1.7.0"
+
+[[projects]]
   digest = "1:e3042848e0226c44a9f0b88eefc871eb8d5955ab7c5e075137848c0fd2dccbd6"
   name = "github.com/andlabs/ui"
   packages = ["."]
   pruneopts = ""
   revision = "867a9e5a498d85e2722730ed88c5f00560c7c354"
+
+[[projects]]
+  branch = "master"
+  digest = "1:6cd244753eadc6b8055d87be7846f4e5eac4297e947ccab5533e716686ef9b92"
+  name = "github.com/bradfitz/iter"
+  packages = ["."]
+  pruneopts = ""
+  revision = "33e6a9893b0c090a6ba5a4227a98c4145c61d09a"
+
+[[projects]]
+  digest = "1:35979179658d20a73693589e67bdc3baf4dc0ef9f524b1dfd3cc55fb5f6ae384"
+  name = "github.com/huandu/xstrings"
+  packages = ["."]
+  pruneopts = ""
+  revision = "f02667b379e2fb5916c3cda2cf31e0eb885d79f8"
+  version = "v1.2.0"
 
 [[projects]]
   branch = "master"
@@ -55,6 +94,7 @@
   analyzer-version = 1
   input-imports = [
     "github.com/adelolmo/delugeclient",
+    "github.com/anacrolix/torrent/metainfo",
     "github.com/andlabs/ui",
   ]
   solver-name = "gps-cdcl"

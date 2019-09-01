@@ -22,9 +22,11 @@ func main() {
 	case 1:
 		configure()
 	case 2:
-		addMagnet(magnet.Link{
-			Address: os.Args[1],
-		})
+		link, err := magnet.NewLink(os.Args[1])
+		if err != nil {
+			notifications.Message(err.Error())
+		}
+		addMagnet(link)
 	default:
 		fmt.Print("usage: delauncher [MAGNET_LINK]")
 		os.Exit(1)
@@ -86,5 +88,5 @@ func addMagnet(magnetLink magnet.Link) {
 		notifications.Message(err.Error())
 		os.Exit(2)
 	}
-	notifications.Message(fmt.Sprintf("Magnet added:\n%s", magnetLink.Name()))
+	notifications.Message(fmt.Sprintf("Link added:\n%s", magnetLink.Name))
 }
