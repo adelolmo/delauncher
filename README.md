@@ -1,5 +1,5 @@
 # delauncher
-Send magnet links from your browser to a deluge server with a single click
+Send magnet links or torrent files from your browser to a deluge server with a single click
 
 ![screenshot](screenshot.png)
 ![notification](notification.png)
@@ -8,7 +8,7 @@ Send magnet links from your browser to a deluge server with a single click
 
 Access `delauncher` under Applications > Internet > Delauncher and configure the deluge server URL and the password for the `Web UI`.
 
-After that, clicking a magnet link on your browser will send it to the deluge server queue.
+After that, clicking a magnet or torrent link on your browser will send it to the deluge server queue.
 
 # How to Install
 
@@ -17,7 +17,7 @@ After that, clicking a magnet link on your browser will send it to the deluge se
 Download latest version from https://github.com/adelolmo/delauncher/releases/latest
 
 ```
-# dpkg -i delauncher_1.3.1_amd64.deb
+# dpkg -i delauncher_1.4.0_amd64.deb
 ```
 
 ## Via debian/ubuntu repository
