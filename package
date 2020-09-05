@@ -1,8 +1,17 @@
 #!/bin/sh -e
 
+usage(){
+    echo "Usage: $(basename $0) (amd64|i386|arm64|armhf)"
+    exit 1
+}
+
+if [ -z "$1" ]; then
+    usage
+fi
+
 BUILD=build
 version=$(cat VERSION)
-architecture=amd64
+architecture=$1
 default_key=$(grep "var secretKey" main.go | grep "[,0-9]")
 echo $default_key
 secret_key=$(cat secret)
@@ -16,7 +25,21 @@ echo "Building version $version..."
 
 cp main.go main.go~
 sed -i 's/"${default_key}"/"${secret_key}"/g' main.go
-GOOS=linux GOARCH=${architecture} go build -o ${BUILD}/tmp/usr/bin/delauncher main.go
+
+case ${architecture} in
+    amd64)
+        GOOS=linux GOARCH=amd64 go build -o ${BUILD}/tmp/usr/bin/delauncher main.go
+        ;;
+    i386)
+        GOOS=linux GOARCH=386 go build -o ${BUILD}/tmp/usr/bin/delauncher main.go
+        ;;
+    arm64)
+        GOOS=linux GOARCH=arm64 GOARM=7 go build -o ${BUILD}/tmp/usr/bin/delauncher main.go
+        ;;
+    armhf)
+        GOOS=linux GOARCH=arm GOARM=7 go build -o ${BUILD}/tmp/usr/bin/delauncher main.go
+        ;;
+esac
 mv main.go~ main.go
 
 size=$(du -cs ${BUILD}/tmp | sed '1!d' | grep -oe "^[0-9]*")

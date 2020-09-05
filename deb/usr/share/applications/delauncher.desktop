@@ -8,5 +8,5 @@ Terminal=false
 TryExec=delauncher
 Type=Application
 StartupNotify=true
-MimeType=application/x-bittorrent;x-scheme-handler/magnet;
+MimeType=application/x-bittorrent;x-scheme-handler/magnet;application/octet-stream;
 Categories=Network;FileTransfer;P2P;GTK;
