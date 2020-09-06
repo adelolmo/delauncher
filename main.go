@@ -6,7 +6,7 @@ import (
 	"github.com/adelolmo/delauncher/crypt"
 	"github.com/adelolmo/delauncher/magnet"
 	"github.com/adelolmo/delauncher/notifications"
-	"github.com/andlabs/ui"
+	"github.com/webview/webview"
 	"os"
 )
 
@@ -39,41 +39,94 @@ func configure() {
 		notifications.Message(fmt.Sprintf("Unable to read configuration. Error %s", err.Error()))
 		os.Exit(1)
 	}
-	err = ui.Main(func() {
-		serverUrlField := ui.NewEntry()
-		serverUrlField.SetText(configProperties.ServerUrl)
-		passwordField := ui.NewPasswordEntry()
-		passwordField.SetText(configProperties.Password)
-		saveButton := ui.NewButton("Save")
-		quitButton := ui.NewButton("Quit")
-
-		box := ui.NewVerticalBox()
-		box.Append(ui.NewLabel("Deluge server URL:"), false)
-		box.Append(serverUrlField, false)
-		box.Append(ui.NewLabel("Password:"), false)
-		box.Append(passwordField, false)
-		buttonsBox := ui.NewHorizontalBox()
-		buttonsBox.Append(saveButton, true)
-		buttonsBox.Append(quitButton, true)
-		box.Append(buttonsBox, false)
-		window := ui.NewWindow("Delauncher", 400, 150, false)
-		window.SetMargined(true)
-		window.SetChild(box)
-		saveButton.OnClicked(func(*ui.Button) {
-			conf.Save(serverUrlField.Text(), passwordField.Text())
-		})
-		quitButton.OnClicked(func(*ui.Button) {
-			ui.Quit()
-		})
-		window.OnClosing(func(*ui.Window) bool {
-			ui.Quit()
-			return true
-		})
-		window.Show()
+	w := webview.New(true)
+	defer w.Destroy()
+	w.SetTitle("Delauncher")
+	w.SetSize(500, 160, webview.HintNone)
+	w.Bind("save", func(serverUrl, password string) {
+		fmt.Printf("ServerUrl: %s  password: %s\n", serverUrl, password)
+		conf.Save(serverUrl, password)
 	})
-	if err != nil {
-		panic(err)
+	w.Bind("quit", func() {
+		w.Terminate()
+	})
+	type Config struct {
+		ServerUrl, Password string
 	}
+	w.Bind("showConfig", func() Config {
+		return Config{
+			ServerUrl: configProperties.ServerUrl,
+			Password:  configProperties.Password,
+		}
+	})
+	w.Navigate(`data:text/html,
+		<!doctype html>
+		<html>
+			<head>
+				<style>
+					body {
+						background-color:#e8ebee;
+					}
+					.container {
+						width: 480px;
+						clear: both;
+					}
+					.container input {
+						width: 280px;
+						clear: both;
+						float: right;
+					}
+					fieldset {
+						background-color:#b0d7fa;
+					}
+					label {
+						display: inline-block;
+						width: 160px;
+						text-align: right;
+						vertical-align: sub;
+					}
+					#buttons {
+						float: right;
+					}
+					button {
+						background-color:#bdcfdf;
+					}
+				</style>
+			</head>
+			<body>
+				<div class="container">
+					<form>
+						<fieldset>
+							<legend>Configuration</legend>
+							<div class="block">
+								<label for="serverUrl">Deluge server URL:</label>
+								<input type="text" name="serverUrl" id="serverUrl">
+							</div>
+							<br/>
+							<div class="block">
+								<label for="password">Password:</label>
+								<input type="password" name="password" id="password">
+							</div>
+							<br/>
+						</fieldset>
+						<div id="buttons">
+							<button type="button" onclick="save(document.getElementById('serverUrl').value, document.getElementById('password').value);">Save</button>
+							<button type="button" onclick="quit();">Quit</button>
+						</div>
+					</form>
+				</div>
+			</body>
+			<script>
+				window.onload = function() {
+					showConfig().then(function(config) {
+						document.getElementById('serverUrl').value = config.ServerUrl
+						document.getElementById('password').value = config.Password
+					});
+				};
+			</script>
+		</html>
+	`)
+	w.Run()
 }
 
 func addMagnet(magnetLink magnet.Link) {

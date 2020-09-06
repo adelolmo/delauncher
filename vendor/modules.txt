@@ -1,0 +1,25 @@
+# github.com/adelolmo/delugeclient v0.3.0
+## explicit
+github.com/adelolmo/delugeclient
+# github.com/anacrolix/missinggo v1.2.1
+github.com/anacrolix/missinggo
+github.com/anacrolix/missinggo/expect
+github.com/anacrolix/missinggo/slices
+# github.com/anacrolix/torrent v1.7.0
+## explicit
+github.com/anacrolix/torrent/bencode
+github.com/anacrolix/torrent/metainfo
+# github.com/bradfitz/iter v0.0.0-20190303215204-33e6a9893b0c
+## explicit
+github.com/bradfitz/iter
+# github.com/huandu/xstrings v1.2.0
+## explicit
+github.com/huandu/xstrings
+# github.com/webview/webview v0.0.0-20200724072439-e0c01595b361
+## explicit
+github.com/webview/webview
+# golang.org/x/net v0.0.0-20190628185345-da137c7871d7
+## explicit
+golang.org/x/net/publicsuffix
+# golang.org/x/text v0.3.0
+## explicit
