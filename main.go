@@ -6,6 +6,7 @@ import (
 	"github.com/adelolmo/delauncher/crypt"
 	"github.com/adelolmo/delauncher/magnet"
 	"github.com/adelolmo/delauncher/notifications"
+	"github.com/adelolmo/delugeclient"
 	"github.com/webview/webview"
 	"os"
 )
@@ -42,7 +43,14 @@ func configure() {
 	w := webview.New(true)
 	defer w.Destroy()
 	w.SetTitle("Delauncher")
-	w.SetSize(500, 170, webview.HintNone)
+	w.SetSize(500, 195, webview.HintNone)
+	w.Bind("testConnection", func(serverUrl, password string) bool {
+		deluge := delugeclient.NewDeluge(serverUrl, password)
+		if err := deluge.Connect(); err == nil {
+			return true
+		}
+		return false
+	})
 	w.Bind("save", func(serverUrl, password string) {
 		conf.Save(serverUrl, password)
 	})
@@ -99,7 +107,9 @@ func configure() {
 						vertical-align: sub;
 					}
 					#buttons {
+						display: inline-block;
 						float: right;
+						clear: both;
 					}
 					button {						
 						color: #656667;
@@ -121,6 +131,15 @@ func configure() {
 						background-image: none;
 						background-color: #e9ebee;
 					}
+					#testResult {
+						margin: 0px 5px;
+					}
+					.ok {
+						color: green;
+					}
+					.error {
+						color: red;
+					}
 				</style>
 			</head>
 			<body>
@@ -132,6 +151,10 @@ func configure() {
 							<input type="text" name="serverUrl" id="serverUrl">
 							<label for="password">Password:</label>
 							<input type="password" name="password" id="password">
+							<div id="buttons">
+								<span id="testResult"></span>
+								<button type="button" onclick="test();">Test</button>
+							</div>
 						</fieldset>
 						<div id="buttons">
 							<button type="button" onclick="exit();">Exit</button>
@@ -147,6 +170,16 @@ func configure() {
 						document.getElementById('password').value = config.Password
 					});
 				};
+				function test() {
+					testConnection(document.getElementById('serverUrl').value, document.getElementById('password').value)
+						.then(function(res) {
+							if(res) {
+								document.getElementById('testResult').innerHTML = '<span class="ok">OK</span>'
+							} else {
+								document.getElementById('testResult').innerHTML = '<span class="error">Error</span>'
+							}
+						});
+				}
 			</script>
 		</html>
 	`)
