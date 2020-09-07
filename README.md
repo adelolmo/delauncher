@@ -17,7 +17,7 @@ After that, clicking a magnet or torrent link on your browser will send it to th
 Download latest version from https://github.com/adelolmo/delauncher/releases/latest
 
 ```
-# dpkg -i delauncher_1.4.0_amd64.deb
+# dpkg -i delauncher_1.5.0_amd64.deb
 ```
 
 ## Via debian/ubuntu repository
