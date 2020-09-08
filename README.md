@@ -14,9 +14,10 @@ After that, clicking a magnet or torrent link on your browser will send it to th
 
 ## Via package
 
-Download latest version from https://github.com/adelolmo/delauncher/releases/latest
+Download the latest version from https://github.com/adelolmo/delauncher/releases/latest
 
 ```
+# apt-get install libwebkit2gtk-4.0-dev
 # dpkg -i delauncher_1.5.0_amd64.deb
 ```
 
