@@ -12,10 +12,10 @@ fi
 BUILD=build
 version=$(cat VERSION)
 architecture=$1
-default_key=$(grep "var secretKey" main.go | grep "[,0-9]")
-echo $default_key
+default_key=$(grep "var secretKey" main.go | cut -c24-85)
+echo Default key: "$default_key"
 secret_key=$(cat secret)
-echo $secret_key
+echo Secret key: "$secret_key"
 
 rm -Rf ${BUILD}
 mkdir -p ${BUILD}/release ${BUILD}/tmp
@@ -24,7 +24,8 @@ cp -R deb/* ${BUILD}/tmp
 echo "Building version $version..."
 
 cp main.go main.go~
-sed -i 's/"${default_key}"/"${secret_key}"/g' main.go
+sed -i "s/${default_key}/${secret_key}/g" main.go
+grep "var secretKey" main.go | cut -c24-85
 
 go get github.com/leaanthony/mewn/cmd/mewn
 
@@ -45,8 +46,8 @@ esac
 mv main.go~ main.go
 
 size=$(du -cs ${BUILD}/tmp | sed '1!d' | grep -oe "^[0-9]*")
-sed -i 's/{{version}}/'${version}'/g;s/{{size}}/'${size}'/g;s/{{architecture}}/'${architecture}'/g' ${BUILD}/tmp/DEBIAN/control
+sed -i "s/{{version}}/${version}/g;s/{{size}}/${size}/g;s/{{architecture}}/${architecture}/g" ${BUILD}/tmp/DEBIAN/control
 
 fakeroot dpkg-deb -b -z9 ${BUILD}/tmp ${BUILD}/release
 
-echo done
+echo "done"
