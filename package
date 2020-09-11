@@ -26,18 +26,20 @@ echo "Building version $version..."
 cp main.go main.go~
 sed -i 's/"${default_key}"/"${secret_key}"/g' main.go
 
+go get github.com/leaanthony/mewn/cmd/mewn
+
 case ${architecture} in
     amd64)
-        GOOS=linux GOARCH=amd64 go build -o ${BUILD}/tmp/usr/bin/delauncher main.go
+        GOOS=linux GOARCH=amd64 mewn build -o ${BUILD}/tmp/usr/bin/delauncher main.go
         ;;
     i386)
-        GOOS=linux GOARCH=386 go build -o ${BUILD}/tmp/usr/bin/delauncher main.go
+        GOOS=linux GOARCH=386 mewn build -o ${BUILD}/tmp/usr/bin/delauncher main.go
         ;;
     arm64)
-        GOOS=linux GOARCH=arm64 GOARM=7 go build -o ${BUILD}/tmp/usr/bin/delauncher main.go
+        GOOS=linux GOARCH=arm64 GOARM=7 mewn build -o ${BUILD}/tmp/usr/bin/delauncher main.go
         ;;
     armhf)
-        GOOS=linux GOARCH=arm GOARM=7 go build -o ${BUILD}/tmp/usr/bin/delauncher main.go
+        GOOS=linux GOARCH=arm GOARM=7 mewn build -o ${BUILD}/tmp/usr/bin/delauncher main.go
         ;;
 esac
 mv main.go~ main.go

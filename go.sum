@@ -77,6 +77,10 @@ github.com/kr/pretty v0.1.0/go.mod h1:dAy3ld7l9f0ibDNOQOHHMYYIIbhfbHSm3C4ZsoJORN
 github.com/kr/pty v1.1.1/go.mod h1:pFQYn66WHrOpPYNljwOMqo10TkYh1fy3cYio2l3bCsQ=
 github.com/kr/text v0.0.0-20160504234017-7cafcd837844/go.mod h1:sjUstKUATFIcff4qlB53Kml0wQPtJVc/3fWrmuUmcfA=
 github.com/kr/text v0.1.0/go.mod h1:4Jbv+DJW3UT/LiOwJeYQe1efqtUx/iVham/4vfdArNI=
+github.com/leaanthony/mewn v0.10.5 h1:QKYVj8tI94alvVFZer7wPy66IcNpyNPITIkdhXbThX4=
+github.com/leaanthony/mewn v0.10.5/go.mod h1:i3ygCWW96qVQlGa8sjWnTM0IKAijoFvTwATDIZgK4k0=
+github.com/leaanthony/mewn v0.10.7 h1:jCcNJyIUOpwj+I5SuATvCugDjHkoo+j6ubEOxxrxmPA=
+github.com/leaanthony/mewn v0.10.7/go.mod h1:CRkTx8unLiSSilu/Sd7i1LwrdaAL+3eQ3ses99qGMEQ=
 github.com/mattn/go-isatty v0.0.7/go.mod h1:Iq45c/XA43vh69/j3iqttzPXn0bhXyGjM0Hdxcsrc5s=
 github.com/mattn/go-sqlite3 v1.7.0/go.mod h1:FPy6KqzDD04eiIsT53CuJW3U88zkxoIYsOqkbpncsNc=
 github.com/mattn/go-sqlite3 v1.10.0/go.mod h1:FPy6KqzDD04eiIsT53CuJW3U88zkxoIYsOqkbpncsNc=
