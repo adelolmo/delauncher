@@ -10,7 +10,6 @@ github.com/anacrolix/missinggo/slices
 github.com/anacrolix/torrent/bencode
 github.com/anacrolix/torrent/metainfo
 # github.com/bradfitz/iter v0.0.0-20190303215204-33e6a9893b0c
-## explicit
 github.com/bradfitz/iter
 # github.com/huandu/xstrings v1.2.0
 ## explicit
@@ -23,7 +22,4 @@ github.com/leaanthony/mewn/lib
 ## explicit
 github.com/webview/webview
 # golang.org/x/net v0.0.0-20190628185345-da137c7871d7
-## explicit
 golang.org/x/net/publicsuffix
-# golang.org/x/text v0.3.0
-## explicit

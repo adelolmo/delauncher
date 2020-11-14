@@ -38,7 +38,7 @@ func main() {
 func configure() {
 	assets := mewn.Group("./assets/")
 	configProperties, err := conf.Get()
-	if err != nil {
+	if err != nil { // TODO show error in popup and the close the app
 		notifications.Message(fmt.Sprintf("Unable to read configuration. Error %s", err.Error()))
 		os.Exit(1)
 	}
@@ -46,23 +46,23 @@ func configure() {
 	defer w.Destroy()
 	w.SetTitle("Delauncher")
 	w.SetSize(500, 195, webview.HintNone)
-	w.Bind("testConnection", func(serverUrl, password string) bool {
+	_ = w.Bind("testConnection", func(serverUrl, password string) bool {
 		deluge := delugeclient.NewDeluge(serverUrl, password)
 		if err := deluge.Connect(); err == nil {
 			return true
 		}
 		return false
 	})
-	w.Bind("save", func(serverUrl, password string) {
+	_ = w.Bind("save", func(serverUrl, password string) {
 		conf.Save(serverUrl, password)
 	})
-	w.Bind("exit", func() {
+	_ = w.Bind("exit", func() {
 		w.Terminate()
 	})
 	type Config struct {
 		ServerUrl, Password string
 	}
-	w.Bind("showConfig", func() Config {
+	_ = w.Bind("showConfig", func() Config {
 		return Config{
 			ServerUrl: configProperties.ServerUrl,
 			Password:  configProperties.Password,
