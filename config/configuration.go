@@ -8,12 +8,10 @@ import (
 	"github.com/adelolmo/delauncher/crypt"
 	"log"
 	"os"
-	"os/user"
 	"path/filepath"
 )
 
 const (
-	configDir  string = ".config/delauncher"
 	configFile string = "config.json"
 )
 
@@ -32,23 +30,28 @@ type Properties struct {
 }
 
 func NewConfig(key crypt.Key) Config {
+	userConfigDir, err := os.UserConfigDir()
+	if err != nil {
+		log.Fatal(err)
+	}
+	configDir := filepath.Join(userConfigDir, "delauncher")
+	if err := os.MkdirAll(configDir, 0755); err != nil {
+		fmt.Printf("Cannot create directory %s  Error: %s", configDir, err)
+	}
+	if _, err := os.Stat(configDir); os.IsNotExist(err) {
+		log.Fatal(err)
+	}
+
 	return Config{
-		Filename: filepath.Join(getHome(), configDir, configFile),
+		Filename: filepath.Join(configDir, configFile),
 		Key:      key,
 	}
 }
 
 func (c Config) Get() (Properties, error) {
-	if err := os.MkdirAll(filepath.Join(getHome(), configDir), 0755); err != nil {
-		fmt.Printf("Cannot create directory %s in home %s. Error: %s", c.Filename, getHome(), err)
-	}
-	if _, err := os.Stat(c.Filename); os.IsNotExist(err) {
-		return Properties{}, err
-	}
-
 	configFile, err := os.OpenFile(c.Filename, os.O_RDONLY, 0700)
 	if err != nil {
-		return Properties{}, fmt.Errorf("cannot open file %s. Error: %s", c.Filename, err)
+		return Properties{}, nil
 	}
 
 	r := bufio.NewReader(configFile)
@@ -57,18 +60,17 @@ func (c Config) Get() (Properties, error) {
 		return Properties{}, errors.New("cannot deserialize configuration")
 	}
 
-	result, err := c.Key.Decrypt(config.Password)
+	decryptedPassword, err := c.decrypt(config.Password)
 	if err != nil {
-		return Properties{}, errors.New("cannot decrypt password")
+		return Properties{}, err
 	}
-	password := string(result[:])
 
 	err = configFile.Close()
 	if err != nil {
 		return Properties{}, fmt.Errorf("cannot close file %s. Error: %s", c.Filename, err)
 	}
 
-	return Properties{ServerUrl: config.ServerUrl, Password: password}, nil
+	return Properties{ServerUrl: config.ServerUrl, Password: decryptedPassword}, nil
 }
 
 func (c Config) Save(serverUrl, password string) {
@@ -95,10 +97,14 @@ func (c Config) Save(serverUrl, password string) {
 	}
 }
 
-func getHome() string {
-	usr, err := user.Current()
-	if err != nil {
-		log.Fatal(err)
+func (c Config) decrypt(encryptedPassword []byte) (string, error) {
+	if len(encryptedPassword) == 0 {
+		return "", nil
 	}
-	return usr.HomeDir
+	result, err := c.Key.Decrypt(encryptedPassword)
+	if err != nil {
+		return "", errors.New("cannot decrypt password")
+	}
+	password := string(result[:])
+	return password, nil
 }

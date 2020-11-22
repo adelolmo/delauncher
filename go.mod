@@ -5,7 +5,6 @@ go 1.14
 require (
 	github.com/adelolmo/delugeclient v0.3.0
 	github.com/anacrolix/torrent v1.7.0
-	github.com/huandu/xstrings v1.2.0 // indirect
-	github.com/leaanthony/mewn v0.10.7
-	github.com/webview/webview v0.0.0-20200724072439-e0c01595b361
+	github.com/gobuffalo/packr/v2 v2.8.1 // indirect
+	github.com/gotk3/gotk3 v0.5.0
 )
