@@ -10,6 +10,7 @@ import (
 	"github.com/gotk3/gotk3/gtk"
 	"log"
 	"os"
+	"strings"
 )
 
 var secretKey = []byte{11, 22, 33, 44, 55, 66, 77, 88, 99, 00, 11, 22, 33, 44, 55, 66}
@@ -176,6 +177,7 @@ func configure() {
 	})
 	saveBtn.Connect("clicked", func() {
 		serverUrl, _ := serverUrlEntry.GetText()
+		serverUrl = strings.TrimSuffix(serverUrl, "/")
 		password, _ := passwordEntry.GetText()
 		conf.Save(serverUrl, password)
 	})

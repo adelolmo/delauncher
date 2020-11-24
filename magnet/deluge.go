@@ -49,7 +49,7 @@ func (server Server) Add(link Link) error {
 		return fmt.Errorf("unable to stablish connection to server %s", server.Url)
 	}
 	if err := client.AddMagnet(link.Address); err != nil {
-		return fmt.Errorf("unable to add magnet link %s", link.Address)
+		return fmt.Errorf("unable to add link %s", link.Address)
 	}
 	return nil
 }
