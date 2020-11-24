@@ -11,10 +11,6 @@ import (
 	"path/filepath"
 )
 
-const (
-	configFile string = "config.json"
-)
-
 type Config struct {
 	Filename string
 	Key      crypt.Key
@@ -36,14 +32,14 @@ func NewConfig(key crypt.Key) Config {
 	}
 	configDir := filepath.Join(userConfigDir, "delauncher")
 	if err := os.MkdirAll(configDir, 0755); err != nil {
-		fmt.Printf("Cannot create directory %s  Error: %s", configDir, err)
+		log.Fatalf("cannot create directory %s. Error: %s", configDir, err)
 	}
 	if _, err := os.Stat(configDir); os.IsNotExist(err) {
 		log.Fatal(err)
 	}
 
 	return Config{
-		Filename: filepath.Join(configDir, configFile),
+		Filename: filepath.Join(configDir, "config.json"),
 		Key:      key,
 	}
 }
