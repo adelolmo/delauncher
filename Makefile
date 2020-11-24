@@ -4,15 +4,37 @@ BUILD_DIR=build
 RELEASE_DIR=$(BUILD_DIR)/release
 TMP_DIR=$(BUILD_DIR)/tmp
 VERSION := $(shell cat VERSION)
-GO=mewn
+PLATFORM := $(shell uname -m)
+GO=go
 
 DEFAULT_SECRET := $(shell grep "var secretKey" main.go | cut -c24-85)
 SECRET := $(shell cat secret)
 
-ARCH := amd64
-GOARCH := amd64
+ARCH :=
+	ifeq ($(PLATFORM),x86_64)
+		ARCH = amd64
+	endif
+	ifeq ($(PLATFORM),aarch64)
+		ARCH = arm64
+	endif
+	ifeq ($(PLATFORM),armv7l)
+		ARCH = armhf
+	endif
+GOARCH :=
+	ifeq ($(ARCH),amd64)
+		GOARCH = amd64
+	endif
+	ifeq ($(ARCH),i386)
+		GOARCH = 386
+	endif
+	ifeq ($(ARCH),armhf)
+		GOARCH = arm
+	endif
+	ifeq ($(ARCH),arm64)
+		GOARCH = arm64
+	endif
 
-build: clean prepare main.go~ cp gobuild control
+package: clean prepare main.go~ cp compile control
 	@echo Building package...
 	fakeroot dpkg-deb -b -z9 $(TMP_DIR) $(RELEASE_DIR)
 
@@ -26,13 +48,13 @@ clean:
 prepare:
 	@echo Prepare...
 	mkdir -p $(TMP_DIR) $(RELEASE_DIR)
-	go get github.com/leaanthony/mewn/cmd/mewn > /dev/null 2>&1
 
 cp:
 	cp -R deb/* $(TMP_DIR)
 
-gobuild:
-	GOOS=linux GOARCH=$(GOARCH) $(GO) build -o $(TMP_DIR)/usr/bin/delauncher main.go> /dev/null 2>&1
+compile:
+	go mod vendor
+	GOOS=linux GOARCH=$(GOARCH) $(GO) build -o $(TMP_DIR)/usr/bin/delauncher main.go
 	mv main.go~ main.go
 
 control:

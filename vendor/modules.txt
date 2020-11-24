@@ -11,15 +11,17 @@ github.com/anacrolix/torrent/bencode
 github.com/anacrolix/torrent/metainfo
 # github.com/bradfitz/iter v0.0.0-20190303215204-33e6a9893b0c
 github.com/bradfitz/iter
-# github.com/huandu/xstrings v1.2.0
+# github.com/gobuffalo/packr/v2 v2.8.1
 ## explicit
+# github.com/gotk3/gotk3 v0.5.0
+## explicit
+github.com/gotk3/gotk3/cairo
+github.com/gotk3/gotk3/gdk
+github.com/gotk3/gotk3/gio
+github.com/gotk3/gotk3/glib
+github.com/gotk3/gotk3/gtk
+github.com/gotk3/gotk3/pango
+# github.com/huandu/xstrings v1.0.0
 github.com/huandu/xstrings
-# github.com/leaanthony/mewn v0.10.7
-## explicit
-github.com/leaanthony/mewn
-github.com/leaanthony/mewn/lib
-# github.com/webview/webview v0.0.0-20200724072439-e0c01595b361
-## explicit
-github.com/webview/webview
-# golang.org/x/net v0.0.0-20190628185345-da137c7871d7
+# golang.org/x/net v0.0.0-20200226121028-0de0cce0169b
 golang.org/x/net/publicsuffix

@@ -21,7 +21,7 @@ After that, clicking a magnet or torrent link on your browser will send it to th
 Download the latest version from https://github.com/adelolmo/delauncher/releases/latest
 
 ```
-# apt-get install libnotify-bin libwebkit2gtk-4.0-dev
+# apt-get install libnotify-bin
 # dpkg -i delauncher_1.5.0_amd64.deb
 ```
 
