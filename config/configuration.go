@@ -6,7 +6,10 @@ import (
 	"errors"
 	"fmt"
 	"github.com/adelolmo/delauncher/crypt"
+	"io/fs"
+	"io/ioutil"
 	"log"
+	"math/rand"
 	"os"
 	"path/filepath"
 )
@@ -25,7 +28,18 @@ type Properties struct {
 	ServerUrl, Password string
 }
 
-func NewConfig(key crypt.Key) Config {
+/*var secretKey = []byte{11, 22, 33, 44, 55, 66, 77, 88, 99, 00, 11, 22, 33, 44, 55, 66}
+var key = crypt.Key{
+	Value: secretKey,
+}*/
+
+func GenRandomBytes(size int) (blk []byte, err error) {
+	blk = make([]byte, size)
+	_, err = rand.Read(blk)
+	return blk, err
+}
+
+func NewConfig() Config {
 	userConfigDir, err := os.UserConfigDir()
 	if err != nil {
 		log.Fatal(err)
@@ -38,10 +52,35 @@ func NewConfig(key crypt.Key) Config {
 		log.Fatal(err)
 	}
 
+	key, err := readSecret(configDir)
 	return Config{
 		Filename: filepath.Join(configDir, "config.json"),
 		Key:      key,
 	}
+}
+
+func readSecret(configDir string) (crypt.Key, error) {
+	keyPath := filepath.Join(configDir, "delauncher.key")
+	content, err := ioutil.ReadFile(keyPath)
+	if err != nil {
+		blk, err := GenRandomBytes(16)
+		if err != nil {
+			return crypt.Key{Value: blk}, err
+		}
+		err = createSecretFile(keyPath, blk)
+		if err != nil {
+			return crypt.Key{}, err
+		}
+	}
+	return crypt.Key{Value: content}, nil
+}
+
+func createSecretFile(path string, data []byte) error {
+	err := ioutil.WriteFile(path, data, fs.FileMode(0600))
+	if err != nil {
+		return err
+	}
+	return nil
 }
 
 func (c Config) Get() (Properties, error) {

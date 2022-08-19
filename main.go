@@ -3,7 +3,6 @@ package main
 import (
 	"fmt"
 	"github.com/adelolmo/delauncher/config"
-	"github.com/adelolmo/delauncher/crypt"
 	"github.com/adelolmo/delauncher/magnet"
 	"github.com/adelolmo/delauncher/notifications"
 	"github.com/adelolmo/delugeclient"
@@ -13,12 +12,7 @@ import (
 	"strings"
 )
 
-var secretKey = []byte{11, 22, 33, 44, 55, 66, 77, 88, 99, 00, 11, 22, 33, 44, 55, 66}
-var key = crypt.Key{
-	Value: secretKey,
-}
-
-var conf = config.NewConfig(key)
+var conf = config.NewConfig()
 
 func main() {
 	switch len(os.Args) {
@@ -42,7 +36,7 @@ func configure() {
 		errorMessage := fmt.Sprintf("Unable to read configuration. Error %s", err.Error())
 		fmt.Println(errorMessage)
 		notifications.Message(errorMessage)
-		os.Exit(1)
+		//os.Exit(1)
 	}
 
 	gtk.Init(nil)

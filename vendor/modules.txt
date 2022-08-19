@@ -1,27 +1,34 @@
-# github.com/adelolmo/delugeclient v0.3.0
-## explicit
+# github.com/adelolmo/delugeclient v0.3.1
+## explicit; go 1.18
 github.com/adelolmo/delugeclient
-# github.com/anacrolix/missinggo v1.2.1
+# github.com/anacrolix/missinggo v1.3.0
+## explicit; go 1.16
 github.com/anacrolix/missinggo
 github.com/anacrolix/missinggo/expect
 github.com/anacrolix/missinggo/slices
-# github.com/anacrolix/torrent v1.7.0
-## explicit
+# github.com/anacrolix/missinggo/v2 v2.7.0
+## explicit; go 1.18
+github.com/anacrolix/missinggo/v2
+# github.com/anacrolix/torrent v1.46.0
+## explicit; go 1.18
 github.com/anacrolix/torrent/bencode
 github.com/anacrolix/torrent/metainfo
-# github.com/bradfitz/iter v0.0.0-20190303215204-33e6a9893b0c
+# github.com/bradfitz/iter v0.0.0-20191230175014-e8f45d346db8
+## explicit; go 1.11
 github.com/bradfitz/iter
-# github.com/gobuffalo/packr/v2 v2.8.1
-## explicit
-# github.com/gotk3/gotk3 v0.5.0
-## explicit
+# github.com/gotk3/gotk3 v0.6.1
+## explicit; go 1.14
 github.com/gotk3/gotk3/cairo
 github.com/gotk3/gotk3/gdk
-github.com/gotk3/gotk3/gio
 github.com/gotk3/gotk3/glib
 github.com/gotk3/gotk3/gtk
+github.com/gotk3/gotk3/internal/callback
+github.com/gotk3/gotk3/internal/closure
+github.com/gotk3/gotk3/internal/slab
 github.com/gotk3/gotk3/pango
-# github.com/huandu/xstrings v1.0.0
+# github.com/huandu/xstrings v1.3.2
+## explicit; go 1.12
 github.com/huandu/xstrings
-# golang.org/x/net v0.0.0-20200226121028-0de0cce0169b
+# golang.org/x/net v0.0.0-20220127200216-cd36cc0744dd
+## explicit; go 1.17
 golang.org/x/net/publicsuffix

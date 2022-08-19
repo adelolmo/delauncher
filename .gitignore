@@ -1,4 +1,5 @@
+delauncher
 .idea
+.run
 build
 secret
-main.go~

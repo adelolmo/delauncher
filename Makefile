@@ -1,14 +1,11 @@
-MAKEFLAGS += --silent
+#MAKEFLAGS += --silent
 
+BIN_DIR=/usr/bin
+BIN=delauncher
 BUILD_DIR=build
-RELEASE_DIR=$(BUILD_DIR)/release
-TMP_DIR=$(BUILD_DIR)/tmp
+RELEASE_DIR=$(CURDIR)/..
 VERSION := $(shell cat VERSION)
 PLATFORM := $(shell uname -m)
-GO=go
-
-DEFAULT_SECRET := $(shell grep "var secretKey" main.go | cut -c24-85)
-SECRET := $(shell cat secret)
 
 ARCH :=
 	ifeq ($(PLATFORM),x86_64)
@@ -34,29 +31,39 @@ GOARCH :=
 		GOARCH = arm64
 	endif
 
-package: clean prepare main.go~ cp compile control
+ifeq ($(GOARCH),)
+	$(error Invalid ARCH: $(ARCH))
+endif
+
+all: build
+
+$(BUILD_DIR)/DEBIAN:
+	@echo Prapare package...
+	cp -R deb/* $(BUILD_DIR)
+	$(eval size=$(shell du -sbk $(BUILD_DIR) | grep -o '[0-9]*'))
+	@sed -i "s/{{version}}/$(VERSION)/g;s/{{size}}/$(size)/g;s/{{architecture}}/$(ARCH)/g" "$(BUILD_DIR)/DEBIAN/control"
+
+.PHONY: debian
+debian: clean $(BUILD_DIR)/DEBIAN
 	@echo Building package...
-	fakeroot dpkg-deb -b -z9 $(TMP_DIR) $(RELEASE_DIR)
+	cp $(BIN) $(BUILD_DIR)$(BIN_DIR)
+	chmod --quiet 0555 $(BUILD_DIR)/DEBIAN/p* || true
+	fakeroot dpkg-deb -b -z9 $(BUILD_DIR) $(RELEASE_DIR)
 
-main.go~:
-	cp main.go main.go~
-	@sed -i "s/$(DEFAULT_SECRET)/$(SECRET)/" main.go
-
+.PHONY: clean
 clean:
-	rm -rf $(TMP_DIR) $(RELEASE_DIR)
+	@echo Clean...
+	rm -rf $(BUILD_DIR)
+	mkdir $(BUILD_DIR)
 
-prepare:
-	@echo Prepare...
-	mkdir -p $(TMP_DIR) $(RELEASE_DIR)
+.PHONY: build
+build:
+	GOOS=linux GOARCH=$(GOARCH) go build -o $(BIN) .
 
-cp:
-	cp -R deb/* $(TMP_DIR)
+.PHONY: tidy
+tidy:
+	go mod tidy
 
-compile:
+.PHONY: vendor
+vendor: tidy
 	go mod vendor
-	GOOS=linux GOARCH=$(GOARCH) $(GO) build -o $(TMP_DIR)/usr/bin/delauncher main.go
-	mv main.go~ main.go
-
-control:
-	$(eval size=$(shell du -sbk $(TMP_DIR)/ | grep -o '[0-9]*'))
-	@sed -i "s/{{version}}/$(VERSION)/g;s/{{size}}/$(size)/g;s/{{architecture}}/$(ARCH)/g" "$(TMP_DIR)/DEBIAN/control"

@@ -26,7 +26,8 @@ func NewLink(string string) (Link, error) {
 		if err != nil {
 			return Link{}, fmt.Errorf("error unmarshalling info: %s", err)
 		}
-		linkAddress := fmt.Sprintf("%s", mi.Magnet(info.Name, mi.HashInfoBytes()).String())
+		hash := mi.HashInfoBytes()
+		linkAddress := fmt.Sprintf("%s", mi.Magnet(&hash, &info).String())
 		return Link{
 			Address: linkAddress,
 			Name:    info.Name,
