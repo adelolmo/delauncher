@@ -46,6 +46,7 @@ $(BUILD_DIR)/DEBIAN:
 .PHONY: debian
 debian: clean $(BUILD_DIR)/DEBIAN
 	@echo Building package...
+	mkdir $(BUILD_DIR)$(BIN_DIR)
 	cp $(BIN) $(BUILD_DIR)$(BIN_DIR)
 	chmod --quiet 0555 $(BUILD_DIR)/DEBIAN/p* || true
 	fakeroot dpkg-deb -b -z9 $(BUILD_DIR) $(RELEASE_DIR)

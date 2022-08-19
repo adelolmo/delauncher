@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 	"github.com/adelolmo/delauncher/config"
-	"github.com/adelolmo/delauncher/magnet"
+	"github.com/adelolmo/delauncher/deluge"
 	"github.com/adelolmo/delauncher/notifications"
 	"github.com/adelolmo/delugeclient"
 	"github.com/gotk3/gotk3/gtk"
@@ -19,7 +19,7 @@ func main() {
 	case 1:
 		configure()
 	case 2:
-		link, err := magnet.NewLink(os.Args[1])
+		link, err := deluge.NewLink(os.Args[1])
 		if err != nil {
 			notifications.Message(err.Error())
 		}
@@ -182,14 +182,14 @@ func configure() {
 	gtk.Main()
 }
 
-func addMagnet(magnetLink magnet.Link) {
+func addMagnet(magnetLink deluge.MagnetLink) {
 	configValues, err := conf.Get()
 	if err != nil {
 		notifications.Message(fmt.Sprintf("Unable to read configuration. Error %s", err.Error()))
 		os.Exit(1)
 	}
-	var server = magnet.Server{Url: configValues.ServerUrl, Password: configValues.Password}
-	if err := server.Add(magnetLink); err != nil {
+	delugeClient := deluge.NewDeluge(configValues.ServerUrl, configValues.Password)
+	if err := delugeClient.Add(magnetLink.Address); err != nil {
 		fmt.Printf(err.Error())
 		notifications.Message(err.Error())
 		os.Exit(2)
