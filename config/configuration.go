@@ -33,7 +33,7 @@ var key = crypt.Key{
 	Value: secretKey,
 }*/
 
-func GenRandomBytes(size int) (blk []byte, err error) {
+func genRandomBytes(size int) (blk []byte, err error) {
 	blk = make([]byte, size)
 	_, err = rand.Read(blk)
 	return blk, err
@@ -63,15 +63,17 @@ func readSecret(configDir string) (crypt.Key, error) {
 	keyPath := filepath.Join(configDir, "delauncher.key")
 	content, err := ioutil.ReadFile(keyPath)
 	if err != nil {
-		blk, err := GenRandomBytes(16)
+		blk, err := genRandomBytes(16)
 		if err != nil {
-			return crypt.Key{Value: blk}, err
+			return crypt.Key{}, err
 		}
 		err = createSecretFile(keyPath, blk)
 		if err != nil {
 			return crypt.Key{}, err
 		}
+		return crypt.Key{Value: blk}, nil
 	}
+
 	return crypt.Key{Value: content}, nil
 }
 
@@ -108,28 +110,29 @@ func (c Config) Get() (Properties, error) {
 	return Properties{ServerUrl: config.ServerUrl, Password: decryptedPassword}, nil
 }
 
-func (c Config) Save(serverUrl, password string) {
+func (c Config) Save(serverUrl, password string) error {
 	f, err := os.Create(c.Filename)
 	if err != nil {
-		panic(err)
+		return err
 	}
 	w := bufio.NewWriter(f)
 
 	encryptedPassword, err := c.Key.Encrypt([]byte(password))
 	if err != nil {
-		log.Fatal(err)
+		return err
 	}
 	config := &delugeConfig{ServerUrl: serverUrl, Password: encryptedPassword}
 	if err = json.NewEncoder(w).Encode(&config); err != nil {
-		log.Fatalf("Cannot encode json configuration. Error: %s", err)
+		return errors.New(fmt.Sprintf("Cannot encode json configuration. Error: %s", err))
 	}
 	if err = w.Flush(); err != nil {
-		log.Fatalf("Cannot flush into file %s. Error: %s", f.Name(), err)
+		return errors.New(fmt.Sprintf("Cannot flush into file %s. Error: %s", f.Name(), err))
 	}
 
 	if err = f.Close(); err != nil {
-		log.Fatalf("Cannot close file %s. Error: %s", c.Filename, err)
+		return errors.New(fmt.Sprintf("Cannot close file %s. Error: %s", c.Filename, err))
 	}
+	return nil
 }
 
 func (c Config) decrypt(encryptedPassword []byte) (string, error) {

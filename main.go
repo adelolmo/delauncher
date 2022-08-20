@@ -157,8 +157,8 @@ func configure() {
 			return
 		}
 
-		deluge := delugeclient.NewDeluge(serverUrl, password)
-		if err := deluge.Connect(); err == nil {
+		delugeClient := delugeclient.NewDeluge(serverUrl, password)
+		if err := delugeClient.Connect(); err == nil {
 			fmt.Println("OK")
 			connectionSuccessImage.Show()
 			return
@@ -173,7 +173,10 @@ func configure() {
 		serverUrl, _ := serverUrlEntry.GetText()
 		serverUrl = strings.TrimSuffix(serverUrl, "/")
 		password, _ := passwordEntry.GetText()
-		conf.Save(serverUrl, password)
+		if err = conf.Save(serverUrl, password); err != nil {
+			fmt.Printf(err.Error())
+			notifications.Message(err.Error())
+		}
 	})
 
 	win.ShowAll()
