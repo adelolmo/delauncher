@@ -2,7 +2,7 @@
 
 BIN_DIR=/usr/bin
 BIN=delauncher
-BUILD_DIR=build
+BUILD_DIR=build-debian
 RELEASE_DIR=$(CURDIR)/..
 VERSION := $(shell cat VERSION)
 PLATFORM := $(shell uname -m)
@@ -37,12 +37,6 @@ endif
 
 all: build
 
-$(BUILD_DIR)/DEBIAN:
-	@echo Prapare package...
-	cp -R deb/* $(BUILD_DIR)
-	$(eval size=$(shell du -sbk $(BUILD_DIR) | grep -o '[0-9]*'))
-	@sed -i "s/{{version}}/$(VERSION)/g;s/{{size}}/$(size)/g;s/{{architecture}}/$(ARCH)/g" "$(BUILD_DIR)/DEBIAN/control"
-
 .PHONY: debian
 debian: clean $(BUILD_DIR)/DEBIAN
 	@echo Building package...
@@ -55,6 +49,14 @@ debian: clean $(BUILD_DIR)/DEBIAN
 clean:
 	@echo Clean...
 	rm -rf $(BUILD_DIR)
+
+$(BUILD_DIR)/DEBIAN: $(BUILD_DIR)
+	@echo Prapare package...
+	cp -R deb/* $(BUILD_DIR)
+	$(eval SIZE := $(shell du -sbk $(BUILD_DIR) | grep -o '[0-9]*'))
+	@sed -i "s/{{version}}/$(VERSION)/g;s/{{size}}/$(SIZE)/g;s/{{architecture}}/$(ARCH)/g" "$(BUILD_DIR)/DEBIAN/control"
+
+$(BUILD_DIR):
 	mkdir $(BUILD_DIR)
 
 .PHONY: build
