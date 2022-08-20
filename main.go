@@ -1,6 +1,7 @@
 package main
 
 import (
+	_ "embed"
 	"fmt"
 	"github.com/adelolmo/delauncher/config"
 	"github.com/adelolmo/delauncher/deluge"
@@ -9,7 +10,14 @@ import (
 	"github.com/gotk3/gotk3/gtk"
 	"log"
 	"os"
+	"path/filepath"
 	"strings"
+)
+
+var (
+	Version string = strings.TrimSpace(version)
+	//go:embed VERSION
+	version string
 )
 
 var conf = config.NewConfig()
@@ -17,6 +25,7 @@ var conf = config.NewConfig()
 func main() {
 	switch len(os.Args) {
 	case 1:
+		updateToVersion2()
 		configure()
 	case 2:
 		link, err := deluge.NewLink(os.Args[1])
@@ -198,4 +207,18 @@ func addMagnet(magnetLink deluge.MagnetLink) {
 		os.Exit(2)
 	}
 	notifications.Message(fmt.Sprintf("Link added:\n%s", magnetLink.Name))
+}
+
+func updateToVersion2() {
+	if string(Version[0]) == "2" {
+		return
+	}
+
+	err, configDir := config.UserConfigurationDirectory()
+	if err != nil {
+		log.Fatal(err)
+	}
+	_ = os.Rename(filepath.Join(configDir, "config.json"), filepath.Join(configDir, "config.json.backup"))
+	_ = os.Rename(filepath.Join(configDir, "delauncher.key"), filepath.Join(configDir, "delauncher.key.backup"))
+	fmt.Printf("Configuration removed. Backup: %s", filepath.Join(configDir, "config.json.backup"))
 }

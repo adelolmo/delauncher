@@ -28,23 +28,25 @@ type Properties struct {
 	ServerUrl, Password string
 }
 
-/*var secretKey = []byte{11, 22, 33, 44, 55, 66, 77, 88, 99, 00, 11, 22, 33, 44, 55, 66}
-var key = crypt.Key{
-	Value: secretKey,
-}*/
-
 func genRandomBytes(size int) (blk []byte, err error) {
 	blk = make([]byte, size)
 	_, err = rand.Read(blk)
 	return blk, err
 }
 
-func NewConfig() Config {
+func UserConfigurationDirectory() (error, string) {
 	userConfigDir, err := os.UserConfigDir()
+	if err != nil {
+		return err, ""
+	}
+	return nil, filepath.Join(userConfigDir, "delauncher")
+}
+
+func NewConfig() Config {
+	err, configDir := UserConfigurationDirectory()
 	if err != nil {
 		log.Fatal(err)
 	}
-	configDir := filepath.Join(userConfigDir, "delauncher")
 	if err := os.MkdirAll(configDir, 0755); err != nil {
 		log.Fatalf("cannot create directory %s. Error: %s", configDir, err)
 	}
