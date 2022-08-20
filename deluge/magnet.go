@@ -13,28 +13,35 @@ type MagnetLink struct {
 
 func NewLink(string string) (MagnetLink, error) {
 	if strings.HasSuffix(string, ".torrent") {
-		mi, err := metainfo.LoadFromFile(string)
-		if err != nil {
-			return MagnetLink{}, fmt.Errorf("error reading metainfo from stdin: %s", err)
-		}
-		info, err := mi.UnmarshalInfo()
-		if err != nil {
-			return MagnetLink{}, fmt.Errorf("error unmarshalling info: %s", err)
-		}
-		hash := mi.HashInfoBytes()
-		linkAddress := fmt.Sprintf("%s", mi.Magnet(&hash, &info).String())
-		return MagnetLink{
-			Address: linkAddress,
-			Name:    info.Name,
-		}, nil
+		return torrentFileToMagnetLink(string)
 	}
 
-	params := string[61:]
-	p := strings.Split(params, "&")
-	name := p[0][3:]
+	magnetUri, err := metainfo.ParseMagnetUri(string)
+	if err != nil {
+		return MagnetLink{}, fmt.Errorf("invalid magnet link: %w", err)
+	}
 
 	return MagnetLink{
-		Address: string,
-		Name:    name,
+		Address: magnetUri.String(),
+		Name:    magnetUri.DisplayName,
+	}, nil
+}
+
+func torrentFileToMagnetLink(string string) (MagnetLink, error) {
+	mi, err := metainfo.LoadFromFile(string)
+	if err != nil {
+		return MagnetLink{}, fmt.Errorf("error reading metainfo from stdin: %w", err)
+	}
+
+	info, err := mi.UnmarshalInfo()
+	if err != nil {
+		return MagnetLink{}, fmt.Errorf("error unmarshalling info: %w", err)
+	}
+
+	hash := mi.HashInfoBytes()
+	linkAddress := fmt.Sprintf("%s", mi.Magnet(&hash, &info).String())
+	return MagnetLink{
+		Address: linkAddress,
+		Name:    info.Name,
 	}, nil
 }

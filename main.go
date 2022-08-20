@@ -31,10 +31,13 @@ func main() {
 		link, err := deluge.NewLink(os.Args[1])
 		if err != nil {
 			notifications.Message(err.Error())
+			fmt.Println(err.Error())
+			os.Exit(1)
+			return
 		}
 		addMagnet(link)
 	default:
-		fmt.Print("usage: delauncher [MAGNET_LINK]")
+		fmt.Println("usage: delauncher [MAGNET_LINK]")
 		os.Exit(1)
 	}
 }
