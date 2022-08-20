@@ -1,9 +1,13 @@
-#MAKEFLAGS += --silent
+MAKEFLAGS += --silent
 
 BIN_DIR=/usr/bin
 BIN=delauncher
 BUILD_DIR=build-debian
 RELEASE_DIR=$(CURDIR)/..
+
+ASSETS_DIR = usr/share/icons/hicolor/16x16/status
+APP_ICON_DIR = usr/share/icons/hicolor/128x128/apps
+
 VERSION := $(shell cat VERSION)
 PLATFORM := $(shell uname -m)
 
@@ -70,3 +74,11 @@ tidy:
 .PHONY: vendor
 vendor: tidy
 	go mod vendor
+
+.PHONY: install
+install:
+	install -D -g root -o root $(BIN) $(DESTDIR)$(BIN_DIR)/$(BIN)
+	install -Dm 644 -g root -o root deb/usr/share/applications/delauncher.desktop $(DESTDIR)/usr/share/applications/delauncher.desktop
+	install -Dm 644 -g root -o root deb/$(ASSETS_DIR)/delauncher-error.png $(DESTDIR)/$(ASSETS_DIR)/delauncher-error.png
+	install -Dm 644 -g root -o root deb/$(ASSETS_DIR)/delauncher-success.png $(DESTDIR)/$(ASSETS_DIR)/delauncher-success.png
+	install -Dm 644 -g root -o root deb/$(APP_ICON_DIR)/delauncher.png $(DESTDIR)/$(APP_ICON_DIR)/delauncher.png
