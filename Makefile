@@ -1,4 +1,4 @@
-MAKEFLAGS += --silent
+#MAKEFLAGS += --silent
 
 BIN_DIR=/usr/bin
 BIN=delauncher
@@ -39,12 +39,12 @@ ifeq ($(GOARCH),)
 	$(error Invalid ARCH: $(ARCH))
 endif
 
+.PHONY: all
 all: build
 
 .PHONY: debian
 debian: clean $(BUILD_DIR)/DEBIAN
 	@echo Building package...
-	mkdir $(BUILD_DIR)$(BIN_DIR)
 	cp $(BIN) $(BUILD_DIR)$(BIN_DIR)
 	chmod --quiet 0555 $(BUILD_DIR)/DEBIAN/p* || true
 	fakeroot dpkg-deb -b -z9 $(BUILD_DIR) $(RELEASE_DIR)
@@ -56,7 +56,8 @@ clean:
 
 $(BUILD_DIR)/DEBIAN: $(BUILD_DIR)
 	@echo Prapare package...
-	cp -R deb/* $(BUILD_DIR)
+	cp -R deb/DEBIAN $(BUILD_DIR)
+	$(MAKE) install DESTDIR=$(BUILD_DIR)
 	$(eval SIZE := $(shell du -sbk $(BUILD_DIR) | grep -o '[0-9]*'))
 	@sed -i "s/{{version}}/$(VERSION)/g;s/{{size}}/$(SIZE)/g;s/{{architecture}}/$(ARCH)/g" "$(BUILD_DIR)/DEBIAN/control"
 
