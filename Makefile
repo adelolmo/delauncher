@@ -1,9 +1,9 @@
-#MAKEFLAGS += --silent
+MAKEFLAGS += --silent
 
 BIN_DIR=/usr/bin
 BIN=delauncher
 BUILD_DIR=build-debian
-RELEASE_DIR=$(CURDIR)/..
+RELEASE_DIR := $(realpath $(CURDIR)/..)
 
 ASSETS_DIR = usr/share/icons/hicolor/16x16/status
 APP_ICON_DIR = usr/share/icons/hicolor/128x128/apps
