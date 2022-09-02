@@ -1,4 +1,4 @@
-# github.com/adelolmo/delugeclient v0.3.1
+# github.com/adelolmo/delugeclient v0.4.0
 ## explicit; go 1.18
 github.com/adelolmo/delugeclient
 # github.com/anacrolix/missinggo v1.3.0

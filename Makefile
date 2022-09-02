@@ -79,7 +79,7 @@ vendor: tidy
 .PHONY: install
 install:
 	install -D -g root -o root $(BIN) $(DESTDIR)$(BIN_DIR)/$(BIN)
-	install -Dm 644 -g root -o root deb/usr/share/applications/delauncher.desktop $(DESTDIR)/usr/share/applications/delauncher.desktop
-	install -Dm 644 -g root -o root deb/$(ASSETS_DIR)/delauncher-error.png $(DESTDIR)/$(ASSETS_DIR)/delauncher-error.png
-	install -Dm 644 -g root -o root deb/$(ASSETS_DIR)/delauncher-success.png $(DESTDIR)/$(ASSETS_DIR)/delauncher-success.png
-	install -Dm 644 -g root -o root deb/$(APP_ICON_DIR)/delauncher.png $(DESTDIR)/$(APP_ICON_DIR)/delauncher.png
+	install -Dm 644 deb/usr/share/applications/delauncher.desktop $(DESTDIR)/usr/share/applications/delauncher.desktop
+	install -Dm 644 deb/$(ASSETS_DIR)/delauncher-error.png $(DESTDIR)/$(ASSETS_DIR)/delauncher-error.png
+	install -Dm 644 deb/$(ASSETS_DIR)/delauncher-success.png $(DESTDIR)/$(ASSETS_DIR)/delauncher-success.png
+	install -Dm 644 deb/$(APP_ICON_DIR)/delauncher.png $(DESTDIR)/$(APP_ICON_DIR)/delauncher.png
