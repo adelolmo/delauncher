@@ -78,8 +78,16 @@ vendor: tidy
 
 .PHONY: install
 install:
-	install -D -g root -o root $(BIN) $(DESTDIR)$(BIN_DIR)/$(BIN)
-	install -Dm 644 deb/usr/share/applications/delauncher.desktop $(DESTDIR)/usr/share/applications/delauncher.desktop
-	install -Dm 644 deb/$(ASSETS_DIR)/delauncher-error.png $(DESTDIR)/$(ASSETS_DIR)/delauncher-error.png
-	install -Dm 644 deb/$(ASSETS_DIR)/delauncher-success.png $(DESTDIR)/$(ASSETS_DIR)/delauncher-success.png
-	install -Dm 644 deb/$(APP_ICON_DIR)/delauncher.png $(DESTDIR)/$(APP_ICON_DIR)/delauncher.png
+	install -Dm755 $(BIN) $(DESTDIR)$(BIN_DIR)/$(BIN)
+	install -Dm644 deb/usr/share/applications/delauncher.desktop $(DESTDIR)/usr/share/applications/delauncher.desktop
+	install -Dm644 deb/$(ASSETS_DIR)/delauncher-error.png $(DESTDIR)/$(ASSETS_DIR)/delauncher-error.png
+	install -Dm644 deb/$(ASSETS_DIR)/delauncher-success.png $(DESTDIR)/$(ASSETS_DIR)/delauncher-success.png
+	install -Dm644 deb/$(APP_ICON_DIR)/delauncher.png $(DESTDIR)/$(APP_ICON_DIR)/delauncher.png
+
+.PHONY: uninstall
+uninstall:
+	rm -f $(DESTDIR)$(BIN_DIR)/$(BIN)
+	rm -f $(DESTDIR)/usr/share/applications/delauncher.desktop
+	rm -f $(DESTDIR)/$(ASSETS_DIR)/delauncher-error.png
+	rm -f $(DESTDIR)/$(ASSETS_DIR)/delauncher-success.png
+	rm -f $(DESTDIR)/$(APP_ICON_DIR)/delauncher.png
