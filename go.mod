@@ -3,7 +3,7 @@ module github.com/adelolmo/delauncher
 go 1.18
 
 require (
-	github.com/adelolmo/delugeclient v0.4.0
+	github.com/adelolmo/delugeclient v0.4.1
 	github.com/anacrolix/torrent v1.46.0
 	github.com/gotk3/gotk3 v0.6.1
 )

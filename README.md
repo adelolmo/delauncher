@@ -10,7 +10,16 @@ Access `delauncher` under Applications > Internet > Delauncher and configure the
 
 After that, clicking a magnet or torrent link on your browser will send it to the deluge server queue.
 
-# Hot to build
+# How to build
+
+## Dependencies
+
+Packages required:
+
+* libglib2.0-dev
+* libgtk-3-dev
+
+## Build
 
     make
 

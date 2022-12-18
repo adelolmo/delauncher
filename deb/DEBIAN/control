@@ -5,6 +5,6 @@ Maintainer: Andoni del Olmo <andoni.delolmo@gmail.com>
 Installed-Size: {{size}}
 Section: extras
 Priority: standard
-Depends: libnotify-bin
+Depends: libgtk-3-0, libglib2.0-0, libgdk-pixbuf2.0-0, libnotify-bin
 Homepage: https://github.com/adelolmo/delauncher
 Description: Send magnet and torrent links to a remote deluge server

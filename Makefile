@@ -39,17 +39,16 @@ ifeq ($(GOARCH),)
 	$(error Invalid ARCH: $(ARCH))
 endif
 
-.PHONY: all
+.PHONY: all debian clean build tidy vendor install uninstall
+
 all: build
 
-.PHONY: debian
 debian: clean $(BUILD_DIR)/DEBIAN
 	@echo Building package...
 	cp $(BIN) $(BUILD_DIR)$(BIN_DIR)
 	chmod --quiet 0555 $(BUILD_DIR)/DEBIAN/p* || true
 	fakeroot dpkg-deb -b -z9 $(BUILD_DIR) $(RELEASE_DIR)
 
-.PHONY: clean
 clean:
 	@echo Clean...
 	rm -rf $(BUILD_DIR)
@@ -64,19 +63,15 @@ $(BUILD_DIR)/DEBIAN: $(BUILD_DIR)
 $(BUILD_DIR):
 	mkdir $(BUILD_DIR)
 
-.PHONY: build
 build:
 	GOOS=linux GOARCH=$(GOARCH) go build -o $(BIN) .
 
-.PHONY: tidy
 tidy:
 	go mod tidy
 
-.PHONY: vendor
 vendor: tidy
 	go mod vendor
 
-.PHONY: install
 install:
 	install -Dm755 $(BIN) $(DESTDIR)$(BIN_DIR)/$(BIN)
 	install -Dm644 deb/usr/share/applications/delauncher.desktop $(DESTDIR)/usr/share/applications/delauncher.desktop
@@ -84,7 +79,6 @@ install:
 	install -Dm644 deb/$(ASSETS_DIR)/delauncher-success.png $(DESTDIR)/$(ASSETS_DIR)/delauncher-success.png
 	install -Dm644 deb/$(APP_ICON_DIR)/delauncher.png $(DESTDIR)/$(APP_ICON_DIR)/delauncher.png
 
-.PHONY: uninstall
 uninstall:
 	rm -f $(DESTDIR)$(BIN_DIR)/$(BIN)
 	rm -f $(DESTDIR)/usr/share/applications/delauncher.desktop
