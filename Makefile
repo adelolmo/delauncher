@@ -64,7 +64,7 @@ $(BUILD_DIR):
 	mkdir $(BUILD_DIR)
 
 build:
-	GOOS=linux GOARCH=$(GOARCH) go build -o $(BIN) .
+	GOOS=linux GOARCH=$(GOARCH) go build -tags "glib_2_66" -o $(BIN) .
 
 tidy:
 	go mod tidy
