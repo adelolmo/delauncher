@@ -201,7 +201,7 @@ func (d *Deluge) Get(torrentId string) (*Torrent, error) {
 	var rr TorrentContent
 	err := sendRequest(d.HttpClient, d.ServiceUrl, payload, &rr)
 	if err != nil {
-		panic(err)
+		return nil, err
 	}
 	if rr.Error.Code > 0 {
 		return nil, fmt.Errorf("error code %d! %s", rr.Error.Code, rr.Error.Message)
@@ -260,7 +260,7 @@ func (d *Deluge) GetAll() ([]Torrent, error) {
 	var rr AllResponse
 	err := sendRequest(d.HttpClient, d.ServiceUrl, payload, &rr)
 	if err != nil {
-		panic(err)
+		return nil, err
 	}
 	if rr.Error.Code > 0 {
 		log.Println(rr)
@@ -303,12 +303,6 @@ func sendRequest(httpClient http.Client, url, payload string, decoder interface{
 	if response.StatusCode != 200 {
 		return fmt.Errorf("server error response: %s", response.Status)
 	}
-
-	//fmt.Println("response Status:", response.Status)
-	//fmt.Println("response Headers:", response.Header)
-	//body, _ := ioutil.ReadAll(response.Body)
-	//fmt.Println("response Body:", string(body))
-
 	if err := json.NewDecoder(response.Body).Decode(&decoder); err != nil {
 		return errors.New("unable to parse response body")
 	}
