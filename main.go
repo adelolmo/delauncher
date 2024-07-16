@@ -44,7 +44,7 @@ func main() {
 
 func configure() {
 	configProperties, err := conf.Get()
-	if err != nil { // TODO show error in popup and the close the app
+	if err != nil { // TODO show error in popup and then close the app
 		errorMessage := fmt.Sprintf("Unable to read configuration. Error %s", err.Error())
 		fmt.Println(errorMessage)
 		notifications.Message(errorMessage)
