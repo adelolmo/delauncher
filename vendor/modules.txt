@@ -1,19 +1,24 @@
 # github.com/adelolmo/delugeclient v0.5.2
 ## explicit; go 1.19
 github.com/adelolmo/delugeclient
+# github.com/anacrolix/generics v0.0.3-0.20240902042256-7fb2702ef0ca
+## explicit; go 1.18
+github.com/anacrolix/generics
 # github.com/anacrolix/missinggo v1.3.0
 ## explicit; go 1.16
 github.com/anacrolix/missinggo
 github.com/anacrolix/missinggo/expect
-# github.com/anacrolix/missinggo/v2 v2.7.2-0.20230527121029-a582b4f397b9
+# github.com/anacrolix/missinggo/v2 v2.7.4
 ## explicit; go 1.18
 github.com/anacrolix/missinggo/v2
 github.com/anacrolix/missinggo/v2/slices
-# github.com/anacrolix/torrent v1.52.0
-## explicit; go 1.20
+# github.com/anacrolix/torrent v1.58.0
+## explicit; go 1.23
 github.com/anacrolix/torrent/bencode
+github.com/anacrolix/torrent/merkle
 github.com/anacrolix/torrent/metainfo
 github.com/anacrolix/torrent/types/infohash
+github.com/anacrolix/torrent/types/infohash-v2
 # github.com/bradfitz/iter v0.0.0-20191230175014-e8f45d346db8
 ## explicit; go 1.11
 github.com/bradfitz/iter
@@ -30,6 +35,47 @@ github.com/gotk3/gotk3/pango
 # github.com/huandu/xstrings v1.3.2
 ## explicit; go 1.12
 github.com/huandu/xstrings
+# github.com/klauspost/cpuid/v2 v2.2.3
+## explicit; go 1.15
+github.com/klauspost/cpuid/v2
+# github.com/minio/sha256-simd v1.0.0
+## explicit; go 1.13
+github.com/minio/sha256-simd
+# github.com/mr-tron/base58 v1.2.0
+## explicit; go 1.12
+github.com/mr-tron/base58/base58
+# github.com/multiformats/go-multihash v0.2.3
+## explicit; go 1.19
+github.com/multiformats/go-multihash
+github.com/multiformats/go-multihash/core
+github.com/multiformats/go-multihash/register/all
+github.com/multiformats/go-multihash/register/blake2
+github.com/multiformats/go-multihash/register/blake3
+github.com/multiformats/go-multihash/register/miniosha256
+github.com/multiformats/go-multihash/register/murmur3
+github.com/multiformats/go-multihash/register/sha256
+github.com/multiformats/go-multihash/register/sha3
+# github.com/multiformats/go-varint v0.0.6
+## explicit; go 1.12
+github.com/multiformats/go-varint
+# github.com/spaolacci/murmur3 v1.1.0
+## explicit
+github.com/spaolacci/murmur3
+# golang.org/x/crypto v0.33.0
+## explicit; go 1.20
+golang.org/x/crypto/blake2b
+golang.org/x/crypto/blake2s
+golang.org/x/crypto/sha3
+# golang.org/x/exp v0.0.0-20240823005443-9b4947da3948
+## explicit; go 1.20
+golang.org/x/exp/constraints
 # golang.org/x/net v0.35.0
 ## explicit; go 1.18
 golang.org/x/net/publicsuffix
+# golang.org/x/sys v0.30.0
+## explicit; go 1.18
+golang.org/x/sys/cpu
+golang.org/x/sys/unix
+# lukechampine.com/blake3 v1.1.6
+## explicit; go 1.13
+lukechampine.com/blake3
