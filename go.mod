@@ -1,8 +1,7 @@
 module github.com/adelolmo/delauncher
 
 go 1.23
-
-toolchain go1.23.6
+toolchain go1.24.1
 
 require (
 	github.com/adelolmo/delugeclient v0.5.2
@@ -22,9 +21,9 @@ require (
 	github.com/multiformats/go-multihash v0.2.3 // indirect
 	github.com/multiformats/go-varint v0.0.6 // indirect
 	github.com/spaolacci/murmur3 v1.1.0 // indirect
-	golang.org/x/crypto v0.33.0 // indirect
+	golang.org/x/crypto v0.35.0 // indirect
 	golang.org/x/exp v0.0.0-20240823005443-9b4947da3948 // indirect
-	golang.org/x/net v0.35.0 // indirect
+	golang.org/x/net v0.36.0 // indirect
 	golang.org/x/sys v0.30.0 // indirect
 	lukechampine.com/blake3 v1.1.6 // indirect
 )
