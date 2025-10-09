@@ -1,9 +1,10 @@
-MAKEFLAGS += --silent
+#MAKEFLAGS += --silent
 
 BIN_DIR=/usr/bin
 BIN=delauncher
 BUILD_DIR=build-debian
 RELEASE_DIR := $(realpath $(CURDIR)/..)
+DISTRO=default
 
 ASSETS_DIR = usr/share/icons/hicolor/16x16/status
 APP_ICON_DIR = usr/share/icons/hicolor/128x128/apps
@@ -58,6 +59,8 @@ $(BUILD_DIR)/DEBIAN: $(BUILD_DIR)
 	cp -R deb/DEBIAN $(BUILD_DIR)
 	$(MAKE) install DESTDIR=$(BUILD_DIR)
 	$(eval SIZE := $(shell du -sbk $(BUILD_DIR) | grep -o '[0-9]*'))
+	mv "$(BUILD_DIR)/DEBIAN/control.$(DISTRO)" "$(BUILD_DIR)/DEBIAN/control"
+	rm -rf "$(BUILD_DIR)"/DEBIAN/control.*
 	@sed -i "s/{{version}}/$(VERSION)/g;s/{{size}}/$(SIZE)/g;s/{{architecture}}/$(ARCH)/g" "$(BUILD_DIR)/DEBIAN/control"
 
 $(BUILD_DIR):
