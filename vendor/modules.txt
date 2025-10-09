@@ -22,7 +22,7 @@ github.com/anacrolix/torrent/types/infohash-v2
 # github.com/bradfitz/iter v0.0.0-20191230175014-e8f45d346db8
 ## explicit; go 1.11
 github.com/bradfitz/iter
-# github.com/gotk3/gotk3 v0.6.4
+# github.com/gotk3/gotk3 v0.6.5-0.20240618185848-ff349ae13f56
 ## explicit; go 1.14
 github.com/gotk3/gotk3/cairo
 github.com/gotk3/gotk3/gdk
