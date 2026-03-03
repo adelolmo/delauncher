@@ -2,6 +2,7 @@ package generics
 
 import (
 	"fmt"
+	"iter"
 )
 
 type Option[V any] struct {
@@ -108,4 +109,17 @@ func (me Option[V]) ToPtr() *V {
 		return &me.Value
 	}
 	return nil
+}
+
+func (me Option[V]) AsTuple() (V, bool) {
+	return me.Value, me.Ok
+}
+
+// Yields value for use as iter.Seq such as in range expression.
+func (me Option[V]) Iter() iter.Seq[V] {
+	return func(yield func(V) bool) {
+		if me.Ok {
+			yield(me.Value)
+		}
+	}
 }
