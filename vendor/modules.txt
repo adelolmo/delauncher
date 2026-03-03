@@ -1,27 +1,25 @@
 # github.com/adelolmo/delugeclient v0.5.4
 ## explicit; go 1.23.0
 github.com/adelolmo/delugeclient
-# github.com/anacrolix/generics v0.0.3-0.20240902042256-7fb2702ef0ca
+# github.com/anacrolix/generics v0.1.0
 ## explicit; go 1.18
 github.com/anacrolix/generics
 # github.com/anacrolix/missinggo v1.3.0
 ## explicit; go 1.16
 github.com/anacrolix/missinggo
 github.com/anacrolix/missinggo/expect
-# github.com/anacrolix/missinggo/v2 v2.8.0
-## explicit; go 1.18
+# github.com/anacrolix/missinggo/v2 v2.10.0
+## explicit; go 1.20
 github.com/anacrolix/missinggo/v2
-github.com/anacrolix/missinggo/v2/slices
-# github.com/anacrolix/torrent v1.58.1
-## explicit; go 1.23
+github.com/anacrolix/missinggo/v2/panicif
+# github.com/anacrolix/torrent v1.59.1
+## explicit; go 1.24
 github.com/anacrolix/torrent/bencode
 github.com/anacrolix/torrent/merkle
 github.com/anacrolix/torrent/metainfo
+github.com/anacrolix/torrent/segments
 github.com/anacrolix/torrent/types/infohash
 github.com/anacrolix/torrent/types/infohash-v2
-# github.com/bradfitz/iter v0.0.0-20191230175014-e8f45d346db8
-## explicit; go 1.11
-github.com/bradfitz/iter
 # github.com/gotk3/gotk3 v0.6.5-0.20240618185848-ff349ae13f56
 ## explicit; go 1.14
 github.com/gotk3/gotk3/cairo
@@ -35,7 +33,7 @@ github.com/gotk3/gotk3/pango
 # github.com/huandu/xstrings v1.5.0
 ## explicit; go 1.12
 github.com/huandu/xstrings
-# github.com/klauspost/cpuid/v2 v2.2.10
+# github.com/klauspost/cpuid/v2 v2.3.0
 ## explicit; go 1.22
 github.com/klauspost/cpuid/v2
 # github.com/minio/sha256-simd v1.0.1
@@ -55,28 +53,28 @@ github.com/multiformats/go-multihash/register/miniosha256
 github.com/multiformats/go-multihash/register/murmur3
 github.com/multiformats/go-multihash/register/sha256
 github.com/multiformats/go-multihash/register/sha3
-# github.com/multiformats/go-varint v0.0.7
-## explicit; go 1.18
+# github.com/multiformats/go-varint v0.1.0
+## explicit; go 1.23
 github.com/multiformats/go-varint
 # github.com/spaolacci/murmur3 v1.1.0
 ## explicit
 github.com/spaolacci/murmur3
-# golang.org/x/crypto v0.37.0
-## explicit; go 1.23.0
+# golang.org/x/crypto v0.45.0
+## explicit; go 1.24.0
 golang.org/x/crypto/blake2b
 golang.org/x/crypto/blake2s
 golang.org/x/crypto/sha3
-# golang.org/x/exp v0.0.0-20250408133849-7e4ce0ab07d0
-## explicit; go 1.23.0
+# golang.org/x/exp v0.0.0-20251009144603-d2f985daa21b
+## explicit; go 1.24.0
 golang.org/x/exp/constraints
-# golang.org/x/net v0.39.0
-## explicit; go 1.23.0
+# golang.org/x/net v0.47.0
+## explicit; go 1.24.0
 golang.org/x/net/publicsuffix
-# golang.org/x/sys v0.32.0
-## explicit; go 1.23.0
+# golang.org/x/sys v0.38.0
+## explicit; go 1.24.0
 golang.org/x/sys/cpu
 golang.org/x/sys/unix
-# lukechampine.com/blake3 v1.4.0
+# lukechampine.com/blake3 v1.4.1
 ## explicit; go 1.22
 lukechampine.com/blake3
 lukechampine.com/blake3/bao

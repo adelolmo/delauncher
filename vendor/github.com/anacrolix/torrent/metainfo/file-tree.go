@@ -1,12 +1,14 @@
 package metainfo
 
 import (
+	"iter"
 	"maps"
 	"slices"
 
 	g "github.com/anacrolix/generics"
 
 	"github.com/anacrolix/torrent/bencode"
+	infohash_v2 "github.com/anacrolix/torrent/types/infohash-v2"
 )
 
 const FileTreePropertiesKey = ""
@@ -94,35 +96,42 @@ func (ft *FileTree) orderedKeys() []string {
 	return slices.Sorted(maps.Keys(ft.Dir))
 }
 
-func (ft *FileTree) upvertedFiles(pieceLength int64, out func(fi FileInfo)) {
+func (ft *FileTree) upvertedFiles(pieceLength int64) iter.Seq[FileInfo] {
 	var offset int64
-	ft.upvertedFilesInner(pieceLength, nil, &offset, out)
+	return ft.upvertedFilesInner(pieceLength, nil, &offset)
 }
 
 func (ft *FileTree) upvertedFilesInner(
 	pieceLength int64,
 	path []string,
 	offset *int64,
-	out func(fi FileInfo),
-) {
-	if ft.IsDir() {
-		for _, key := range ft.orderedKeys() {
-			if key == FileTreePropertiesKey {
-				continue
+) iter.Seq[FileInfo] {
+	return func(yield func(FileInfo) bool) {
+		if ft.IsDir() {
+			for _, key := range ft.orderedKeys() {
+				if key == FileTreePropertiesKey {
+					continue
+				}
+				sub := g.MapMustGet(ft.Dir, key)
+				for fi := range sub.upvertedFilesInner(pieceLength, append(path, key), offset) {
+					if !yield(fi) {
+						return
+					}
+				}
 			}
-			sub := g.MapMustGet(ft.Dir, key)
-			sub.upvertedFilesInner(pieceLength, append(path, key), offset, out)
+		} else {
+			yield(FileInfo{
+				Length: ft.File.Length,
+				Path:   append([]string(nil), path...),
+				// BEP 52 requires paths be UTF-8 if possible.
+				PathUtf8:      append([]string(nil), path...),
+				PiecesRoot:    ft.PiecesRootAsByteArray(),
+				TorrentOffset: *offset,
+			})
+			// v2 files are piece aligned. This bumps up the offset to the next piece boundary.
+			*offset += (ft.File.Length + pieceLength - 1) / pieceLength * pieceLength
 		}
-	} else {
-		out(FileInfo{
-			Length: ft.File.Length,
-			Path:   append([]string(nil), path...),
-			// BEP 52 requires paths be UTF-8 if possible.
-			PathUtf8:      append([]string(nil), path...),
-			PiecesRoot:    ft.PiecesRootAsByteArray(),
-			TorrentOffset: *offset,
-		})
-		*offset += (ft.File.Length + pieceLength - 1) / pieceLength * pieceLength
+
 	}
 }
 
@@ -136,7 +145,7 @@ func (ft *FileTree) Walk(path []string, f func(path []string, ft *FileTree)) {
 	}
 }
 
-func (ft *FileTree) PiecesRootAsByteArray() (ret g.Option[[32]byte]) {
+func (ft *FileTree) PiecesRootAsByteArray() (ret g.Option[infohash_v2.T]) {
 	if ft.File.PiecesRoot == "" {
 		return
 	}
